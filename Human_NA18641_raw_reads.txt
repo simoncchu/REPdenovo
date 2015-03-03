@@ -1,0 +1,2 @@
+/media/Hornet2/1000Genomes/raw_reads/NA18641/NA18641_1.filt.fastq 1 298 50
+/media/Hornet2/1000Genomes/raw_reads/NA18641/NA18641_2.filt.fastq 1 298 50
