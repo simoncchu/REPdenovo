@@ -1,2 +1,2 @@
 # REPdenovo
-Please refer to the mannual for more information.
+Please refer to the manual for more information.
