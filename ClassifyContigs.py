@@ -184,7 +184,7 @@ def classifyContigs(OUTPUT_FOLDER, k_start, k_end, k_inc, ASM_NODE_LENGTH_OFFSET
 
             if btr==True:
                 vtr.append(voptimal_cntgs)
-                sout=">"+node_name0+"_"
+                sout=">"+node_name0+"&"
                 for opt_cntg in voptimal_cntgs:
                     sout=sout+opt_cntg+"_"
                 sout=sout+str(len(voptimal_cntgs))

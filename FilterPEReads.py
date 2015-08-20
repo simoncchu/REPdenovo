@@ -97,4 +97,4 @@ def filterSam(sfsam, mapq,sfsam_output):
     os.remove(sintermediate)
     #os.remove("{0}.bam".format(sintermediate))
     os.remove("{0}.sortbyname.bam".format(sintermediate))
-    #os.remove("{0}.sortbyname.bam.bai".format(sintermediate))
+    #os.remove("{0}.sortbyname.bam.bai".format(sintermediate)) 

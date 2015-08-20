@@ -5,7 +5,7 @@ import sys
 import os
 from subprocess import *
 
-#jellyfish count -m 35 -s 500M --bf-size 30M -t 5 -C -F 2 <(zcat NA12878_ERR194147_1.fastq.gz) <(zcat NA12878_ERR194147_2.fastq.gz)
+#jellyfish count -m 30 -s 500M --bf-size 30M -t 5 -C -o -F 2 <(zcat NA12878_ERR194147_1.fastq.gz) <(zcat NA12878_ERR194147_2.fastq.gz)
 def cntKmer(jpath, k_len, ithreads, flreads, frreads, min_cnt, foutput_dump, foutput_jf, VERBOSE):
     print('Counting kmers...')
 
@@ -37,7 +37,7 @@ def cntKmer(jpath, k_len, ithreads, flreads, frreads, min_cnt, foutput_dump, fou
 
 
     #dump
-    cmd="{0} dump -L 50 -o {2} {3}".format(jpath, min_cnt,foutput_dump, foutput_jf)
+    cmd="{0} dump -L 10 -o {2} {3}".format(jpath, min_cnt,foutput_dump, foutput_jf)
     if VERBOSE != 0:
         print "Running command: "+ cmd +"..."
     Popen(cmd, shell = True, stdout = PIPE).communicate()

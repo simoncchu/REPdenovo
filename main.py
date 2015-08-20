@@ -1,15 +1,4 @@
-'''
-Need to add features:
-1. For only do analysis with given bam list, we need to all user set contig file name
-3. bwa version check
-4. Using read error rate and divergent rates to set RANGE_ASM_FREQ_INC ??? How??? (1-e-d)^7 * L ???
-5. bwa, samtools need to set path
-6. not only .gz, maybe compressed by bzip2, then need bzip2 to do uncompress
-7. remove contemporary files
-8. when install, let users install bamtools, and give us the path
-10. Read_length should be saved in file_list.txt
-11. delete the sam file after converted to bam 
-'''
+
 __author__ = 'Chong Chu'
 #!/usr/bin/env python
 
@@ -22,6 +11,7 @@ from Assembly import *
 from BasicInfoPaser import *
 from FilterPEReads import *
 from ClassifyContigs import *
+from MergeContigs import *
 
 ##########################################################################################################
 ###public values #######################
@@ -53,6 +43,10 @@ OUTPUT_FOLDER="./temp/"
 READ_DEPTH=1
 VERBOSE=0
 IS_DUPLICATE_REPEATS=0.95
+RANGE_ASM_FREQ_INC_TIMES=5 ##increase 5 times
+RANGE_ASM_FREQ_DEC_TIMES=0.1 ##decrease 0.1 times
+RM_DUP_BF_MERGE_CUTOFF=0.9
+RM_DUP_AF_MERGE_CUTOFF=0.85
 
 bpaired=True
 sfleft_reads=""
@@ -157,6 +151,19 @@ def readConfigFile(sfconfig):
         elif parts[0]=='IS_DUPLICATE_REPEATS':
             global IS_DUPLICATE_REPEATS
             IS_DUPLICATE_REPEATS=float(parts[1])
+        elif parts[0]=="RANGE_ASM_FREQ_INC_TIMES":
+            global RANGE_ASM_FREQ_INC_TIMES
+            RANGE_ASM_FREQ_INC_TIMES=float(parts[1])
+        elif parts[0]=="RANGE_ASM_FREQ_DEC_TIMES":
+            global RANGE_ASM_FREQ_DEC_TIMES
+            RANGE_ASM_FREQ_DEC_TIMES=float(parts[1])
+        elif parts[0]=="RM_DUP_BF_MERGE_CUTOFF":
+            global RM_DUP_BF_MERGE_CUTOFF
+            RM_DUP_BF_MERGE_CUTOFF=float(parts[1])
+        elif parts[0]=="RM_DUP_AF_MERGE_CUTOFF":
+            global RM_DUP_AF_MERGE_CUTOFF
+            RM_DUP_AF_MERGE_CUTOFF=float(parts[1])
+
     fconfig.close()
 
 ######read in raw reads files###################################################################################################################
@@ -212,24 +219,6 @@ def printCommand(cmd):
         print "Running command: "+cmd+" ..."
 ############main procedure of assembly and process contigs##############################################################
 
-def generateUniqueName():
-    dtr={}
-    sall=OUTPUT_FOLDER+"contigs.fa"
-    dcontigs=readContigFa(sall,False)
-    fnew_contigs=open(sall,"w")
-
-    for key in dcontigs:
-        seq=dcontigs[key]
-        if dtr.has_key(key):
-            key=key+"_1"
-            dtr[key]=1
-        else:
-            dtr[key]=1
-        fnew_contigs.write(">"+key)
-        fnew_contigs.write(seq)
-    fnew_contigs.close()
-
-
 def calcTotalCoverage():
     print "Calculating average coverage...."
     sfcoverage=OUTPUT_FOLDER+"reads_coverage.txt"
@@ -253,11 +242,49 @@ def calcTotalCoverage():
     print stest_output
     return f
 
+def clearBeforeAssembly():
+    cmd="rm -r {0}Asm_*".format(OUTPUT_FOLDER)
+    Popen(cmd, shell = True, stdout = PIPE).communicate()
+    print cmd
+    cmd="rm {0}*.fa".format(OUTPUT_FOLDER)
+    Popen(cmd, shell = True, stdout = PIPE).communicate()
+    print cmd
+    cmd="rm {0}*.fastq".format(OUTPUT_FOLDER)
+    Popen(cmd, shell = True, stdout = PIPE).communicate()
+    print cmd
 
 def assembly():
+
+    clearBeforeAssembly()
+
     temp_k=K_MIN
     last_temp_k=-1
-    min_dump_cnt=MIN_REPEAT_FREQ
+
+    print "Calculating average coverage...."
+    sfcoverage=OUTPUT_FOLDER+"reads_coverage.txt"
+    f=2.0
+    if READ_DEPTH>1:
+        f=READ_DEPTH
+    else:
+        if os.path.exists(sfcoverage)!=True:
+            f=calcCoverage(sfleft_reads,READ_LENGTH, GENOME_LENGTH,VERBOSE) + calcCoverage(sfright_reads,READ_LENGTH, GENOME_LENGTH,VERBOSE)
+            fout_cov=open(sfcoverage,"wt")
+            fout_cov.write(str(f))
+            fout_cov.close()
+        else:
+            #read in file
+            fin_cov=open(sfcoverage,"rt")
+            f=float(fin_cov.readline())
+            fin_cov.close()
+
+    stest_output="Read coverage is: {0}".format(f)
+    print stest_output
+
+    min_dump_cnt=0
+    if int(f)>MIN_REPEAT_FREQ:
+        min_dump_cnt=int(f)
+    else:
+        min_dump_cnt=int(MIN_REPEAT_FREQ)
 
     while temp_k <= K_MAX:
         sprnt="Working on {0}mer now...".format(temp_k)
@@ -283,14 +310,15 @@ def assembly():
                 if akmer_freq>max_freq:
                     max_freq=akmer_freq
             else:
-                dallkmers[akmer]=akmer_freq
+                if akmer_freq>=int(MIN_REPEAT_FREQ):
+                    dallkmers[akmer]=akmer_freq
         fdumped_kmer.close()
 
         print "Highest {0}mer frequency is {1}".format(temp_k,max_freq)
 
         cur_kmer_freq=max_freq
-        cur_f1=0.0
-        cur_f2=0.0
+        cur_f1=0
+        cur_f2=0
         output_folder1=''
         scontig_k="contigs_{0}mer.fa".format(temp_k)
         scontig_k=OUTPUT_FOLDER+scontig_k
@@ -298,11 +326,14 @@ def assembly():
         sconcate=OUTPUT_FOLDER+sconcate
 
         iround=1
-        while cur_kmer_freq>MIN_REPEAT_FREQ:
-            cur_f1=int(cur_kmer_freq*(1-RANGE_ASM_FREQ_GAP))
+        while cur_kmer_freq>=MIN_REPEAT_FREQ:
+            cur_f1=int(cur_kmer_freq*RANGE_ASM_FREQ_DEC_TIMES)
+            cur_f2=int(cur_kmer_freq*RANGE_ASM_FREQ_INC_TIMES)
+
             if cur_f1<MIN_REPEAT_FREQ:
                 cur_f1=MIN_REPEAT_FREQ
-            cur_f2=max_freq
+            if cur_f2>max_freq:
+                cur_f2=max_freq
 
             sss="{0}mer frequency are:{1} and {2}".format(temp_k,cur_f1,cur_f2)
             print sss
@@ -311,10 +342,11 @@ def assembly():
 
             fout_fq=open(kmer_fastq,"w")
             ifq_cnt=0
+
             for kmer_seq in dallkmers:
                 if dallkmers[kmer_seq]>cur_f2:
                     #dallkmers.pop(kmer_seq,None)
-                    itttest=1
+                    donothing=0
                 elif dallkmers[kmer_seq]>=cur_f1 and dallkmers[kmer_seq]<=cur_f2:
                     #write into file
                     fout_fq.write("@seq{0}\n".format(ifq_cnt))
@@ -328,6 +360,7 @@ def assembly():
                         quality+="5"
                         iss+=1
                     fout_fq.write(quality+"\n")
+
             fout_fq.close()
 
             velvet_k=temp_k+ASM_NODE_LENGTH_OFFSET
@@ -342,7 +375,7 @@ def assembly():
             #shutil.copyfileobj(readfile1, outfile)
             for aline in readfile1:
                 if aline[0]==">":
-                    aline=aline.strip()+"_{0}\n".format(iround)
+                    aline=aline.strip()+"_{0}_{1}_{2}\n".format(temp_k,int(cur_f1),int(cur_f2))
                 outfile.write(aline)
             readfile1.close()
             outfile.close()
@@ -350,55 +383,20 @@ def assembly():
             cur_kmer_freq=int(float(cur_kmer_freq)/RANGE_ASM_FREQ_DEC)
             iround=iround+1
 
-        #remove repeats in this group, and generate new fa scontig_k
-        sprnt="Remove repeats of contig sets {0}mer".format(temp_k)
-        print sprnt
-        cmd="sh removeRepeatsOfOneContigSet.sh {0} {1} {2}".format(sconcate, scontig_k, IS_DUPLICATE_REPEATS)
-        printCommand(cmd)
-        Popen(cmd, shell = True, stdout = PIPE).communicate()
-
-        if os.path.exists(sconcate+".*"):
-            os.remove(sconcate+".*")
-        if os.path.exists(scontig_k+".*"):
-            os.remove(scontig_k+".*") ##remove intermediate files #############################################################################################
-
-        ##copy the generated contigs of each K, for classification usage
-        scontig_backup=OUTPUT_FOLDER+"contig_backup_for_{0}mer.fa".format(temp_k)
-        shutil.copy2(scontig_k,scontig_backup)
-
+        sall=OUTPUT_FOLDER+"contigs.fa"
         if K_MIN==K_MAX:
             scontig_backup=OUTPUT_FOLDER+"contigs.fa"
-            shutil.copy2(scontig_k,scontig_backup)
+            shutil.copy2(sconcate,scontig_backup)
+            print "kmin and kmax are equal....."
 
-        ##combine two groups of contigs
-        if last_temp_k==-1:
-            sall="{0}contigs_{1}mer.fa".format(OUTPUT_FOLDER,temp_k)
-        else:
-            scon_new1=OUTPUT_FOLDER+"con_new1.fa"
-            scon_new2=OUTPUT_FOLDER+"con_new2.fa"
-            print "Removing repeats of two contig sets {0} and {1}...".format(sall,scontig_k)
-            cmd="sh removeRepeatsOfTwoContigSets.sh {0} {1} {2} {3} {4}".format(sall, scontig_k, scon_new1, scon_new2, IS_DUPLICATE_REPEATS)#################################
-            printCommand(cmd)
-            Popen(cmd, shell = True, stdout = PIPE).communicate()
+        with open(sall,"a") as fout:
+            with open(sconcate,"r") as fin:
+                for line in fin:
+                    fout.write(line)
 
-            if os.path.exists(sall+".*"):
-                os.remove(sall+".*") ##remove intermediate files ###################################################################################################
-
-            outfile=open(scon_new1, 'a')
-            readfile=open(scon_new2, 'r')
-            shutil.copyfileobj(readfile, outfile)
-            readfile.close()
-            outfile.close()
-
-            os.remove(sall)
-            os.remove(scontig_k)
-            #os.remove(scon_new2)
-            sall=OUTPUT_FOLDER+"contigs.fa"
-            os.rename(scon_new1,sall)
-        ########################################################
         last_temp_k=temp_k
         temp_k += K_INC
-    generateUniqueName()##in case the contigs have same id
+
 
 def rmTRFromContigs(vtr):
     dtr={}
@@ -477,7 +475,7 @@ def alignReadToContigs():
             printCommand(cmd)
             Popen(cmd, shell = True, stdout = PIPE).communicate()
 
-        #filter out those unqualified pairs 
+        #filter out those unqualified pairs
         sfsam_temp="{0}_{1}_temp.sam".format(sall,j)
         mapq=30
         filterSam(sfsam, mapq,sfsam_temp)
@@ -639,15 +637,19 @@ else:
         clearAll()
     elif sys.argv[1]=='Assembly':
         assembly()
+        mergeContigs(OUTPUT_FOLDER, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
+
     elif sys.argv[1]=='Classify':
         vtr=classifyContigs(OUTPUT_FOLDER, K_MIN, K_MAX, K_INC, ASM_NODE_LENGTH_OFFSET, TR_SIMILARITY)
         #rmTRFromContigs(vtr)
     elif sys.argv[1]=="All":
         assembly()
-        vtr=classifyContigs(OUTPUT_FOLDER, K_MIN, K_MAX, K_INC, ASM_NODE_LENGTH_OFFSET, TR_SIMILARITY)
+        mergeContigs(OUTPUT_FOLDER, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
+        #vtr=classifyContigs(OUTPUT_FOLDER, K_MIN, K_MAX, K_INC, ASM_NODE_LENGTH_OFFSET, TR_SIMILARITY)
         #rmTRFromContigs(vtr)
         alignReadToContigs()
         scaffold()
     else:
         print "Wrong parameters!!!\n"
         usage()
+

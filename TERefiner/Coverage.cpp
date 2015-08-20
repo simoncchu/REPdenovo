@@ -3,6 +3,7 @@
 #include"Alignment.h"
 #include"public_parameters.h"
 #include<iostream> 
+#include<fstream>
 
 Coverage::Coverage()
 {
@@ -66,7 +67,7 @@ double Coverage::calcRegionCoverage(BamParse& bp, int& covered_length)
 			}
 			len_region+=map_pos;
 
-			//if(len_read > READ_LENGTH) continue;////////////////////////////for now bypass this kind of reads
+			//if(len_read > READ_LENGTH) continue;////////////////////////////for now bypass this kind of reads 
 			//if(len_region>region_lenth) continue;
 			
 			int j=0;
@@ -110,22 +111,30 @@ double Coverage::calcRegionCoverage(BamParse& bp, int& covered_length)
 		}
 	}
 
+	
+	ofstream fout_base_cov;
+	fout_base_cov.open("base_coverage.txt",ofstream::app);
+
 	//calc average coverage 
 	long long total_cov=0;
 	for(int i=0;i<region_lenth;i++)
 	{
+//cout<<i<<" "<<cov_bases[i]<<endl;
+fout_base_cov<<region_lenth<<":"<<i<<" "<<cov_bases[i]<<endl;
+
 		total_cov+=cov_bases[i];
 		if(cov_bases[i]>0) covered_length+=1;
 	}
 	cov=(double)total_cov/(double)region_lenth;
 	
+	fout_base_cov.close();
 
 	if(cov_bases!=NULL)
 	{
 		delete[] cov_bases;
 		cov_bases=NULL;
 	}
-	
+
 	//std::cout<<"delete "<<endl;//////////////////////////////////////////////////////////////////////////////////////////////
 	return cov;
 }
@@ -147,7 +156,7 @@ double Coverage::calcRegionCoverageWithCutOff(BamParse& bp, double cutoff)
 		Alignment alnmt;
 		alnmt.setBar(bp.bam_aln_records[i]);
 		
-		//first check whether is a qualified read. 
+		//first check whether is a qualified read.
 		if((alnmt.isDuplicate()==true) || (alnmt.isPrimaryAlign() == false) || (alnmt.passQualityCK()==false))
 		{
 			cout<<READ_LENGTH<<" "<<bp.bam_aln_records[i]->qName<<" "<<alnmt.getCigar()<<" "<<bp.bam_aln_records[i]->mapQ<<endl;//////////////////////////

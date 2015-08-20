@@ -51,7 +51,7 @@ void RepeatsClassifier::validateRepeats(string& seq1, string& seq2)
 	int optm_start_ref=-1, optm_end_ref=-1, optm_start_sgmt=-1, optm_end_sgmt=-1;
 	int scnd_start_ref=-1, scnd_end_ref=-1, scnd_start_sgmt=-1, scnd_end_sgmt=-1;
 	//la.optAlign(seq1, seq2, optm_start_ref, optm_end_ref, optm_start_sgmt, optm_end_sgmt);
-	//In case of TR rotation, we still need an alignment for the rest part
+	//In case of TR rotation, we still need an alignment for the rest part 
 	//first concatenate the un-optimal parts 
 	la.optAlignWithRestSecondOpt(seq1, seq2, optm_start_ref, optm_end_ref, optm_start_sgmt, optm_end_sgmt,\
 		scnd_start_ref, scnd_end_ref, scnd_start_sgmt, scnd_end_sgmt);

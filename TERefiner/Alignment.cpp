@@ -119,6 +119,8 @@ bool Alignment::isFullyMapped()
 	return false;
 }
 
+
+
 /*
 Description:
 	check whether alignment is clipped. 
@@ -342,7 +344,7 @@ bool Alignment::isMateReverseStrand()
 }
 
 //////added 11/17/14///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//For some sam/bam files, there are varied read length. So we need to give the specific length and then check read alignment type
+//For some sam/bam files, there are varied read length. So we need to give the specific length and then check read alignment type 
 /*
 Description:
 	return alignment type according to flag.
@@ -350,7 +352,7 @@ Description:
 int Alignment::getReadType(int rlength)
 {
 	int flag=this->bar->flag;
-	cout<<"flag is "<<flag<<endl;////////////////////////////////////////////////////////////////////////////////////
+	cout<<"flag is "<<flag<<endl;///////////////////////////////////////////////////////////////////////////////////
 	if((flag&0x4)==0)
 	{//read mapped
 		if((flag&0x800)==0)
@@ -369,7 +371,7 @@ int Alignment::getReadType(int rlength)
 			}
 		}
 		else
-		{//supplementary map, like hard-clip
+		{//supplementary map, like hard-clip 
 			//check whether hard-clip;
 			if(this->isHardClipped() == true)
 				return READ_TYPE_CLIP;
@@ -378,7 +380,7 @@ int Alignment::getReadType(int rlength)
 		}
 	}
 	else
-	{//read unmapped
+	{//read unmapped 
 		//check whether mate is mapped
 		if((flag&0x8)==0)
 		{//mate is mapped 
@@ -390,6 +392,7 @@ int Alignment::getReadType(int rlength)
 		}
 	}
 }
+
 
 bool Alignment::isFullyMapped(int rlength)
 {
@@ -406,7 +409,7 @@ bool Alignment::isFullyMapped(int rlength)
 		{
 			if(bar->cigar[i].first=="M")
 			{
-				cnt+=bar->cigar[i].second;
+				cnt += bar->cigar[i].second;
 				total_len += bar->cigar[i].second;
 			}
 			if(bar->cigar[i].first=="S" || bar->cigar[i].first=="H" || bar->cigar[i].first=="I")
@@ -420,6 +423,17 @@ bool Alignment::isFullyMapped(int rlength)
 			return false;
 	}
 	return false;
+}
+
+bool Alignment::isPerfectMapped(int rlength)//perfect mapped
+{
+	int size=bar->cigar.size();
+	if((size==1) && (bar->cigar[0].second == rlength) && (bar->cigar[0].first=="M"))
+	{
+		return true;
+	}
+	else
+		return false;
 }
 
 bool Alignment::isClipped(int rlength)

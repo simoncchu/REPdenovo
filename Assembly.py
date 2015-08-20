@@ -134,38 +134,4 @@ def assembleKmer(vpath, k_len, ffastq, min_contig_len, output_folder, VERBOSE):
         print "Running command: "+ cmd +"..."
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
-#/scratch2/chongchu/velvet-master/velveth ./temp_assembly 49 -fastq  -short kmer_NA12878_k50_morethan5k.fq
-#/scratch2/chongchu/velvet-master/velvetg temp_NA12878_k50_5k/ -min_contig_lgth 100
 
-'''
-def removeDuplicate(fa_old, fa_new):
-    print "Generate the unique fa..."
-
-    with open(fa_old, 'rt') as fin:
-        with open(fa_new, 'wt') as fout:
-
-'''
-
-'''
-#Given one files XX1.fa , align to itself
-#Step 0. Remove exact duplicate ones
-samtools faidx $1
-TERefiner_1 -U -r $1 -o $1
-#Step 1. Index XX1.fa
-bwa index $1
-samtools faidx $1
-#Step 2. Convert to fastq files
-awk -f fasta2fastq.awk $1 > $1.fq
-
-#Step 3. align XX1.fq to XX1.fa
-bwa mem -a -M $1 $1.fq > $1.itself.sam
-
-#Step 4. convert to bam, index and sort
-samtools view -h -S -b $1.itself.sam > $1.itself.bam
-samtools sort $1.itself.bam $1.itself.sort
-samtools index $1.itself.sort.bam
-
-#Step5. Find out repeat ones
-TERefiner_1 -O -b $1.itself.sort.bam -r $1 -o $2 -l $3
-'''
-#def rmDupOneContigSet():

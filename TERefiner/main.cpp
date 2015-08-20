@@ -37,19 +37,22 @@ int main(int argc, char* argv[])
 	bool bu=false;
 	bool bg=false;
 	bool bb=false;
+	bool bp=false;
+	bool be=false;
 	bool flag_l=false, flag_c=false, flag_t=false, flag_s=false, flag_b=false, flag_r=false, flag_q=false, flag_o=false, \
-		 flag_m=false, flag_d=false, flag_v=false;
+		 flag_m=false, flag_d=false, flag_v=false, flag_g=false;
 	double cutoff_ratio=0.85;
 	//double is_mean, is_derivation;//mean insert size, and standard derivation.
 	int threshold=5;
 	int read_length=106;
+	bool brm_contained=false;
 	READ_LENGTH=106;
 	SD_INSERT_SIZE=50;
 	READ_FULL_MAPPED_CUTOFF=0.85;
 	string fbam, fref, fref2, ffastq, fout, fbam_cov;
 
 	int c;
-	while ((c = getopt(argc, argv, "AMCTOLSUGBl:c:t:s:b:r:q:o:m:d:v:")) != -1)
+	while ((c = getopt(argc, argv, "AMCTOLSUGBPEl:c:t:s:b:r:q:o:m:d:v:g")) != -1)
 	switch (c)
     {
 	case 'A'://
@@ -67,6 +70,9 @@ int main(int argc, char* argv[])
 	case 'O'://remove repeats in one congit set
 		bo=true;
 		break;
+	case 'P':
+		bp=true;
+		break;
 	case 'L'://contigs linkages
 		bl=true;
 		break;
@@ -81,6 +87,9 @@ int main(int argc, char* argv[])
 		break;
 	case 'B': //calc coverage of contigs with covered length 
 		bb=true;
+		break;
+	case 'E'://evaluate ratio of contigs cover benchmark
+		be=true;
 		break;
 	case 'l'://read length
 		READ_LENGTH=atoi(optarg);
@@ -126,6 +135,10 @@ int main(int argc, char* argv[])
 		fbam_cov=(string)optarg;
 		flag_v=true;
 		break;
+	case 'g'://remove contained
+		flag_g=true;
+		brm_contained=true;
+		break;
 	default:
 		cout<<"Wrong parameters"<<endl;
 	}
@@ -143,16 +156,22 @@ int main(int argc, char* argv[])
 		rfnr.removeRepeatsOfTwoContigSets(fbam,fref,fref2,fout);
 	}
 	else if(bo && flag_b && flag_r && flag_c && flag_o)
-	{//remove repeats of one set of contigs
+	{//remove repeats of one set of contigs 
 		Refiner rfnr;
 		READ_FULL_MAPPED_CUTOFF=cutoff_ratio;
 		rfnr.removeRepeatsOfOneContigSet(fbam,fref,fout);
+	}
+	else if(bp && flag_b && flag_r && flag_c && flag_o)
+	{//remove duplicates(with or without contained ones)
+		Refiner rfnr;
+		READ_FULL_MAPPED_CUTOFF=cutoff_ratio;
+		rfnr.removeDupRepeatsOfOneContigSet(fbam,fref,fout,cutoff_ratio,brm_contained);
 	}
 	else if(bl && flag_b && flag_r && flag_c && flag_t && flag_l && flag_o && flag_m && flag_d && flag_v)
 	{
 		Refiner rfnr;
 		rfnr.setCutOff(cutoff_ratio);//coverage cutoff ratio
-		rfnr.setThreshold(threshold);//minimum number of supported read pairs 
+		rfnr.setThreshold(threshold);//minimum number of supported read pairs
 
 		string sprefix=fbam.substr(0,fbam.size()-9);
 		string fcov_bam = sprefix + ".sam_for_coverage.sorted.bam";
@@ -192,6 +211,11 @@ int main(int argc, char* argv[])
 		Refiner rfnr;
 		rfnr.calcCoverage(fref,fbam,fout);
 	}
+	else if(be && flag_b && flag_r && flag_c)
+	{
+		Refiner rfnr;
+		rfnr.evaluateWithBenchmark(fbam, fref,cutoff_ratio);
+	}
 	else
 	{
 		cout<<"Please check parameters setting!"<<endl;
@@ -199,4 +223,3 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
-

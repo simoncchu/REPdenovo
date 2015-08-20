@@ -26,7 +26,6 @@ public:
 	void parseFai();
 	int getChromLen(std::string chrom);
 	void setPath(std::string path);
-	std::string getChromName(int chrom_id);
 
 public:
 	std::vector<ChromInfo> vchroms;//save all the chrom info in vectors. 

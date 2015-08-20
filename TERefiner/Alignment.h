@@ -24,7 +24,7 @@ public:
 	bool isFullyMapped();
 	bool isClipped();
 	bool isHardClipped();
-	bool isDuplicate();//whether optimal duplicate
+	bool isDuplicate();//whether optimal duplicate 
 	bool isPrimaryAlign();//whether is primary alignment
 	bool passQualityCK();//whether fails quality check 
 	bool isMateMapped();//whether mate read is mapped or not
@@ -36,6 +36,7 @@ public:
 
 	int getReadType(int rlength);
 	bool isFullyMapped(int rlength);//for those with varied read length
+	bool isPerfectMapped(int rlength);//perfect mapped
 	bool isClipped(int rlength);
 
 private:

@@ -22,7 +22,7 @@ def calcCoverage(fpath, read_length, genome_length, VERBOSE):
         #cnt_lines=int(p.stdout.readline())
     else:
         print "Something wrong with the raw reads files format:", fpath
-        
+
     if VERBOSE != 0:
         print "Running command: "+ cmd +"..."
     tp=tuple(Popen(cmd, shell = True, stdout = PIPE).communicate())

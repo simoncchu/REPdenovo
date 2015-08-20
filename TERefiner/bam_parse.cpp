@@ -111,7 +111,7 @@ bool BamParse::parseAlignment(int chrom1, int chrom1_begin, int chrom2, int chro
 	//check whether need to set a region.
 	if(chrom1>-1 && chrom1_begin>-1 && chrom2>-1 && chrom2_end>-1)
 	{
-		//this->loadIndex(reader); 
+		//this->loadIndex(reader);
 		/*if(reader.HasIndex()==false)  //////////////////////////why return false, even have loaded the index???????????
 		{
 			cerr << "No index loaded!!"<<endl;

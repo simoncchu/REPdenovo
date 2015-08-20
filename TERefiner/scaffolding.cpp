@@ -170,7 +170,7 @@ void Scaffolding::loadContigs(std::string sfcontigs)
 	fin_contig.close();
 }
 
-//construct the connected contigs. 
+//construct the connected contigs.
 void Scaffolding::constructConnectedContigs(std::string sfcontig_cnct, std::string sfout)
 {
 	//build the graph-------------------------------------------------------------
@@ -188,7 +188,7 @@ void Scaffolding::constructConnectedContigs(std::string sfcontig_cnct, std::stri
 	map<string, int> mgraph;
 	mgraph.clear();
 	int index_graph=0;
-	vector<ContigNode*> vpcn;//vector of contig node pointer
+	vector<ContigNode*> vpcn;//vector of contig node pointer 
 	while(fin_connct>>lcontig_id>>lcontig>>lcontig_len>>lcontig_ori>>rcontig_id>>rcontig>>rcontig_len\
 				   >>rcontig_ori>>cnt_pairs>>min_dist>>max_dist>>mean_dist>>bmerged>>overlap)
 	{
@@ -293,7 +293,7 @@ void Scaffolding::constructConnectedContigs(std::string sfcontig_cnct, std::stri
 					rseq=mcontigs[pcur->sname].second;
 				
 
-				//check is overlap or not
+				//check is overlap or not 
 				string final_seq="";
 				if(pcur->overlap==0)
 				{//non-overlap

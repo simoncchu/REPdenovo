@@ -1,6 +1,7 @@
 #include<fstream>
 #include"fai_parser.h"
 #include<iostream>
+#include"public_func.h"
 
 using namespace std;
 
@@ -28,29 +29,33 @@ void FaiParser::parseFai()
 	ifstream fin;
 	fin.open(path.c_str(), ifstream::in);
 
-	string chrom_name;
-	int length;
-	unsigned long start_pos;
-	int size_symbol;
-	int size_ascii;
+	string chrom_name, slength, sstart_pos, ssize_symbol, ssize_ascii;
 	int cnt=0;
 	vchroms.clear();
-	while(fin>>chrom_name>>length>>start_pos>>size_symbol>>size_ascii)
+	
+	while(!fin.eof())
 	{
-
-		//cout<<chrom_name<<" "<<length<<" "<<start_pos<<" "<<size_symbol<<" "<<size_ascii<<endl;//////////////////////////////////////////////////////
-
+		string aline="";
+		getline(fin,aline);
 		ChromInfo ci;
 		ci.id=cnt;
+		std::stringstream ss(aline);
+
+		std::getline(ss, chrom_name, '\t');
 		ci.cname=chrom_name;
-		ci.length=length;
-		ci.startpos=start_pos;
-		ci.size_chars=size_symbol;
-		ci.size_ascii=size_ascii;
-		vchroms.push_back(ci);
+		std::getline(ss, slength, '\t');
+		ci.length=PubFuncs::cvtStr2Int(slength);
+		std::getline(ss, sstart_pos, '\t');
+		ci.startpos=PubFuncs::cvtStr2Int(sstart_pos);
+		std::getline(ss, ssize_symbol, '\t');
+		ci.size_chars=PubFuncs::cvtStr2Int(ssize_symbol);
+		std::getline(ss, ssize_ascii, '\t');
+		ci.size_ascii=PubFuncs::cvtStr2Int(ssize_ascii);
 		
+		vchroms.push_back(ci);
 		cnt++;
 	}
+
 	fin.close();
 }
 
@@ -73,9 +78,4 @@ int FaiParser::getChromLen(std::string chrom)
 		}
 	}
 	return 0;
-}
-
-string FaiParser::getChromName(int chrom_id)
-{
-	return this->vchroms[chrom_id].cname;
 }
