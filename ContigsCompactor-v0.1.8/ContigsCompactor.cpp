@@ -14,6 +14,7 @@
 #include <fstream>
 #include <set>
 #include <pthread.h>
+#include <ctime>
 #include "GenSeqsUtils.h"
 #include "Utils-basic.h"
 #include "ContigsCompactor.h"
@@ -39,10 +40,13 @@ int** MultiThreadHashChecker::ptabOverlap;
 std::map<uint32_t, VNode> MultiThreadHashChecker::mapKmersV1;
 pthread_mutex_t MultiThreadHashChecker::mutex;
 
-//definition of the static variables in ContigsCompactor Contigs
+//definition of the static variables in multi-thread ContigsCompactor Contigs
 map< FastaSequence *, GraphNodeRefExt * > ContigsCompactor::mapContigToGraphNode;
 vector< std::pair<int,int> > ContigsCompactor::vMergePairs;
+vector< std::pair<int,int> > ContigsCompactor::tempMergeInfo;
 pthread_mutex_t ContigsCompactor::merge_mutex;
+int ContigsCompactor::numOfContigs;
+int ContigsCompactor::minNumKmerSupport;
 
 // ******************************************************************
 // Testing
@@ -81,7 +85,7 @@ void TestGraph( )
 }
 
 // ******************************************************************
-// merge info: how should we merge
+// merge info: how should we merge 
 
 
 void ContigsCompactorAction :: SetMergedStringConcat()
@@ -598,137 +602,189 @@ const string MODE_2_1 = "21";
 void* ContigsCompactor :: threadMergeContig(void *ptr)
 {
 	ParNode pnode=*((ParNode*)ptr);
-	pair<int,int> rang=pnode.prang;
+	pair< pair<int,int>, pair<int,int> > rang=pnode.prang;
 	ContigsCompactor* pThis=pnode.pthc;
 	bool fVerbose=pnode.isVerbose;
-
-	int rpnt=rang.first;
-	int rend=rang.second;
+//int cnted=0;
+	pair<int,int> lprang=rang.first;
+	pair<int,int> rprang=rang.second;
 
 //pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time 
 //pthread_t tid=pthread_self(); //thread id
-//cout<<tid<<" "<<rpnt<<" "<<rend<<endl;
+//cout<<lprang.first<<" "<<lprang.second<<" "<<rprang.first<<" "<<rprang.second<<endl;
 //pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure
 
-	while(rpnt<=rend)
+	int i=lprang.first;
+	int j=lprang.second+1;
+	while(i<=rprang.first)
 	{
-		int i=vMergePairs[rpnt].first;
-		int j=vMergePairs[rpnt].second;
-        GraphNodeRefExt *pnodei = ContigsCompactor::mapContigToGraphNode[ MultiThreadHashChecker::vfs[i] ];        
-		GraphNodeRefExt *pnodej = ContigsCompactor::mapContigToGraphNode[ MultiThreadHashChecker::vfs[j] ];
+		if((i==rprang.first) && (j>rprang.second))
+			break;
 
-        ContigsCompactorAction ccAct;
-        bool fMatch = false;
-        string asmMode;
-        
-//pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time
-//pthread_t tid=pthread_self(); //thread id
-//cout<<tid<<" Comparing: "<<i<<" "<<j<<endl;
-//pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure 
+		if(j>=ContigsCompactor::numOfContigs)
+		{
+			i++;
+			j=i;
+			continue;
+		}
+		
+		if(MultiThreadHashChecker::ptabOverlap[i][j]>=minNumKmerSupport)
+		{
+//cnted++;
+			GraphNodeRefExt *pnodei = ContigsCompactor::mapContigToGraphNode[ MultiThreadHashChecker::vfs[i] ];
+			GraphNodeRefExt *pnodej = ContigsCompactor::mapContigToGraphNode[ MultiThreadHashChecker::vfs[j] ];
 
-        fMatch = pThis->Evaluate( MultiThreadHashChecker::vfs[i], MultiThreadHashChecker::vfs[j], ccAct);
+			ContigsCompactorAction ccAct;
+			bool fMatch = false;
+			string asmMode;
         
-        if( fMatch == true)
-        {
-            //
-            if( ccAct.GetPosEndSeq1() <  MultiThreadHashChecker::vfs[i]->size() )
-            {
-                // second go first
-                asmMode = MODE_2_1;
-                //vecSeqsCombo = vecSeqs2;
-                //std::copy (vecSeqs1.begin(), vecSeqs1.end(), std::back_inserter(vecSeqsCombo));
-            }
-            else
-            {
-                // first go first
-                asmMode = MODE_1_2;
-                //vecSeqsCombo = vecSeqs1;
-                //std::copy (vecSeqs2.begin(), vecSeqs2.end(), std::back_inserter(vecSeqsCombo));
-            }
-        }
+	//pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time
+	//pthread_t tid=pthread_self(); //thread id
+	//cout<<tid<<" Comparing: "<<i<<" "<<j<<endl;
+	//pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure
+
+			fMatch = pThis->Evaluate( MultiThreadHashChecker::vfs[i], MultiThreadHashChecker::vfs[j], ccAct);
+        
+			if( fMatch == true)
+			{
+				//
+				if( ccAct.GetPosEndSeq1() <  MultiThreadHashChecker::vfs[i]->size() )
+				{
+					// second go first
+					asmMode = MODE_2_1;
+					//vecSeqsCombo = vecSeqs2;
+					//std::copy (vecSeqs1.begin(), vecSeqs1.end(), std::back_inserter(vecSeqsCombo));
+				}
+				else
+				{
+					// first go first
+					asmMode = MODE_1_2;
+					//vecSeqsCombo = vecSeqs1;
+					//std::copy (vecSeqs2.begin(), vecSeqs2.end(), std::back_inserter(vecSeqsCombo));
+				}
+			}
             
             
-        // YW: we don't allow containment; they don't form edges
-        if( fMatch == true && ccAct.IsContainment() == false)
-        {
+			// YW: we don't allow containment; they don't form edges
+			if( fMatch == true && ccAct.IsContainment() == false)
+			{               
+				if( fVerbose == true )
+				{
+					pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time 
+					cout << "One contigs merged: number of contigs: " << MultiThreadHashChecker::vfs.size() << endl;
+					cout << "Contigs: ";
+					MultiThreadHashChecker::vfs[i]->printFasta(cout);
+					cout << " can be merged with contig: ";
+					MultiThreadHashChecker::vfs[j]->printFasta(cout);
+					cout << "RESULT: " << ccAct.GetMerged() << endl;
+					pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure
+				}
                 
-            if( fVerbose == true )
-            {
-				pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time 
-                cout << "One contigs merged: number of contigs: " << MultiThreadHashChecker::vfs.size() << endl;
-                cout << "Contigs: ";
-                MultiThreadHashChecker::vfs[i]->printFasta(cout);
-                cout << " can be merged with contig: ";
-                MultiThreadHashChecker::vfs[j]->printFasta(cout);
-                cout << "RESULT: " << ccAct.GetMerged() << endl;
-				pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure un
-            }
-                
-            // add edge based on assembly mode
+				// add edge based on assembly mode 
+				double pathLen = -1.0*ccAct.GetOverlapSize();               // we want to connect two nodes using the shortest total seq length
            
-            double pathLen = -1.0*ccAct.GetOverlapSize();               // we want to connect two nodes using the shortest total seq length
-           
-            if( asmMode == MODE_1_2 )
-            {
-                // add one edge from node i to j
-				pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time 
-                pnodei->AddNgbrRef( pnodej, NULL, asmMode, pathLen );
-				pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure un
-            }
-            else if( asmMode == MODE_2_1 )
-            {
-				pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time 
-                pnodej->AddNgbrRef( pnodei, NULL, asmMode, pathLen );
-				pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure un
-            }
-            else
-            {
-                THROW("Fatal error.");
-            }                
-        }
-            
-		rpnt++;
+				if( asmMode == MODE_1_2 )
+				{
+					// add one edge from node i to j
+					//pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time 
+					pnodei->AddNgbrRef( pnodej, NULL, asmMode, pathLen );
+					//pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure un
+				}
+				else if( asmMode == MODE_2_1 )
+				{
+					//pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time 
+					pnodej->AddNgbrRef( pnodei, NULL, asmMode, pathLen );
+					//pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure
+				}
+				else
+				{
+					THROW("Fatal error.");
+				}                
+			}
+		}  
+		j++;
     }
+
+//pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time 
+//pthread_t tid=pthread_self(); //thread id
+//cout<<tid<<" return! cnted"<<cnted<<endl;
+//pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure
 
 }
 
+
 void ContigsCompactor :: runMultiThreadMerge(int minNumKmerSupport, int T)
 {
+	ContigsCompactor::minNumKmerSupport = minNumKmerSupport;
+
 	ContigsCompactor::vMergePairs.clear();
 	int contigSize=MultiThreadHashChecker::vfs.size();
+	ContigsCompactor::numOfContigs=contigSize;
+	int mergePairSize=0;
 	for(int i=0;i<contigSize;i++)
 	{
 		for(int j=0;j<contigSize;j++)
 			if(MultiThreadHashChecker::ptabOverlap[i][j]>=minNumKmerSupport)
-				ContigsCompactor::vMergePairs.push_back(std::make_pair(i,j));
+				mergePairSize++;
 	}
-	
-//cout<<ContigsCompactor::vMergePairs.size()<<endl;////////////////////////////////
 
-	int mergePairSize=ContigsCompactor::vMergePairs.size();
+//cout<<"Num of pairs: "<<mergePairSize<<endl;
 
+	ContigsCompactor::tempMergeInfo.clear();
 	pthread_t* pid=new pthread_t[T];
 	
-	vector< pair<int,int> > vprang;
+	vector< pair< pair<int,int>, pair<int,int> > > vprang;
 	vprang.clear();
 
 	int avrg=mergePairSize/T;
-	for(int i=0;i<T;i++)
+
+	int ncnt=0;
+	int pre_i=0;
+	int pre_j=-1;
+	for(int i=0;i<contigSize;i++)
 	{
-		pair<int,int> prang;
-		prang.first=i*avrg;
-		if(i==(T-1))
-			prang.second=mergePairSize-1;
-		else
-			prang.second=prang.first+avrg-1;
-		vprang.push_back(prang);
+		for(int j=i;j<contigSize;j++)
+		{
+			if(MultiThreadHashChecker::ptabOverlap[i][j]>=minNumKmerSupport)
+				ncnt++;
+			if(ncnt==avrg)
+			{
+				pair<int,int> lprang;
+				lprang.first=pre_i;
+				lprang.second=pre_j;
+
+				pair<int,int> rprang;
+				rprang.first=i;
+				rprang.second=j;
+
+				pair< pair<int,int>, pair<int,int> > prang;
+				prang.first=lprang;
+				prang.second=rprang;
+
+				vprang.push_back(prang);
+				pre_i=i;
+				pre_j=j;
+				ncnt=0;
+			}
+			
+		}
 	}
 
+
+	if(vprang.size()<T)
+	{
+		cout<<"Arrange error!"<<endl;
+		return;
+	}
+	vprang[T-1].second.first=contigSize-1;
+	vprang[T-1].second.second=contigSize-1;
+
+	
 	ParNode* parnode=new ParNode[T];
 	for(int i=0;i<T;i++)
 	{
 		//create a new thread and pass parameters 
-		//for the new thread, it will deal with vcontigs[i*avrg to i*avrg+avrg-1]
+		//for the new thread, it will deal with vcontigs[i*avrg to i*avrg+avrg-1] 
 		//ParNode parnode;
 		parnode[i].prang=vprang[i];
 		parnode[i].pthc=this;
@@ -756,7 +812,7 @@ void ContigsCompactor :: CompactVer3( MultiFastqSeqs &listContigs, const char* f
     // each contig has a node in the graph; YW: to address the issue of reverse complement, create another node (name as <name>_R)
     // create mapping from contig ptr to node
     // create reverse-complement strings
-	//clock_t tStart = clock(); 
+	//clock_t tStart = clock();
 
     vector< FastaSequence *> listRevCompContigs;
     map<FastaSequence *, FastaSequence *> mapRevCompContigs;
@@ -779,7 +835,7 @@ void ContigsCompactor :: CompactVer3( MultiFastqSeqs &listContigs, const char* f
         listContigsPtrInclRevComp.push_back( listRevCompContigs[i] );
     }
     
-    // create nodes
+    // create nodes 
     AbstractGraph graphContigs;
     //map< FastaSequence *, GraphNodeRefExt * > mapContigToGraphNode;
     for(int j=0; j<(int)listContigsPtrInclRevComp.size(); ++j)
@@ -812,7 +868,7 @@ void ContigsCompactor :: CompactVer3( MultiFastqSeqs &listContigs, const char* f
         cout << "The number of nodes (incl. reverse complements): " << graphContigs.GetNumNodes() << endl;
     }
     
-    //// create a list of quickchecker 
+    //// create a list of quickchecker
     //// construct all the quick checkers 
     //vector< QuickCheckerContigsMatch>  listQuickCheckers;
     //for(int j=0; j<(int)listContigsPtrInclRevComp.size(); ++j)
@@ -826,19 +882,29 @@ void ContigsCompactor :: CompactVer3( MultiFastqSeqs &listContigs, const char* f
 	//int kmerSize=10;
 	//int numOfThread=5;
 	//int minNumKmerSupport=1;
+
+	//std::clock_t    start;
+	//start = std::clock();
 	MultiThreadHashChecker mtHashChecker(listContigsPtrInclRevComp, kmerLenQuick, numOfThreads);
 	mtHashChecker.runMultiHash();
+	//std::cout<<"Hash started"<<endl;
+	//std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+	//start = std::clock();
+	//std::cout<<"Generate hash check table started"<<endl;
 	mtHashChecker.gnrtHashCheckTab();
+	//std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
 	
-	runMultiThreadMerge(minSupportKmers,numOfThreads);
+	//start = std::clock();
+	//std::cout<<"Merge Started"<<endl;
+	runMultiThreadMerge(minSupportKmers, numOfThreads);
 	mtHashChecker.releaseHashCheckTab();
-
-//    //fCont = false; 
+	//std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+//    //fCont = false;
 //    //vector< vector< pair<FastaSequence *, int> > > listVecSeqsCombo;
 //    
 //    for(int i=0; i<(int)listContigsPtrInclRevComp.size(); ++i)
 //    {
-//        GraphNodeRefExt *pnodei = ContigsCompactor::mapContigToGraphNode[ listContigsPtrInclRevComp[i] ];        
+//        GraphNodeRefExt *pnodei = ContigsCompactor::mapContigToGraphNode[ listContigsPtrInclRevComp[i] ];    
 //        int numEdges = 0;
 //
 //        // now check each of the following ones 
@@ -885,7 +951,7 @@ void ContigsCompactor :: CompactVer3( MultiFastqSeqs &listContigs, const char* f
 //                
 //                if( fVerbose == true )
 //                {
-//                    cout << "One contigs merged: number of contigs: " << listContigsPtrInclRevComp.size() << endl;
+//                    cout << "One contigs merged: number of contigs: " << listContigsPtrInclRevComp.size() << endl; 
 //                    cout << "Contigs: ";
 //                    listContigsPtrInclRevComp[i]->printFasta(cout);
 //                    cout << " can be merged with contig: ";
@@ -1917,7 +1983,7 @@ void MultiThreadHashChecker::runMultiHash()
 	{
 		//create a new thread and pass parameters
 		//for the new thread, it will deal with vcontigs[i*avrg to i*avrg+avrg-1]
-		int ret = pthread_create(&pid[i], NULL, MultiThreadHashChecker::threadHashContigV1, (void *)&vprang[i]); 
+		int ret = pthread_create(&pid[i], NULL, MultiThreadHashChecker::threadHashContigV1, (void *)&vprang[i]);
 		if(ret) 
 		{
 			cout << "Create pthread error!" << endl;
@@ -1926,7 +1992,10 @@ void MultiThreadHashChecker::runMultiHash()
 	}
 //cout<<"waiting for all threads finished"<<endl; 
 	for(int i=0;i<T;i++) //wait for all threads finishing
+	{
+//cout<<"Waiting for hash thread "<<i<<" to join."<<endl;
 		pthread_join(pid[i], NULL);
+	}
 	delete pid;
 //cout<<"Hash finished."<<endl;
 }
@@ -1945,7 +2014,7 @@ void* MultiThreadHashChecker::threadHashContigV1(void *ptr)
 		{
 			string kmer=scontig.substr(i,K);
 			uint32_t key=0;
-			MurmurHash3_x86_32(kmer.c_str(),K,SEED,&key);
+			MurmurHash3_x86_32(kmer.c_str(), K, SEED, &key);
 
 			KmerNode node;
 			node.index=rang.first;
@@ -1957,7 +2026,7 @@ void* MultiThreadHashChecker::threadHashContigV1(void *ptr)
 				nodeList.push_back(node);
 				pthread_mutex_lock (&MultiThreadHashChecker::mutex); //lock to make sure only one thread is writing at the same time 
 				MultiThreadHashChecker::mapKmersV1[key]=nodeList;
-				pthread_mutex_unlock(&MultiThreadHashChecker::mutex);//unlock make sure un
+				pthread_mutex_unlock(&MultiThreadHashChecker::mutex);//unlock make sure
 			}
 			else
 			{
@@ -2001,6 +2070,20 @@ void MultiThreadHashChecker::gnrtHashCheckTab()
 			}
 		}
 	}
+
+//output for test////////////////////////////
+//for(int i=0;i<contigSize;i++)
+//	cout<<MultiThreadHashChecker::vfs[i]->c_str()<<endl;
+//for(int i=0;i<contigSize;i++)
+//{
+//	for(int j=0;j<contigSize;j++)
+//	{
+//		if(ptabOverlap[i][j]>=1)
+//			cout<<i+1<<" "<<j+1<<" "<<ptabOverlap[i][j]<<endl;
+//	}
+//}
+////////////////////////////////////////////
+
 }
 
 void MultiThreadHashChecker::outputHashTab(int minSupport)

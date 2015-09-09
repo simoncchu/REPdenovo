@@ -177,6 +177,9 @@ private:
 	static map< FastaSequence *, GraphNodeRefExt * > mapContigToGraphNode;
 	static pthread_mutex_t merge_mutex;
 	static vector< std::pair<int,int> > vMergePairs;
+	static vector< std::pair<int,int> > tempMergeInfo;
+	static int numOfContigs;
+	static int minNumKmerSupport;
 
 private:
 	void runMultiThreadMerge(int minNumKmerSupport, int T);
@@ -186,7 +189,7 @@ private:
 
 typedef struct
 {
-	std::pair<int,int> prang;
+	std::pair< std::pair<int,int>, std::pair<int,int> > prang;
 	ContigsCompactor* pthc;
 	bool isVerbose;
 }ParNode;
