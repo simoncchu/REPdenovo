@@ -62,12 +62,12 @@ def removeDuplicateContained(fcontig, foutput, cutoff, brm_contained):
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
 
-def mergeContigs(fout_folder, cutoff_dup_bf_merge, cutoff_dup_af_merge):
+def mergeContigs(fout_folder, nthreads, cutoff_dup_bf_merge, cutoff_dup_af_merge):
     fcontig=fout_folder+"contigs.fa"
     foutput=fcontig+"_no_dup.fa"
     removeDuplicateContained(fcontig, foutput, cutoff_dup_bf_merge, False)
 
-    cmd="./ContigsMerger -s 0.2 -i1 -6.0 -i2 -6.0 -x 15 -k 10 -o {0}.merge.info {1} > {2}.merged.fa".format(foutput,foutput,foutput)
+    cmd="./ContigsMerger -s 0.2 -i1 -6.0 -i2 -6.0 -x 15 -k 10 -t {0} -m 1 -o {1}.merge.info {2} > {3}.merged.fa".format(nthreads,foutput,foutput,foutput)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
     fcontig="{0}.merged.fa".format(foutput)

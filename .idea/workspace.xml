@@ -26,7 +26,7 @@
       <file leaf-file-name="analysiCoveredRepeatsByReads_cnv1.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/analysiCoveredRepeatsByReads_cnv1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="0" selection-start="2012" selection-end="2012" vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="2159">
+            <state line="52" column="0" selection-start="2012" selection-end="2012" vertical-scroll-proportion="0.0" vertical-offset="884" max-vertical-offset="2227">
               <folding />
             </state>
           </provider>
@@ -35,21 +35,17 @@
       <file leaf-file-name="parseCoveredReads.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/parseCoveredReads.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="72" column="32" selection-start="1897" selection-end="1897" vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="1513">
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
+            <state line="72" column="32" selection-start="1897" selection-end="1897" vertical-scroll-proportion="0.0" vertical-offset="1224" max-vertical-offset="1513">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fixMergeReigion.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="fixMergeReigion.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/fixMergeReigion.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="77" column="24" selection-start="2146" selection-end="2146" vertical-scroll-proportion="1.0724431" vertical-offset="554" max-vertical-offset="1411">
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
+            <state line="69" column="23" selection-start="1869" selection-end="1869" vertical-scroll-proportion="0.0" vertical-offset="452" max-vertical-offset="1411">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -57,17 +53,19 @@
       <file leaf-file-name="parseRepeatFamilyFromRmsk.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../Results_10X/MaskMammal/parseRepeatFamilyFromRmsk.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="165" column="0" selection-start="5670" selection-end="5670" vertical-scroll-proportion="0.0" vertical-offset="2186" max-vertical-offset="2958">
+            <state line="13" column="18" selection-start="229" selection-end="229" vertical-scroll-proportion="0.0" vertical-offset="221" max-vertical-offset="3026">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="findComponentsWithUnionFindSet.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/findComponentsWithUnionFindSet.py">
+      <file leaf-file-name="getCopyNum.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/copy_number/getCopyNum.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="37" selection-start="503" selection-end="503" vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="1768">
-              <folding />
+            <state line="44" column="19" selection-start="1149" selection-end="1149" vertical-scroll-proportion="0.0" vertical-offset="486" max-vertical-offset="1190">
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -81,10 +79,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="main.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="556" column="88" selection-start="19861" selection-end="19861" vertical-scroll-proportion="0.0" vertical-offset="9452" max-vertical-offset="11271">
+            <state line="41" column="16" selection-start="975" selection-end="975" vertical-scroll-proportion="0.5879699" vertical-offset="153" max-vertical-offset="11186">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MergeContigs.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MergeContigs.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="63" column="0" selection-start="2885" selection-end="2885" vertical-scroll-proportion="0.0" vertical-offset="775" max-vertical-offset="1479">
               <folding />
             </state>
           </provider>
@@ -108,15 +115,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="rmDupAndContained.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/rmDupAndContained.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="116" column="37" selection-start="2655" selection-end="2655" vertical-scroll-proportion="0.0" vertical-offset="1972" max-vertical-offset="2329">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindManager">
@@ -130,8 +128,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/test.py" />
-        <option value="$PROJECT_DIR$/Assembly.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/runAssembly.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/filterDup.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/getFastqByList.py" />
@@ -168,7 +164,6 @@
         <option value="$PROJECT_DIR$/FilterPEReads.py" />
         <option value="$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/BlastToFilterV2.py" />
         <option value="$PROJECT_DIR$/../../Results_frog/filter_mt_bacterial/BlastToFilterV2.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/problem1.py" />
         <option value="$PROJECT_DIR$/../../Results_frog/blastRepBase/unique_hit.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/assemblyBySGA/parseSam.py" />
@@ -181,6 +176,9 @@
         <option value="$PROJECT_DIR$/../../Kmer_analysis/parseCoveredReads.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/analysiCoveredRepeatsByReads_cnv1.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/fixMergeReigion.py" />
+        <option value="$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/copy_number/getCopyNum.py" />
+        <option value="$PROJECT_DIR$/MergeContigs.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -492,8 +490,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-2" width="1552" height="907" extended-state="0" />
-    <editor active="false" />
+    <frame x="-7" y="-2" width="1552" height="907" extended-state="1" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -533,11 +531,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../Results_10X/basic_info/calcN50.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="27" selection-start="583" selection-end="583" vertical-scroll-proportion="0.39034483" vertical-offset="57" max-vertical-offset="1190" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/getFastqByList.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="0" selection-start="298" selection-end="298" vertical-scroll-proportion="0.31392047" vertical-offset="0" max-vertical-offset="704" />
@@ -621,11 +614,6 @@
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/parseContigsByGivenList.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="26" selection-start="447" selection-end="447" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="714" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MergeContigs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="57" selection-start="987" selection-end="987" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1479" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/rmDupContain.sh">
@@ -720,16 +708,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Results_frog/blastRepBase/splitAndBlast.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="69" selection-start="929" selection-end="929" vertical-scroll-proportion="0.0" vertical-offset="401" max-vertical-offset="1105">
-          <folding />
-        </state>
+        <state line="45" column="69" selection-start="929" selection-end="929" vertical-scroll-proportion="0.0" vertical-offset="401" max-vertical-offset="1105" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/parseContigsByGivenReverseList.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="29" selection-start="356" selection-end="356" vertical-scroll-proportion="0.0" vertical-offset="61" max-vertical-offset="765">
-          <folding />
-        </state>
+        <state line="17" column="29" selection-start="356" selection-end="356" vertical-scroll-proportion="0.0" vertical-offset="61" max-vertical-offset="765" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/filterDup_1.py">
@@ -739,9 +723,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/findComponentsWithUnionFindSet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="37" selection-start="503" selection-end="503" vertical-scroll-proportion="0.0" vertical-offset="27" max-vertical-offset="1751">
-          <folding />
-        </state>
+        <state line="24" column="37" selection-start="503" selection-end="503" vertical-scroll-proportion="0.0" vertical-offset="27" max-vertical-offset="1751" />
       </provider>
     </entry>
     <entry file="file://G:/Others/Gao_lab/getinsertsize.py">
@@ -763,13 +745,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="556" column="88" selection-start="19861" selection-end="19861" vertical-scroll-proportion="0.0" vertical-offset="9018" max-vertical-offset="11118">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/KmerCount.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="27" column="24" selection-start="1223" selection-end="1223" vertical-scroll-proportion="0.0" vertical-offset="89" max-vertical-offset="816">
@@ -784,13 +759,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../Results_10X/MaskMammal/parseRepeatFamilyFromRmsk.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="0" selection-start="5670" selection-end="5670" vertical-scroll-proportion="0.0" vertical-offset="2186" max-vertical-offset="2958">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/analysiCoveredRepeatsByReads_cnv1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="52" column="0" selection-start="2012" selection-end="2012" vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="2159">
@@ -801,18 +769,44 @@
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/parseCoveredReads.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="72" column="32" selection-start="1897" selection-end="1897" vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="1513">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/fixMergeReigion.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="23" selection-start="1869" selection-end="1869" vertical-scroll-proportion="0.0" vertical-offset="452" max-vertical-offset="1411">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Results_10X/MaskMammal/parseRepeatFamilyFromRmsk.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="18" selection-start="229" selection-end="229" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3026">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/copy_number/getCopyNum.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="19" selection-start="1149" selection-end="1149" vertical-scroll-proportion="0.0" vertical-offset="486" max-vertical-offset="1190">
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/fixMergeReigion.py">
+    <entry file="file://$PROJECT_DIR$/MergeContigs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="24" selection-start="2146" selection-end="2146" vertical-scroll-proportion="1.0724431" vertical-offset="554" max-vertical-offset="1411">
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
+        <state line="63" column="0" selection-start="2885" selection-end="2885" vertical-scroll-proportion="0.0" vertical-offset="775" max-vertical-offset="1479">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="16" selection-start="975" selection-end="975" vertical-scroll-proportion="0.5879699" vertical-offset="153" max-vertical-offset="11186">
+          <folding />
         </state>
       </provider>
     </entry>

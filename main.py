@@ -39,6 +39,7 @@ REFINER_PATH="./TERefiner_1"
 JELLYFISH_PATH=""
 VELVET_PATH=""
 BWA_THREADS=5
+MERGE_THREADS=15
 OUTPUT_FOLDER="./temp/"
 READ_DEPTH=1
 VERBOSE=0
@@ -136,6 +137,9 @@ def readConfigFile(sfconfig):
         elif parts[0]=="BWA_THREADS":
             global BWA_THREADS
             BWA_THREADS=int(parts[1])
+        elif parts[0]=="MERGE_THREADS":
+            global MERGE_THREADS
+            MERGE_THREADS=int(parts[1])
         elif parts[0]=="OUTPUT_FOLDER":
             global OUTPUT_FOLDER
             OUTPUT_FOLDER=parts[1]
@@ -637,16 +641,16 @@ else:
         clearAll()
     elif sys.argv[1]=='Assembly':
         assembly()
-        mergeContigs(OUTPUT_FOLDER, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
+        mergeContigs(OUTPUT_FOLDER,MERGE_THREADS, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
     elif sys.argv[1]=="Merging":
-        mergeContigs(OUTPUT_FOLDER, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
+        mergeContigs(OUTPUT_FOLDER,MERGE_THREADS, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
 
     elif sys.argv[1]=='Classify':
         vtr=classifyContigs(OUTPUT_FOLDER, K_MIN, K_MAX, K_INC, ASM_NODE_LENGTH_OFFSET, TR_SIMILARITY)
         #rmTRFromContigs(vtr)
     elif sys.argv[1]=="All":
         assembly()
-        mergeContigs(OUTPUT_FOLDER, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
+        mergeContigs(OUTPUT_FOLDER, MERGE_THREADS, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
         #vtr=classifyContigs(OUTPUT_FOLDER, K_MIN, K_MAX, K_INC, ASM_NODE_LENGTH_OFFSET, TR_SIMILARITY)
         #rmTRFromContigs(vtr)
         alignReadToContigs()
