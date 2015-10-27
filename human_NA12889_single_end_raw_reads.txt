@@ -1,0 +1,2 @@
+/media/Hornet2/1000Genomes/raw_reads/NA12889/ERR234328_1.filt.fastq -1 -1 -1
+/media/Hornet2/1000Genomes/raw_reads/NA12889/ERR234328_2.filt.fastq -1 -1 -1
