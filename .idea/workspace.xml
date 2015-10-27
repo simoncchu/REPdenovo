@@ -41,15 +41,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fixMergeReigion.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/fixMergeReigion.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="69" column="23" selection-start="1869" selection-end="1869" vertical-scroll-proportion="0.0" vertical-offset="452" max-vertical-offset="1411">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="parseRepeatFamilyFromRmsk.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../Results_10X/MaskMammal/parseRepeatFamilyFromRmsk.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -59,10 +50,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="getCopyNum.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="getCopyNum.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/copy_number/getCopyNum.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="19" selection-start="1149" selection-end="1149" vertical-scroll-proportion="0.0" vertical-offset="486" max-vertical-offset="1190">
+            <state line="64" column="0" selection-start="2036" selection-end="2036" vertical-scroll-proportion="0.8792614" vertical-offset="469" max-vertical-offset="1190">
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -79,10 +70,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="16" selection-start="975" selection-end="975" vertical-scroll-proportion="0.5879699" vertical-offset="153" max-vertical-offset="11186">
+            <state line="16" column="40" selection-start="418" selection-end="418" vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="11186">
               <folding />
             </state>
           </provider>
@@ -91,7 +82,7 @@
       <file leaf-file-name="MergeContigs.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MergeContigs.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="63" column="0" selection-start="2885" selection-end="2885" vertical-scroll-proportion="0.0" vertical-offset="775" max-vertical-offset="1479">
+            <state line="69" column="81" selection-start="3196" selection-end="3196" vertical-scroll-proportion="0.0" vertical-offset="316" max-vertical-offset="1479">
               <folding />
             </state>
           </provider>
@@ -109,7 +100,7 @@
       <file leaf-file-name="parseSam.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/assemblyBySGA/parseSam.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="3" selection-start="1222" selection-end="1222" vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="1921">
+            <state line="57" column="3" selection-start="1222" selection-end="1222" vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="1904">
               <folding />
             </state>
           </provider>
@@ -176,9 +167,9 @@
         <option value="$PROJECT_DIR$/../../Kmer_analysis/parseCoveredReads.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/analysiCoveredRepeatsByReads_cnv1.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/fixMergeReigion.py" />
-        <option value="$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/copy_number/getCopyNum.py" />
         <option value="$PROJECT_DIR$/MergeContigs.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/copy_number/getCopyNum.py" />
       </list>
     </option>
   </component>
@@ -738,13 +729,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/assemblyBySGA/parseSam.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="3" selection-start="1222" selection-end="1222" vertical-scroll-proportion="0.0" vertical-offset="1200" max-vertical-offset="1904">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/KmerCount.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="27" column="24" selection-start="1223" selection-end="1223" vertical-scroll-proportion="0.0" vertical-offset="89" max-vertical-offset="816">
@@ -787,26 +771,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/copy_number/getCopyNum.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="19" selection-start="1149" selection-end="1149" vertical-scroll-proportion="0.0" vertical-offset="486" max-vertical-offset="1190">
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MergeContigs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="0" selection-start="2885" selection-end="2885" vertical-scroll-proportion="0.0" vertical-offset="775" max-vertical-offset="1479">
+        <state line="69" column="81" selection-start="3196" selection-end="3196" vertical-scroll-proportion="0.0" vertical-offset="316" max-vertical-offset="1479">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="16" selection-start="975" selection-end="975" vertical-scroll-proportion="0.5879699" vertical-offset="153" max-vertical-offset="11186">
+        <state line="16" column="40" selection-start="418" selection-end="418" vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="11186">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/assemblyBySGA/parseSam.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="3" selection-start="1222" selection-end="1222" vertical-scroll-proportion="0.0" vertical-offset="1200" max-vertical-offset="1904">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/copy_number/getCopyNum.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="0" selection-start="2036" selection-end="2036" vertical-scroll-proportion="0.8792614" vertical-offset="469" max-vertical-offset="1190">
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

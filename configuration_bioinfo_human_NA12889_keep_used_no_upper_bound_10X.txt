@@ -19,5 +19,6 @@ TR_SIMILARITY 0.85
 JELLYFISH_PATH /scratch2/chongchu/jellyfish-2.1.4/bin/
 VELVET_PATH /scratch2/chongchu/velvet-master/
 BWA_THREADS 5
+MERGE_THREADS 15
 OUTPUT_FOLDER ./human_NA12889/
 VERBOSE 1
