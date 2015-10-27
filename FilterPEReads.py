@@ -63,7 +63,6 @@ def filterPEByMapQuality(sfsam,mapq, sfsam_output):
 def filterByCigar():
     return
 
-
 def filterSam(sfsam, mapq,sfsam_output):
     print "First, filter out those unmapped reads in {0} ...".format(sfsam)
     #First, only keep those fully mapped reads

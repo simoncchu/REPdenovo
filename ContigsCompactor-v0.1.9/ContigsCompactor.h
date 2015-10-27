@@ -31,7 +31,7 @@ void TestGraph( );
 
 
 // ******************************************************************
-// merge info: how should we merge 
+// merge info: how should we merge
 
 class ContigsCompactorAction
 {
@@ -92,36 +92,30 @@ struct KmerNode{
 typedef std::vector<KmerNode> VNode;
 
 
-class MultiThreadHashChecker
+class MultiThreadQuickChecker
 {
 public:
-	MultiThreadHashChecker();
-	MultiThreadHashChecker(vector< FastaSequence *>& vfs,int kmerLen, int nThreads);
-	void runMultiHash();
-	void gnrtHashCheckTab();
-	void releaseHashCheckTab();
-	void outputHashTab(int minSupport);
+	MultiThreadQuickChecker(int numOfContigs);
+	void runMultiThreadChecker(int T);
+	static void* threadQuickCheck(void* ptr);
 
 private:
-	static void *threadHashContigV1(void *ptr);
+	static int numOfContigs;
 
 public:
-	static vector< FastaSequence *> vfs;
-	static int** ptabOverlap;
-
-private://declaration of static variables
-	static int K;
-	static int SEED;
-	static std::map<uint32_t, VNode> mapKmersV1;
-	static pthread_mutex_t mutex;
-
-private:
-	int contigSize;
-	int T;
+	static vector< QuickCheckerContigsMatch>  listQuickCheckers;
 };
 
-
 // ******************************************************************
+
+typedef struct
+{
+	std::string mode;
+	double lenth;
+	int x;
+	int y;
+}ConnectionInfo;
+
 // Compact contigs 
 
 class AbstractGraphNode;
@@ -130,8 +124,8 @@ class ContigsCompactor
 {
 public:
     ContigsCompactor();
-    void Compact(  MultiFastqSeqs &listRepeats );
-    void CompactVer2(  MultiFastqSeqs &listRepeats );
+    //void Compact(  MultiFastqSeqs &listRepeats );
+    //void CompactVer2(  MultiFastqSeqs &listRepeats );
     void CompactVer3(  MultiFastqSeqs &listRepeats, const char* fileScaffoldInfo, int miniSupportPairCutOff);
     void SetVerbose(bool f) { fVerbose = f; }
     void SetFractionLossScore(double f) { fractionLossScore = f; }
@@ -150,23 +144,29 @@ public:
 	void SetNumOfThreads(int cnt){numOfThreads=cnt;}
 	void SetMinSupportKmers(int cnt){minSupportKmers=cnt;}
 
-private:
-    int Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, ContigsCompactorAction &resCompact, bool fRelax = false);
-    int IsScoreSignificant( int scoreMax, int szSeq1, int szSeq2, int rowStart, int colStart  ) const;
-    string FormMergedSeqFromPath( const vector<AbstractGraphNode *> &listPathNodes  );
+private:    	
+	int Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, ContigsCompactorAction &resCompact, bool fRelax = false);
+	
+	int IsScoreSignificant( int scoreMax, int szSeq1, int szSeq2, int rowStart, int colStart  ) const;
+	int addEdges();
+	string FormMergedSeqFromPath( const vector<AbstractGraphNode *> &listPathNodes  );
     void RemoveDupRevCompPaths( set<vector<AbstractGraphNode *> > &setPaths, map<AbstractGraphNode *, AbstractGraphNode *> &mapListRevCompNodes );
     
-    double fractionLossScore;
-    double fracMinOverlap;
-    double minOverlapLen;
-	double minOverlapLenWithScaffold;
+
+    static double fractionLossScore;
+    static double fracMinOverlap;
+    static double minOverlapLen;
+	static double minOverlapLenWithScaffold;
+
 	int numOfThreads;
 	int minSupportKmers;
     int kmerLenQuick;
     int lenContigOut;
-    double scoreMismatch;
-    double scoreIndel;
-    bool fVerbose;
+
+    static double scoreMismatch;
+    static double scoreIndel;
+    static bool fVerbose;
+
     int maxContigPathLen;
     int maxCountPerContigInPaths;
     MultiFastqSeqs setNewSeqsOnly;
@@ -175,23 +175,34 @@ private:
 
 private:
 	static map< FastaSequence *, GraphNodeRefExt * > mapContigToGraphNode;
-	static pthread_mutex_t merge_mutex;
+	//static pthread_mutex_t merge_mutex;
 	static vector< std::pair<int,int> > vMergePairs;
-	static vector< std::pair<int,int> > tempMergeInfo;
+	
+	static long vistPos;
 	static int numOfContigs;
 	static int minNumKmerSupport;
+	
+public:
+	static vector< FastaSequence *> vfs;
+	static vector< std::pair<int, int> > tempMergeInfo;
+	static vector<ConnectionInfo> vConnectInfo;
+	//static int** ptabOverlap;
+	//static ConnectionInfo** ptabConnection;
 
 private:
-	void runMultiThreadMerge(int minNumKmerSupport, int T);
-	static void *threadMergeContig(void *ptr);
+	//void runMultiThreadMerge(int minNumKmerSupport, int T);
+	void runMultiThreadMergeV2(int minNumKmerSupport, int T);
+	//static void *threadMergeContig(void *ptr);
+	static void* threadMergeContigV2(void *ptr);
 	
 };
 
 typedef struct
 {
-	std::pair< std::pair<int,int>, std::pair<int,int> > prang;
+	std::pair< std::pair<int, int>, std::pair<int, int> > prang;
 	ContigsCompactor* pthc;
 	bool isVerbose;
 }ParNode;
+
 
 #endif /* defined(____ContigsCompactor__) */

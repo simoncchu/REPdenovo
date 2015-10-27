@@ -638,6 +638,8 @@ else:
     elif sys.argv[1]=='Assembly':
         assembly()
         mergeContigs(OUTPUT_FOLDER, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
+    elif sys.argv[1]=="Merging":
+        mergeContigs(OUTPUT_FOLDER, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
 
     elif sys.argv[1]=='Classify':
         vtr=classifyContigs(OUTPUT_FOLDER, K_MIN, K_MAX, K_INC, ASM_NODE_LENGTH_OFFSET, TR_SIMILARITY)

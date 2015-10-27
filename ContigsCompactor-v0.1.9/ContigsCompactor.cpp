@@ -5,7 +5,7 @@
 //  Created by Yufeng Wu on 2/18/15.
 //  
 //  Edit: convert to multi-thread version by Chong Chu on 06/18/15
-//	Change the QuickChecker part to Multi-thread procedure using hashing.
+//	Change the QuickChecker part to Multi-thread.
 //  The pairwise comparison part is changed to multi-thread.
 //
 
@@ -34,6 +34,15 @@ const int OVERLAP_IN_RANGE=1;
 const int OVERLAP_LARGER_MINLEN=2;
 
 
+double ContigsCompactor::fractionLossScore = 0.05;
+double ContigsCompactor::fracMinOverlap = 0.5;
+double ContigsCompactor::minOverlapLen= 10000;
+double ContigsCompactor::minOverlapLenWithScaffold= QUICK_CHECK_KMER_LEN;
+
+double ContigsCompactor::scoreMismatch= -1.0;
+double ContigsCompactor::scoreIndel= -1.0;
+bool ContigsCompactor::fVerbose = true;
+
 //definition of the static variables in multi-thread quick check
 int MultiThreadQuickChecker::numOfContigs;
 vector< QuickCheckerContigsMatch>  MultiThreadQuickChecker::listQuickCheckers;
@@ -42,13 +51,18 @@ vector< QuickCheckerContigsMatch>  MultiThreadQuickChecker::listQuickCheckers;
 map< FastaSequence *, GraphNodeRefExt * > ContigsCompactor::mapContigToGraphNode;
 vector< std::pair<int,int> > ContigsCompactor::vMergePairs;
 vector< std::pair<int,int> > ContigsCompactor::tempMergeInfo;
-pthread_mutex_t ContigsCompactor::merge_mutex;
+vector<ConnectionInfo> ContigsCompactor::vConnectInfo;
+long ContigsCompactor::vistPos;
+
 int ContigsCompactor::numOfContigs;
 int ContigsCompactor::minNumKmerSupport;
-int** ContigsCompactor::ptabOverlap;
+
+
 std::vector< FastaSequence *> ContigsCompactor::vfs;
 
-
+static pthread_mutex_t merge_mutex= PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t merge_write_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t check_mutex= PTHREAD_MUTEX_INITIALIZER;
 // ******************************************************************
 // Testing
 
@@ -146,453 +160,457 @@ bool ContigsCompactorAction :: IsContainment() const
 // ******************************************************************
 // Compact contigs
 
-ContigsCompactor :: ContigsCompactor() : fractionLossScore(0.05), fracMinOverlap(0.5),minOverlapLen(10000), kmerLenQuick(QUICK_CHECK_KMER_LEN), scoreMismatch(-1.0), scoreIndel(-1.0), fVerbose(true), maxContigPathLen(MAX_CONTIGS_IN_PATH), maxCountPerContigInPaths(MAX_CONTIG_IN_PATH_COUNT)
+//ContigsCompactor :: ContigsCompactor() : fractionLossScore(0.05), fracMinOverlap(0.5),minOverlapLen(10000), kmerLenQuick(QUICK_CHECK_KMER_LEN), scoreMismatch(-1.0), scoreIndel(-1.0), fVerbose(true), maxContigPathLen(MAX_CONTIGS_IN_PATH), maxCountPerContigInPaths(MAX_CONTIG_IN_PATH_COUNT)
+//{
+//}
+
+ContigsCompactor::ContigsCompactor() :  kmerLenQuick(QUICK_CHECK_KMER_LEN), maxContigPathLen(MAX_CONTIGS_IN_PATH), maxCountPerContigInPaths(MAX_CONTIG_IN_PATH_COUNT)
 {
 }
 
-void ContigsCompactor :: Compact( MultiFastqSeqs &listContigs )
-{
-    // just do one by one
-    bool fCont = true;
-    while(fCont == true)
-    {
-        // create a list of quckchecker
-        // construct all the quick checkers
-        vector< vector< QuickCheckerContigsMatch> > listQuickCheckers( listContigs.GetNumOfSeqs() );
-        for(int j=0; j<listContigs.GetNumOfSeqs(); ++j)
-        {
-            // now perform quick check
-            QuickCheckerContigsMatch qchecker(listContigs.GetSeq(j), kmerLenQuick);
-            
-            // also check the reverse complement
-            FastaSequence seqRevComp( *listContigs.GetSeq(j) );
-            seqRevComp.RevsereComplement();
-            QuickCheckerContigsMatch qcheckerRev( &seqRevComp, kmerLenQuick);
-            listQuickCheckers[j].push_back(qchecker);
-            listQuickCheckers[j].push_back(qcheckerRev);
-        }
-
-        
-        
-        fCont = false;
-        for(int i=0; i<listContigs.GetNumOfSeqs(); ++i)
-        {
-            // also check the reverse complement
-            FastaSequence seqRevComp( *listContigs.GetSeq(i) );
-            seqRevComp.RevsereComplement();
-            
-            // now check each of the following ones
-            for(int j=i+1; j<listContigs.GetNumOfSeqs(); ++j)
-            {
-                ContigsCompactorAction ccAct;
-                bool fMatch = false;
-                if( listQuickCheckers[i][0].IsMatchFeasible( listContigs.GetSeq(j) ) == true )
-                {
-                    fMatch = Evaluate( listContigs.GetSeq(i), listContigs.GetSeq(j), ccAct);
-                }
-                if( fMatch == false)
-                {
-                    //
-                    if( listQuickCheckers[i][1].IsMatchFeasible( listContigs.GetSeq(j) ) == true  )
-                    {
-                        fMatch = Evaluate(&seqRevComp, listContigs.GetSeq(j), ccAct);
-                    }
-                }
-                
-                if( fMatch == true)
-                {
-                    if( fVerbose == true )
-                    {
-                        //cout << "One contigs merged: number of contigs: " << listContigs.GetNumOfSeqs() << endl;
-                        //cout << "Contigs: ";
-                        //listContigs.GetSeq(i)->printFasta(cout);
-                        //cout << " can be merged with contig: ";
-                        //listContigs.GetSeq(j)->printFasta(cout);
-                        //cout << "RESULT: " << ccAct.GetMerged() << endl;
-                    }
-                    // erase the two original sequence and add the new one 
-                    FastaSequence *pseqOrig1 =  listContigs.GetSeq(i);
-                    FastaSequence *pseqOrig2 =  listContigs.GetSeq(j);
-
-                    FastaSequence *pSeqNew = new FastaSequence;
-                    // set to the string name that is longer
-                    if( pseqOrig1->size() >= pseqOrig2->size() )
-                    {
-                        pSeqNew->SetName( pseqOrig1->name() );
-                    }
-                    else
-                    {
-                        pSeqNew->SetName(pseqOrig2->name()  );
-                    }
-                    
-                    listContigs.EraseSeq( pseqOrig1 );
-                    listContigs.EraseSeq( pseqOrig2 );
-
-                    pSeqNew->AppendSeq( ccAct.GetMerged() );
-                    listContigs.Append( pSeqNew );
-                    
-                    // also add to the set of new contigs
-                    FastaSequence *pSeqNewCopy = new FastaSequence( *pSeqNew );
-                    setNewSeqsOnly.Append( pSeqNewCopy );
-cout << "HAVING ONE NEW CONTIGS\n";
-//exit(1);
-                    fCont = true;
-                    break;
-                }
-
-            }
-            if(fCont )
-            {
-                break;
-            }
-
-        }
-
-    }
-}
-
-static void ReverseContigInfoList( vector< pair<FastaSequence *,int>  > &listContigsInfo )
-{
-    //
-    vector< pair<FastaSequence *,int>  > res;
-    for(int i=(int)listContigsInfo.size()-1; i>=0; --i)
-    {
-        pair<FastaSequence *,int> pp( listContigsInfo[i].first, -1*listContigsInfo[i].second );
-        res.push_back(pp);
-    }
-    listContigsInfo = res;
-}
-
-
-void ContigsCompactor :: CompactVer2( MultiFastqSeqs &listContigs )
-{
-    // now try some speedup
-    //bool fCont = true;
-    
-    set<pair<FastaSequence *, FastaSequence *> > setPairsContigsDone;
-    //set<string> setContigsMerged;
-    // recall what have been merged
-    map<string, set<FastaSequence *> > mapNewContigSrcCtgPtrs;
-    // info: use an integer (1 or -1) to indicate whether to reverse complement or not
-    //map<string, vector< pair<FastaSequence *, int> > > mapNewCOntigSrcCtgInfo;
-    mapNewCOntigSrcCtgInfo.clear();
-    
-    while(true)
-    {
-//cout << "Number of sequences: " << listContigs.GetNumOfSeqs() << endl;
-        // create a list of quckchecker
-        // construct all the quick checkers
-        vector< vector< QuickCheckerContigsMatch> > listQuickCheckers( listContigs.GetNumOfSeqs() );
-        for(int j=0; j<listContigs.GetNumOfSeqs(); ++j)
-        {
-            // now perform quick check
-            QuickCheckerContigsMatch qchecker(listContigs.GetSeq(j), kmerLenQuick);
-            
-            // also check the reverse complement
-            FastaSequence seqRevComp( *listContigs.GetSeq(j) );
-            seqRevComp.RevsereComplement();
-            QuickCheckerContigsMatch qcheckerRev( &seqRevComp, kmerLenQuick);
-            listQuickCheckers[j].push_back(qchecker);
-            listQuickCheckers[j].push_back(qcheckerRev);
-        }
-        
-        // store the list of already done contigs
-        //set<FastaSequence *> setInvolvedSeqPtrs;
-        set<pair<string,string> > setNewContigStrs;
-        bool fNewThing = false;
-        
-        //fCont = false;
-        vector< pair<FastaSequence *, int> > vecSeqsCombo;
-        
-        for(int i=0; i<listContigs.GetNumOfSeqs(); ++i)
-        {
-//cout << "Doing i = " << i << endl;
-            // skip if this contig has been processed before
-            //if( setInvolvedSeqPtrs.find( listContigs.GetSeq(i) ) != setInvolvedSeqPtrs.end() )
-            //{
-            //    continue;
-            //}
-            
-            // what src contigs have been involved?
-            set<FastaSequence *> setSeqs1;
-            string strContig1 = listContigs.GetSeq(i)->c_str();
-            if( mapNewContigSrcCtgPtrs.find( strContig1 ) != mapNewContigSrcCtgPtrs.end() )
-            {
-                setSeqs1 = mapNewContigSrcCtgPtrs[ strContig1 ];
-            }
-            setSeqs1.insert( listContigs.GetSeq(i) );
-            
-            // also prepare the contig info
-            vector< pair<FastaSequence *, int> > vecSeqs1;
-            if( mapNewCOntigSrcCtgInfo.find(listContigs.GetSeq(i)) != mapNewCOntigSrcCtgInfo.end() )
-            {
-                vecSeqs1 = mapNewCOntigSrcCtgInfo[listContigs.GetSeq(i)];
-            }
-            else
-            {
-                pair<FastaSequence *,int> pp( listContigs.GetSeq(i), 1 );
-                vecSeqs1.push_back(pp);
-            }
-            vector< pair<FastaSequence *,int>  > vecSeqs1Rev = vecSeqs1;
-            ReverseContigInfoList( vecSeqs1Rev );
-            
-            // also check the reverse complement
-            FastaSequence seqRevComp( *listContigs.GetSeq(i) );
-            seqRevComp.RevsereComplement();
-            
-            // now check each of the following ones
-            for(int j=i+1; j<listContigs.GetNumOfSeqs(); ++j)
-            {
-//cout << "Doing j = " << j << endl;
-                // skip if this contig has been processed before
-                //if( setInvolvedSeqPtrs.find( listContigs.GetSeq(j) ) != setInvolvedSeqPtrs.end() )
-                //{
-                //    continue;
-                //}
-                
-                
-                // deal w/ processed ones
-                FastaSequence *pseqOrig1 =  listContigs.GetSeq(i);
-                FastaSequence *pseqOrig2 =  listContigs.GetSeq(j);
-                // remember the pair of contigs done
-                pair<FastaSequence *, FastaSequence *> pp1( pseqOrig1, pseqOrig2 );
-                pair<FastaSequence *, FastaSequence *> pp2( pseqOrig2, pseqOrig1 );
-                bool ff = setPairsContigsDone.find(pp1) != setPairsContigsDone.end() || setPairsContigsDone.find(pp2) != setPairsContigsDone.end() ;
-                setPairsContigsDone.insert(pp1);
-                setPairsContigsDone.insert(pp2);
-                if( ff == true )
-                {
-                    // this pair has been done
-                    //cout << "This pair has been done.\n";
-                    continue;
-                }
-              
-                // what src contigs have been involved?
-                set<FastaSequence *> setSeqs2;
-                string strContig2 = listContigs.GetSeq(j)->c_str();
-                if( mapNewContigSrcCtgPtrs.find( strContig2 ) != mapNewContigSrcCtgPtrs.end() )
-                {
-                    setSeqs2 = mapNewContigSrcCtgPtrs[ strContig2 ];
-                }
-                setSeqs2.insert( listContigs.GetSeq(j) );
-                
-                // also prepare the contig info
-                vector< pair<FastaSequence *, int> > vecSeqs2;
-                if( mapNewCOntigSrcCtgInfo.find(listContigs.GetSeq(j) ) != mapNewCOntigSrcCtgInfo.end() )
-                {
-                    vecSeqs2 = mapNewCOntigSrcCtgInfo[listContigs.GetSeq(j) ];
-                }
-                else
-                {
-                    pair<FastaSequence *,int> pp( listContigs.GetSeq(j), 1 );
-                    vecSeqs2.push_back(pp);
-                }
-                
-                // if there are overlap, forbid the merging. Purpose: avoid infinite loop
-                bool fCont = true;
-                set<FastaSequence *> setComboPtrs = setSeqs2;
-                for( set<FastaSequence *> :: iterator it1 = setSeqs1.begin(); it1 != setSeqs1.end(); ++it1 )
-                {
-                    //
-                    if( setSeqs2.find(*it1) != setSeqs2.end() )
-                    {
-                        // there are overlap
-                        fCont = false;
-                        break;
-                    }
-                    setComboPtrs.insert( *it1 );
-                }
-                if( fCont == false )
-                {
-                    continue;
-                }
-                
-                
-                ContigsCompactorAction ccAct;
-                bool fMatch = false;
-                if( listQuickCheckers[i][0].IsMatchFeasible( listContigs.GetSeq(j) ) == true )
-                {
-                    fMatch = Evaluate( listContigs.GetSeq(i), listContigs.GetSeq(j), ccAct);
-                    
-                    if( fMatch == true)
-                    {
-                        //
-                        if( ccAct.GetPosEndSeq1() < listContigs.GetSeq(i)->size() )
-                        {
-                            // second go first
-                            vecSeqsCombo = vecSeqs2;
-                            std::copy (vecSeqs1.begin(), vecSeqs1.end(), std::back_inserter(vecSeqsCombo));
-                        }
-                        else
-                        {
-                            // first go first
-                            vecSeqsCombo = vecSeqs1;
-                            std::copy (vecSeqs2.begin(), vecSeqs2.end(), std::back_inserter(vecSeqsCombo));
-                        }
-                    }
-                }
-                if( fMatch == false)
-                {
-                    //
-                    if( listQuickCheckers[i][1].IsMatchFeasible( listContigs.GetSeq(j) ) == true  )
-                    {
-                        fMatch = Evaluate(&seqRevComp, listContigs.GetSeq(j), ccAct);
-                        
-                        if( fMatch == true)
-                        {
-                            //
-                            if( ccAct.GetPosEndSeq1() < listContigs.GetSeq(i)->size() )
-                            {
-                                // second go first then followed by a reversed copy
-                                vecSeqsCombo = vecSeqs2;
-                                std::copy (vecSeqs1Rev.begin(), vecSeqs1Rev.end(), std::back_inserter(vecSeqsCombo));
-                            }
-                            else
-                            {
-                                // first go first
-                                vecSeqsCombo = vecSeqs1Rev;
-                                std::copy (vecSeqs2.begin(), vecSeqs2.end(), std::back_inserter(vecSeqsCombo));
-                            }
-                        }
-                    }
-                }
-                
-                if( fMatch == true)
-                {
-                    
-                    if( fVerbose == true )
-                    {
-                        //cout << "One contigs merged: number of contigs: " << listContigs.GetNumOfSeqs() << endl;
-                        //cout << "Contigs: ";
-                        //listContigs.GetSeq(i)->printFasta(cout);
-                        //cout << " can be merged with contig: ";
-                        //listContigs.GetSeq(j)->printFasta(cout);
-                        //cout << "RESULT: " << ccAct.GetMerged() << endl;
-                    }
-                    // erase the two original sequence and add the new one
-                    //setInvolvedSeqPtrs.insert( pseqOrig1 );
-                    //setInvolvedSeqPtrs.insert( pseqOrig2 );
-                    
-                    // add to the result set
-                    string contigName;
-                    if( pseqOrig1->size() >= pseqOrig2->size() )
-                    {
-                        contigName =  pseqOrig1->name() ;
-                    }
-                    else
-                    {
-                        contigName = pseqOrig2->name() ;
-                    }
-                    
-                    pair<string,string> pp( ccAct.GetMerged(), contigName);
-                    
-                    //
-                    if(mapNewContigSrcCtgPtrs.find( ccAct.GetMerged() ) != mapNewContigSrcCtgPtrs.end()  )
-                    {
-//cout << "This has been done before.\n";
-                        continue;
-                    }
-                    mapNewContigSrcCtgPtrs.insert(  map<string, set<FastaSequence *> > :: value_type( ccAct.GetMerged(), setComboPtrs )  );
-//cout << "Conting merged: " << pp.first << ", name: " << pp.second << endl;
-                    
-                    
-                    setNewContigStrs.insert( pp );
-                    
-                    fNewThing = true;
-                    
-//cout << "Adding something: " << endl;
-                    //FastaSequence *pSeqNew = new FastaSequence;
-                    // set to the string name that is longer
-                    //if( pseqOrig1->size() >= pseqOrig2->size() )
-                    //{
-                    //    pSeqNew->SetName( pseqOrig1->name() );
-                    //}
-                    //else
-                    //{
-                    //    pSeqNew->SetName(pseqOrig2->name()  );
-                    //}
-                    
-                    //listContigs.EraseSeq( pseqOrig1 );
-                    //listContigs.EraseSeq( pseqOrig2 );
-                    
-                    //pSeqNew->AppendSeq( ccAct.GetMerged() );
-                    //listContigs.Append( pSeqNew );
-                    
-                    //exit(1);
-                    //fCont = true;
-                    break;
-                }
-                
-            }
-            if( fNewThing == true)
-            {
-                break;
-            }
-            //if(fCont )
-            //{
-            //    break;
-            //}
-        }
-        
-        
-//exit(1);
-        
-        // if nothing done, stop
-        if( fNewThing == false )
-        {
-            break;
-        }
-        //if( setInvolvedSeqPtrs.size() == 0 )
-        //{
-        //    //
-        //    break;
-        //}
-        if( setNewContigStrs.size() != 1 )
-        {
-            THROW("Fatal error3");
-        }
-        //for( set<FastaSequence *> :: iterator itg= setInvolvedSeqPtrs.begin(); itg != setInvolvedSeqPtrs.end(); ++itg  )
-        //{
-        //    // YW: don't erase old contigs
-        //    //listContigs.EraseSeq( *itg );
-        //}
-        for( set<pair<string,string> > :: iterator itg = setNewContigStrs.begin(); itg != setNewContigStrs.end(); ++itg )
-        {
-            // we must have some contig info
-            if(vecSeqsCombo.size() == 0)
-            {
-                cout << "FATAL ERROR\n";
-                exit(1);
-            }
-            
-            FastaSequence *pSeqNew = new FastaSequence;
-            static int indexNewContg = 1;
-            string cname = itg->second.c_str();
-            char buf[100];
-            sprintf(buf, "_%d", indexNewContg++);
-            cname += buf;
-            pSeqNew->SetName( cname.c_str() );
-            
-            // set to the string name that is longer
-            //pSeqNew->SetName( itg->second.c_str()  );
-            pSeqNew->AppendSeq( itg->first );
-            listContigs.Append( pSeqNew );
-            
-            // also add to the set of new contigs
-            FastaSequence *pSeqNewCopy = new FastaSequence( *pSeqNew );
-
-            setNewSeqsOnly.Append( pSeqNewCopy );
-            
-            //
-            mapNewCOntigSrcCtgInfo.insert( map<FastaSequence *, vector< pair<FastaSequence *, int> > > :: value_type( pSeqNew,  vecSeqsCombo) );
-            
+//void ContigsCompactor :: Compact( MultiFastqSeqs &listContigs )
+//{
+//    // just do one by one
+//    bool fCont = true;
+//    while(fCont == true)
+//    {
+//        // create a list of quckchecker
+//        // construct all the quick checkers
+//        vector< vector< QuickCheckerContigsMatch> > listQuickCheckers( listContigs.GetNumOfSeqs() );
+//        for(int j=0; j<listContigs.GetNumOfSeqs(); ++j)
+//        {
+//            // now perform quick check
+//            QuickCheckerContigsMatch qchecker(listContigs.GetSeq(j), kmerLenQuick);
+//            
+//            // also check the reverse complement
+//            FastaSequence seqRevComp( *listContigs.GetSeq(j) );
+//            seqRevComp.RevsereComplement();
+//            QuickCheckerContigsMatch qcheckerRev( &seqRevComp, kmerLenQuick);
+//            listQuickCheckers[j].push_back(qchecker);
+//            listQuickCheckers[j].push_back(qcheckerRev);
+//        }
+//
+//        
+//        
+//        fCont = false;
+//        for(int i=0; i<listContigs.GetNumOfSeqs(); ++i)
+//        {
+//            // also check the reverse complement
+//            FastaSequence seqRevComp( *listContigs.GetSeq(i) );
+//            seqRevComp.RevsereComplement();
+//            
+//            // now check each of the following ones
+//            for(int j=i+1; j<listContigs.GetNumOfSeqs(); ++j)
+//            {
+//                ContigsCompactorAction ccAct;
+//                bool fMatch = false;
+//                if( listQuickCheckers[i][0].IsMatchFeasible( listContigs.GetSeq(j) ) == true )
+//                {
+//                    fMatch = Evaluate( listContigs.GetSeq(i), listContigs.GetSeq(j), ccAct);
+//                }
+//                if( fMatch == false)
+//                {
+//                    //
+//                    if( listQuickCheckers[i][1].IsMatchFeasible( listContigs.GetSeq(j) ) == true  )
+//                    {
+//                        fMatch = Evaluate(&seqRevComp, listContigs.GetSeq(j), ccAct);
+//                    }
+//                }
+//                
+//                if( fMatch == true)
+//                {
+//                    if( fVerbose == true )
+//                    {
+//                        //cout << "One contigs merged: number of contigs: " << listContigs.GetNumOfSeqs() << endl;
+//                        //cout << "Contigs: ";
+//                        //listContigs.GetSeq(i)->printFasta(cout);
+//                        //cout << " can be merged with contig: ";
+//                        //listContigs.GetSeq(j)->printFasta(cout);
+//                        //cout << "RESULT: " << ccAct.GetMerged() << endl;
+//                    }
+//                    // erase the two original sequence and add the new one 
+//                    FastaSequence *pseqOrig1 =  listContigs.GetSeq(i);
+//                    FastaSequence *pseqOrig2 =  listContigs.GetSeq(j);
+//
+//                    FastaSequence *pSeqNew = new FastaSequence;
+//                    // set to the string name that is longer
+//                    if( pseqOrig1->size() >= pseqOrig2->size() )
+//                    {
+//                        pSeqNew->SetName( pseqOrig1->name() );
+//                    }
+//                    else
+//                    {
+//                        pSeqNew->SetName(pseqOrig2->name()  );
+//                    }
+//                    
+//                    listContigs.EraseSeq( pseqOrig1 );
+//                    listContigs.EraseSeq( pseqOrig2 );
+//
+//                    pSeqNew->AppendSeq( ccAct.GetMerged() );
+//                    listContigs.Append( pSeqNew );
+//                    
+//                    // also add to the set of new contigs
+//                    FastaSequence *pSeqNewCopy = new FastaSequence( *pSeqNew );
+//                    setNewSeqsOnly.Append( pSeqNewCopy );
 //cout << "HAVING ONE NEW CONTIGS\n";
-//pSeqNewCopy->printFasta(cout);
-//cout << endl;
-        }
-        
-    }
-}
+////exit(1);
+//                    fCont = true;
+//                    break;
+//                }
+//
+//            }
+//            if(fCont )
+//            {
+//                break;
+//            }
+//
+//        }
+//
+//    }
+//}
+
+//static void ReverseContigInfoList( vector< pair<FastaSequence *,int>  > &listContigsInfo )
+//{
+//    //
+//    vector< pair<FastaSequence *,int>  > res;
+//    for(int i=(int)listContigsInfo.size()-1; i>=0; --i)
+//    {
+//        pair<FastaSequence *,int> pp( listContigsInfo[i].first, -1*listContigsInfo[i].second );
+//        res.push_back(pp);
+//    }
+//    listContigsInfo = res;
+//}
+
+
+//void ContigsCompactor :: CompactVer2( MultiFastqSeqs &listContigs )
+//{
+//    // now try some speedup
+//    //bool fCont = true;
+//    
+//    set<pair<FastaSequence *, FastaSequence *> > setPairsContigsDone;
+//    //set<string> setContigsMerged;
+//    // recall what have been merged
+//    map<string, set<FastaSequence *> > mapNewContigSrcCtgPtrs;
+//    // info: use an integer (1 or -1) to indicate whether to reverse complement or not
+//    //map<string, vector< pair<FastaSequence *, int> > > mapNewCOntigSrcCtgInfo;
+//    mapNewCOntigSrcCtgInfo.clear();
+//    
+//    while(true)
+//    {
+////cout << "Number of sequences: " << listContigs.GetNumOfSeqs() << endl;
+//        // create a list of quckchecker
+//        // construct all the quick checkers
+//        vector< vector< QuickCheckerContigsMatch> > listQuickCheckers( listContigs.GetNumOfSeqs() );
+//        for(int j=0; j<listContigs.GetNumOfSeqs(); ++j)
+//        {
+//            // now perform quick check
+//            QuickCheckerContigsMatch qchecker(listContigs.GetSeq(j), kmerLenQuick);
+//            
+//            // also check the reverse complement
+//            FastaSequence seqRevComp( *listContigs.GetSeq(j) );
+//            seqRevComp.RevsereComplement();
+//            QuickCheckerContigsMatch qcheckerRev( &seqRevComp, kmerLenQuick);
+//            listQuickCheckers[j].push_back(qchecker);
+//            listQuickCheckers[j].push_back(qcheckerRev);
+//        }
+//        
+//        // store the list of already done contigs
+//        //set<FastaSequence *> setInvolvedSeqPtrs;
+//        set<pair<string,string> > setNewContigStrs;
+//        bool fNewThing = false;
+//        
+//        //fCont = false;
+//        vector< pair<FastaSequence *, int> > vecSeqsCombo;
+//        
+//        for(int i=0; i<listContigs.GetNumOfSeqs(); ++i)
+//        {
+////cout << "Doing i = " << i << endl;
+//            // skip if this contig has been processed before
+//            //if( setInvolvedSeqPtrs.find( listContigs.GetSeq(i) ) != setInvolvedSeqPtrs.end() )
+//            //{
+//            //    continue;
+//            //}
+//            
+//            // what src contigs have been involved?
+//            set<FastaSequence *> setSeqs1;
+//            string strContig1 = listContigs.GetSeq(i)->c_str();
+//            if( mapNewContigSrcCtgPtrs.find( strContig1 ) != mapNewContigSrcCtgPtrs.end() )
+//            {
+//                setSeqs1 = mapNewContigSrcCtgPtrs[ strContig1 ];
+//            }
+//            setSeqs1.insert( listContigs.GetSeq(i) );
+//            
+//            // also prepare the contig info
+//            vector< pair<FastaSequence *, int> > vecSeqs1;
+//            if( mapNewCOntigSrcCtgInfo.find(listContigs.GetSeq(i)) != mapNewCOntigSrcCtgInfo.end() )
+//            {
+//                vecSeqs1 = mapNewCOntigSrcCtgInfo[listContigs.GetSeq(i)];
+//            }
+//            else
+//            {
+//                pair<FastaSequence *,int> pp( listContigs.GetSeq(i), 1 );
+//                vecSeqs1.push_back(pp);
+//            }
+//            vector< pair<FastaSequence *,int>  > vecSeqs1Rev = vecSeqs1;
+//            ReverseContigInfoList( vecSeqs1Rev );
+//            
+//            // also check the reverse complement
+//            FastaSequence seqRevComp( *listContigs.GetSeq(i) );
+//            seqRevComp.RevsereComplement();
+//            
+//            // now check each of the following ones
+//            for(int j=i+1; j<listContigs.GetNumOfSeqs(); ++j)
+//            {
+////cout << "Doing j = " << j << endl;
+//                // skip if this contig has been processed before
+//                //if( setInvolvedSeqPtrs.find( listContigs.GetSeq(j) ) != setInvolvedSeqPtrs.end() )
+//                //{
+//                //    continue;
+//                //}
+//                
+//                
+//                // deal w/ processed ones
+//                FastaSequence *pseqOrig1 =  listContigs.GetSeq(i);
+//                FastaSequence *pseqOrig2 =  listContigs.GetSeq(j);
+//                // remember the pair of contigs done
+//                pair<FastaSequence *, FastaSequence *> pp1( pseqOrig1, pseqOrig2 );
+//                pair<FastaSequence *, FastaSequence *> pp2( pseqOrig2, pseqOrig1 );
+//                bool ff = setPairsContigsDone.find(pp1) != setPairsContigsDone.end() || setPairsContigsDone.find(pp2) != setPairsContigsDone.end() ;
+//                setPairsContigsDone.insert(pp1);
+//                setPairsContigsDone.insert(pp2);
+//                if( ff == true )
+//                {
+//                    // this pair has been done
+//                    //cout << "This pair has been done.\n";
+//                    continue;
+//                }
+//              
+//                // what src contigs have been involved?
+//                set<FastaSequence *> setSeqs2;
+//                string strContig2 = listContigs.GetSeq(j)->c_str();
+//                if( mapNewContigSrcCtgPtrs.find( strContig2 ) != mapNewContigSrcCtgPtrs.end() )
+//                {
+//                    setSeqs2 = mapNewContigSrcCtgPtrs[ strContig2 ];
+//                }
+//                setSeqs2.insert( listContigs.GetSeq(j) );
+//                
+//                // also prepare the contig info
+//                vector< pair<FastaSequence *, int> > vecSeqs2;
+//                if( mapNewCOntigSrcCtgInfo.find(listContigs.GetSeq(j) ) != mapNewCOntigSrcCtgInfo.end() )
+//                {
+//                    vecSeqs2 = mapNewCOntigSrcCtgInfo[listContigs.GetSeq(j) ];
+//                }
+//                else
+//                {
+//                    pair<FastaSequence *,int> pp( listContigs.GetSeq(j), 1 );
+//                    vecSeqs2.push_back(pp);
+//                }
+//                
+//                // if there are overlap, forbid the merging. Purpose: avoid infinite loop
+//                bool fCont = true;
+//                set<FastaSequence *> setComboPtrs = setSeqs2;
+//                for( set<FastaSequence *> :: iterator it1 = setSeqs1.begin(); it1 != setSeqs1.end(); ++it1 )
+//                {
+//                    //
+//                    if( setSeqs2.find(*it1) != setSeqs2.end() )
+//                    {
+//                        // there are overlap
+//                        fCont = false;
+//                        break;
+//                    }
+//                    setComboPtrs.insert( *it1 );
+//                }
+//                if( fCont == false )
+//                {
+//                    continue;
+//                }
+//                
+//                
+//                ContigsCompactorAction ccAct;
+//                bool fMatch = false;
+//                if( listQuickCheckers[i][0].IsMatchFeasible( listContigs.GetSeq(j) ) == true )
+//                {
+//                    fMatch = Evaluate( listContigs.GetSeq(i), listContigs.GetSeq(j), ccAct);
+//                    
+//                    if( fMatch == true)
+//                    {
+//                        //
+//                        if( ccAct.GetPosEndSeq1() < listContigs.GetSeq(i)->size() )
+//                        {
+//                            // second go first
+//                            vecSeqsCombo = vecSeqs2;
+//                            std::copy (vecSeqs1.begin(), vecSeqs1.end(), std::back_inserter(vecSeqsCombo));
+//                        }
+//                        else
+//                        {
+//                            // first go first
+//                            vecSeqsCombo = vecSeqs1;
+//                            std::copy (vecSeqs2.begin(), vecSeqs2.end(), std::back_inserter(vecSeqsCombo));
+//                        }
+//                    }
+//                }
+//                if( fMatch == false)
+//                {
+//                    //
+//                    if( listQuickCheckers[i][1].IsMatchFeasible( listContigs.GetSeq(j) ) == true  )
+//                    {
+//                        fMatch = Evaluate(&seqRevComp, listContigs.GetSeq(j), ccAct);
+//                        
+//                        if( fMatch == true)
+//                        {
+//                            //
+//                            if( ccAct.GetPosEndSeq1() < listContigs.GetSeq(i)->size() )
+//                            {
+//                                // second go first then followed by a reversed copy
+//                                vecSeqsCombo = vecSeqs2;
+//                                std::copy (vecSeqs1Rev.begin(), vecSeqs1Rev.end(), std::back_inserter(vecSeqsCombo));
+//                            }
+//                            else
+//                            {
+//                                // first go first
+//                                vecSeqsCombo = vecSeqs1Rev;
+//                                std::copy (vecSeqs2.begin(), vecSeqs2.end(), std::back_inserter(vecSeqsCombo));
+//                            }
+//                        }
+//                    }
+//                }
+//                
+//                if( fMatch == true)
+//                {
+//                    
+//                    if( fVerbose == true )
+//                    {
+//                        //cout << "One contigs merged: number of contigs: " << listContigs.GetNumOfSeqs() << endl;
+//                        //cout << "Contigs: ";
+//                        //listContigs.GetSeq(i)->printFasta(cout);
+//                        //cout << " can be merged with contig: ";
+//                        //listContigs.GetSeq(j)->printFasta(cout);
+//                        //cout << "RESULT: " << ccAct.GetMerged() << endl;
+//                    }
+//                    // erase the two original sequence and add the new one
+//                    //setInvolvedSeqPtrs.insert( pseqOrig1 );
+//                    //setInvolvedSeqPtrs.insert( pseqOrig2 );
+//                    
+//                    // add to the result set
+//                    string contigName;
+//                    if( pseqOrig1->size() >= pseqOrig2->size() )
+//                    {
+//                        contigName =  pseqOrig1->name() ;
+//                    }
+//                    else
+//                    {
+//                        contigName = pseqOrig2->name() ;
+//                    }
+//                    
+//                    pair<string,string> pp( ccAct.GetMerged(), contigName);
+//                    
+//                    //
+//                    if(mapNewContigSrcCtgPtrs.find( ccAct.GetMerged() ) != mapNewContigSrcCtgPtrs.end()  )
+//                    {
+////cout << "This has been done before.\n";
+//                        continue;
+//                    }
+//                    mapNewContigSrcCtgPtrs.insert(  map<string, set<FastaSequence *> > :: value_type( ccAct.GetMerged(), setComboPtrs )  );
+////cout << "Conting merged: " << pp.first << ", name: " << pp.second << endl;
+//                    
+//                    
+//                    setNewContigStrs.insert( pp );
+//                    
+//                    fNewThing = true;
+//                    
+////cout << "Adding something: " << endl;
+//                    //FastaSequence *pSeqNew = new FastaSequence;
+//                    // set to the string name that is longer
+//                    //if( pseqOrig1->size() >= pseqOrig2->size() )
+//                    //{
+//                    //    pSeqNew->SetName( pseqOrig1->name() );
+//                    //}
+//                    //else
+//                    //{
+//                    //    pSeqNew->SetName(pseqOrig2->name()  );
+//                    //}
+//                    
+//                    //listContigs.EraseSeq( pseqOrig1 );
+//                    //listContigs.EraseSeq( pseqOrig2 );
+//                    
+//                    //pSeqNew->AppendSeq( ccAct.GetMerged() );
+//                    //listContigs.Append( pSeqNew );
+//                    
+//                    //exit(1);
+//                    //fCont = true;
+//                    break;
+//                }
+//                
+//            }
+//            if( fNewThing == true)
+//            {
+//                break;
+//            }
+//            //if(fCont )
+//            //{
+//            //    break;
+//            //}
+//        }
+//        
+//        
+////exit(1);
+//        
+//        // if nothing done, stop
+//        if( fNewThing == false )
+//        {
+//            break;
+//        }
+//        //if( setInvolvedSeqPtrs.size() == 0 )
+//        //{
+//        //    //
+//        //    break;
+//        //}
+//        if( setNewContigStrs.size() != 1 )
+//        {
+//            THROW("Fatal error3");
+//        }
+//        //for( set<FastaSequence *> :: iterator itg= setInvolvedSeqPtrs.begin(); itg != setInvolvedSeqPtrs.end(); ++itg  )
+//        //{
+//        //    // YW: don't erase old contigs
+//        //    //listContigs.EraseSeq( *itg );
+//        //}
+//        for( set<pair<string,string> > :: iterator itg = setNewContigStrs.begin(); itg != setNewContigStrs.end(); ++itg )
+//        {
+//            // we must have some contig info
+//            if(vecSeqsCombo.size() == 0)
+//            {
+//                cout << "FATAL ERROR\n";
+//                exit(1);
+//            }
+//            
+//            FastaSequence *pSeqNew = new FastaSequence;
+//            static int indexNewContg = 1;
+//            string cname = itg->second.c_str();
+//            char buf[100];
+//            sprintf(buf, "_%d", indexNewContg++);
+//            cname += buf;
+//            pSeqNew->SetName( cname.c_str() );
+//            
+//            // set to the string name that is longer
+//            //pSeqNew->SetName( itg->second.c_str()  );
+//            pSeqNew->AppendSeq( itg->first );
+//            listContigs.Append( pSeqNew );
+//            
+//            // also add to the set of new contigs
+//            FastaSequence *pSeqNewCopy = new FastaSequence( *pSeqNew );
+//
+//            setNewSeqsOnly.Append( pSeqNewCopy );
+//            
+//            //
+//            mapNewCOntigSrcCtgInfo.insert( map<FastaSequence *, vector< pair<FastaSequence *, int> > > :: value_type( pSeqNew,  vecSeqsCombo) );
+//            
+////cout << "HAVING ONE NEW CONTIGS\n";
+////pSeqNewCopy->printFasta(cout);
+////cout << endl;
+//        }
+//        
+//    }
+//}
 
 // used for assembly: contig 1 can be reverse-complemented
 const string MODE_1_2 = "12";
@@ -600,227 +618,155 @@ const string MODE_2_1 = "21";
 //const string MODE_1_REV2 = "1R2";
 //const string MODE_REV2_1 = "R21";
 
-void* ContigsCompactor :: threadMergeContig(void *ptr)
+
+void* ContigsCompactor::threadMergeContigV2(void *ptr)
 {
-	ParNode pnode=*((ParNode*)ptr);
-	pair< pair<int,int>, pair<int,int> > rang=pnode.prang;
-	ContigsCompactor* pThis=pnode.pthc;
-	bool fVerbose=pnode.isVerbose;
-
-	pair<int,int> lprang=rang.first;
-	pair<int,int> rprang=rang.second;
-
-//pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time 
-//pthread_t tid=pthread_self(); //thread id
-//cout<<lprang.first<<" "<<lprang.second<<" "<<rprang.first<<" "<<rprang.second<<endl;
-//pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure
-
-	int i=lprang.first;
-	int j=lprang.second+1;
-	while(i<=rprang.first)
+//pthread_t tid = pthread_self(); //thread id
+	ContigsCompactor* pThis = (ContigsCompactor*)ptr;
+	
+	long nNeedCheck = ContigsCompactor::tempMergeInfo.size();
+	while (true)
 	{
-		if((i==rprang.first) && (j>rprang.second))
+		int i=-1, j=-1;
+		pthread_mutex_lock(&merge_mutex);
+		if (vistPos < nNeedCheck)
+		{
+			i = ContigsCompactor::tempMergeInfo[vistPos].first;
+			j = ContigsCompactor::tempMergeInfo[vistPos].second;
+			vistPos++;
+		}
+		pthread_mutex_unlock(&merge_mutex);
+
+		if (i == -1 || j == -1)
 			break;
 
-		if(j>=ContigsCompactor::numOfContigs)
-		{
-			i++;
-			j=i;
-			continue;
-		}
-		
-		if(ContigsCompactor::ptabOverlap[i][j]>=minNumKmerSupport)
-		{
-//cnted++;  
-			GraphNodeRefExt *pnodei = ContigsCompactor::mapContigToGraphNode[ContigsCompactor::vfs[i] ];
-			GraphNodeRefExt *pnodej = ContigsCompactor::mapContigToGraphNode[ContigsCompactor::vfs[j] ];
+//pthread_mutex_lock (&merge_mutex); //lock to make sure only one thread is writing at the same time 
+//cout<<i<<" "<<j<<endl;
+//pthread_mutex_unlock(&merge_mutex);//unlock make sure
+//continue;
 
-			ContigsCompactorAction ccAct;
-			bool fMatch = false;
-			string asmMode;
-        
-	//pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time
-	//pthread_t tid=pthread_self(); //thread id
-	//cout<<tid<<" Comparing: "<<i<<" "<<j<<endl;
-	//pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure
-
-			fMatch = pThis->Evaluate(ContigsCompactor::vfs[i], ContigsCompactor::vfs[j], ccAct);
-        
-			if( fMatch == true)
+		ContigsCompactorAction ccAct;
+		bool fMatch = false;
+		string asmMode;
+		fMatch = pThis->Evaluate(ContigsCompactor::vfs[i], ContigsCompactor::vfs[j], ccAct);
+		if (fMatch == true)
+		{
+			//
+			if (ccAct.GetPosEndSeq1() <  ContigsCompactor::vfs[i]->size())
 			{
-				//
-				if( ccAct.GetPosEndSeq1() <  ContigsCompactor::vfs[i]->size() )
-				{
-					// second go first
-					asmMode = MODE_2_1;
-					//vecSeqsCombo = vecSeqs2;
-					//std::copy (vecSeqs1.begin(), vecSeqs1.end(), std::back_inserter(vecSeqsCombo));
-				}
-				else
-				{
-					// first go first
-					asmMode = MODE_1_2;
-					//vecSeqsCombo = vecSeqs1;
-					//std::copy (vecSeqs2.begin(), vecSeqs2.end(), std::back_inserter(vecSeqsCombo));
-				}
+				// second go first 
+				asmMode = MODE_2_1;
+				//vecSeqsCombo = vecSeqs2;
+				//std::copy (vecSeqs1.begin(), vecSeqs1.end(), std::back_inserter(vecSeqsCombo));
 			}
-                       
-			// YW: we don't allow containment; they don't form edges
-			if( fMatch == true && ccAct.IsContainment() == false)
-			{               
-				if( fVerbose == true )
-				{
-					pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time 
-					cout << "One contigs merged: number of contigs: " << ContigsCompactor::vfs.size() << endl;
-					cout << "Contigs: ";
-					ContigsCompactor::vfs[i]->printFasta(cout);
-					cout << " can be merged with contig: ";
-					ContigsCompactor::vfs[j]->printFasta(cout);
-					cout << "RESULT: " << ccAct.GetMerged() << endl;
-					pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure
-				}
-                
-				// add edge based on assembly mode
-				double pathLen = -1.0*ccAct.GetOverlapSize();           // we want to connect two nodes using the shortest total seq length
-				
-				pthread_mutex_lock(&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time 
-				if( asmMode == MODE_1_2 )
-				{
-					// add one edge from node i to j					
-					pnodei->AddNgbrRef( pnodej, NULL, asmMode, pathLen );					
-				}
-				else if( asmMode == MODE_2_1 )
-				{
-					//pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time 
-					pnodej->AddNgbrRef( pnodei, NULL, asmMode, pathLen );
-					//pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure
-				}
-				else
-				{
-					THROW("Fatal error.");
-				}
-				pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure
+			else
+			{
+				// first go first
+				asmMode = MODE_1_2;
+				//vecSeqsCombo = vecSeqs1;
+				//std::copy (vecSeqs2.begin(), vecSeqs2.end(), std::back_inserter(vecSeqsCombo));
 			}
-		}  
-		j++;
-    }
+		}
 
-//pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time
-//pthread_t tid=pthread_self(); //thread id
-//cout<<tid<<" return! "<< rang.first.first <<" "<< rang.first.second <<" "<<rang.second.first<<" "<<rang.second.second<<endl;
-////printf("Time taken for thread %d is: %.2fs\n", tid, (double)(clock() - tStart) / CLOCKS_PER_SEC);
-//pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure
+		// YW: we don't allow containment; they don't form edges
+		if (fMatch == true && ccAct.IsContainment() == false)
+		{
+			double pathLen = -1.0*ccAct.GetOverlapSize();           // we want to connect two nodes using the shortest total seq length
+			
+			pthread_mutex_lock(&merge_write_mutex);
+			ConnectionInfo coninfo;
+			coninfo.lenth = pathLen;
+			coninfo.mode = asmMode;
+			coninfo.x = i;
+			coninfo.y = j;
+			ContigsCompactor::vConnectInfo.push_back(coninfo);
+			pthread_mutex_unlock(&merge_write_mutex);
+		}
+	}
 
+//pthread_mutex_lock (&merge_mutex); //lock to make sure only one thread is writing at the same time
+//cout<< tid <<" returned!"<<endl;
+//pthread_mutex_unlock(&merge_mutex);//unlock make sure
+	
+	pthread_exit(NULL);
 }
 
 
-void ContigsCompactor :: runMultiThreadMerge(int minNumKmerSupport, int T)
+void ContigsCompactor::runMultiThreadMergeV2(int minNumKmerSupport, int T)
 {
-	ContigsCompactor::minNumKmerSupport = minNumKmerSupport;
-
-	ContigsCompactor::vMergePairs.clear();
-	//int contigSize=MultiThreadHashChecker::vfs.size();
 	int contigSize = ContigsCompactor::numOfContigs;
-	vector<int> vContigLenth;
-	for (int i = 0; i < contigSize; i++)
+	ContigsCompactor::vistPos = 0;
+
+	pthread_t* pid = new pthread_t[T];
+	for (int i = 0; i < T; i++)
 	{
-		int contigLen = strlen(ContigsCompactor::vfs[i]->c_str());
-		vContigLenth.push_back(contigLen);
-	}
-	
-	long allPairLen = 0;
-
-	//int mergePairSize=0;
-	for(int i=0;i<contigSize;i++)
-	{
-		for (int j = i+1; j < contigSize; j++)
-			if(ContigsCompactor::ptabOverlap[i][j]>=minNumKmerSupport)			
-				allPairLen += vContigLenth[i] * vContigLenth[j];
-	}
-
-//cout<<"Num of pairs: "<<mergePairSize<<endl;
-
-	ContigsCompactor::tempMergeInfo.clear();
-	pthread_t* pid=new pthread_t[T];
-	
-	vector< pair< pair<int,int>, pair<int,int> > > vprang;
-	vprang.clear();
-
-	//int avrg=mergePairSize/T;
-	long avrg = allPairLen / (T+1);
-
-	long ncnt=0;
-	int pre_i=0;
-	int pre_j=-1;
-	for(int i=0;i<contigSize;i++)
-	{
-		for(int j=i+1;j<contigSize;j++)
-		{
-			if(ContigsCompactor::ptabOverlap[i][j]>=minNumKmerSupport)
-				ncnt += vContigLenth[i] * vContigLenth[j];
-			if(ncnt>=avrg)
-			{
-				pair<int,int> lprang;
-				lprang.first=pre_i;
-				lprang.second=pre_j;
-
-				pair<int,int> rprang;
-				rprang.first=i;
-				rprang.second=j;
-
-				pair< pair<int,int>, pair<int,int> > prang;
-				prang.first=lprang;
-				prang.second=rprang;
-
-				vprang.push_back(prang);
-				pre_i=i;
-				pre_j=j;
-				ncnt=0;
-			}
-			
-		}
-	}
-
-	T = vprang.size();
-	//cout << vprang.size() << endl;
-	/*if(vprang.size()<T)
-	{
-		cout<<"Arrange error! "<< vprang.size() <<endl;
-		return;
-	}*/
-	vprang[T-1].second.first=contigSize-2;
-	vprang[T-1].second.second=contigSize-1;
-	
-	
-//for (int i = 0; i < T; i++)
-//{
-//	cout << vprang[i].first.first << " " << vprang[i].first.second << " " << vprang[i].second.first << " " << vprang[i].second.second << endl;
-//}
-	
-	ParNode* parnode=new ParNode[T];
-	for(int i=0;i<T;i++)
-	{
-		//create a new thread and pass parameters 
-		//for the new thread, it will deal with vcontigs[i*avrg to i*avrg+avrg-1] 
-		//ParNode parnode;
-		parnode[i].prang=vprang[i];
-		parnode[i].pthc=this;
-		parnode[i].isVerbose=fVerbose;
-		
-		int ret = pthread_create(&pid[i], NULL, ContigsCompactor::threadMergeContig, (void *)&parnode[i]); 
-		if(ret) 
+		int ret = pthread_create(&pid[i], NULL, ContigsCompactor::threadMergeContigV2, (void *)this);
+		if (ret)
 		{
 			cout << "Create pthread error!" << endl;
 			return;
-		}	
+		}
 	}
-//cout<<"waiting for all threads finished"<<endl;
-	for(int i=0;i<T;i++) //wait for all threads finishing
+
+	for (int i = 0; i < T; i++) //wait for all threads finishing
+	{
 		pthread_join(pid[i], NULL);
+
+	}
 	delete pid;
 
-	if(parnode!=NULL)
-		delete[] parnode;
+	pthread_mutex_destroy(&merge_mutex); 
+	pthread_mutex_destroy(&merge_write_mutex);
+}
+
+
+int ContigsCompactor::addEdges()
+{
+	int contigSize = ContigsCompactor::numOfContigs;
+
+	long connectsize = ContigsCompactor::vConnectInfo.size();
+	for (long icnt = 0; icnt < connectsize; icnt++)
+	{
+		ConnectionInfo coninfo = ContigsCompactor::vConnectInfo[icnt];
+		int i = coninfo.x;
+		int j = coninfo.y;
+
+		if (fVerbose == true)
+		{
+			cout << " One contigs merged: number of contigs: " << ContigsCompactor::vfs.size() << endl;
+			cout << "Contigs: ";
+			ContigsCompactor::vfs[i]->printFasta(cout);
+			cout << " can be merged with contig: ";
+			ContigsCompactor::vfs[j]->printFasta(cout);
+			cout << endl;//cout << "RESULT: " << ccAct.GetMerged() << endl;
+		}
+
+		GraphNodeRefExt *pnodei = ContigsCompactor::mapContigToGraphNode[ContigsCompactor::vfs[i]];
+		GraphNodeRefExt *pnodej = ContigsCompactor::mapContigToGraphNode[ContigsCompactor::vfs[j]];
+		string asmMode = coninfo.mode;
+		double pathLen = coninfo.lenth;
+
+		if (asmMode == "")
+			continue;
+
+		if (asmMode == MODE_1_2)
+		{
+			// add one edge from node i to j
+			pnodei->AddNgbrRef(pnodej, NULL, asmMode, pathLen);
+		}
+		else if (asmMode == MODE_2_1)
+		{
+			//pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time 
+			pnodej->AddNgbrRef(pnodei, NULL, asmMode, pathLen);
+			//pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure
+		}
+		else
+		{
+			THROW("Fatal error.");
+		}
+
+	}
+
 }
 
 //temp version for test the running time of each part
@@ -864,7 +810,7 @@ void ContigsCompactor :: CompactVer3( MultiFastqSeqs &listContigs, const char* f
         graphContigs.AddNode(gn);
         ContigsCompactor::mapContigToGraphNode.insert( map< FastaSequence *, GraphNodeRefExt * > :: value_type(listContigsPtrInclRevComp[j], gn) );
     }
-    // also create a mapping between nodes that are reverse-complement to each other
+    // also create a mapping between nodes that are reverse-complement to each other 
     map<AbstractGraphNode *, AbstractGraphNode *> mapListRevCompNodes;
     for( map<FastaSequence *, FastaSequence *> :: iterator it = mapRevCompContigs.begin(); it != mapRevCompContigs.end(); ++it )
     {
@@ -885,20 +831,12 @@ void ContigsCompactor :: CompactVer3( MultiFastqSeqs &listContigs, const char* f
         cout << "The number of nodes (incl. reverse complements): " << graphContigs.GetNumNodes() << endl;
     }
     
+//cout << "The number of nodes (incl. reverse complements): " << graphContigs.GetNumNodes() << endl;
  
 	int contigSize = listContigsPtrInclRevComp.size();
 	ContigsCompactor::numOfContigs = contigSize;
-	ContigsCompactor::ptabOverlap = new int*[contigSize];
-	for (int i = 0; i<contigSize; i++)
-	{
-		ContigsCompactor::ptabOverlap[i] = new int[contigSize];
-	}
-
-	for (int i = 0; i<contigSize; i++)
-	{
-		for (int j = 0; j<contigSize; j++)
-			ContigsCompactor::ptabOverlap[i][j] = 0;
-	}
+	ContigsCompactor::tempMergeInfo.clear();
+	ContigsCompactor::vConnectInfo.clear();
 
 	// create a list of quickchecker
 	// construct all the quick checkers 
@@ -911,23 +849,16 @@ void ContigsCompactor :: CompactVer3( MultiFastqSeqs &listContigs, const char* f
 	}
 
 	multiChecker.runMultiThreadChecker(numOfThreads);	
-	runMultiThreadMerge(1, numOfThreads);
+//cout << "Multiple-check finished" << endl;
+//cout << "No. of pairs need to further check is: " << ContigsCompactor::tempMergeInfo.size() << endl;
+	runMultiThreadMergeV2(1, numOfThreads);
+//cout << "Multiple-merge finished" << endl;
+	addEdges();
 
-	//release memory
-	for (int i = 0; i<contigSize; i++)
-	{
-		if (ContigsCompactor::ptabOverlap[i] != NULL)
-		{
-			delete[] ContigsCompactor::ptabOverlap[i];
-			ContigsCompactor::ptabOverlap[i] = NULL;
-		}
-	}
-	if (ContigsCompactor::ptabOverlap != NULL)
-	{
-		delete[] ContigsCompactor::ptabOverlap;
-		ContigsCompactor::ptabOverlap = NULL;
-	}
-	
+
+	vector< std::pair<int, int> >().swap(ContigsCompactor::tempMergeInfo);
+	vector<ConnectionInfo>().swap(ContigsCompactor::vConnectInfo);
+
 
     if( fVerbose )
     {
@@ -969,7 +900,7 @@ graphContigs.OutputGML( fileGML );
 //cout << "GML file outputted....\n";
 //exit(1);
     
-	
+
     
     // now find paths
     set<vector<AbstractGraphNode *> > setPaths;
@@ -1053,10 +984,13 @@ void MultiThreadQuickChecker::runMultiThreadChecker(int T)
 	vector< pair< pair<int, int>, pair<int, int> > > vprang;
 	vprang.clear();
 
-	int totalCells = (numOfContigs*numOfContigs- numOfContigs)/2;
+	long ncontigs = (long)numOfContigs;
+	long long totalCells = ncontigs*ncontigs;
+	totalCells -= ncontigs;
+	totalCells /= 2;
 
-	int avrg = totalCells / T;
-	int ncnt = 0;
+	long avrg = totalCells / T;
+	long ncnt = 0;
 	int pre_i = 0;
 	int pre_j = -1;
 	for (int i = 0; i<MultiThreadQuickChecker::numOfContigs; i++)
@@ -1086,14 +1020,20 @@ void MultiThreadQuickChecker::runMultiThreadChecker(int T)
 		}
 	}
 
+
 	if (vprang.size()<T)
 	{
-		cout << "Arrange error!" << endl;
+		cout << "Arrange error! " <<vprang.size()<<" "<<T<< endl;
 		return;
 	}
 	vprang[T - 1].second.first = MultiThreadQuickChecker::numOfContigs - 1;
 	vprang[T - 1].second.second = MultiThreadQuickChecker::numOfContigs - 1;
 
+///////////////////////////////
+//for (int i = 0; i < T; i++)
+//{
+//	cout << vprang[i].first.first << " " << vprang[i].first.second << " " << vprang[i].second.first << " " << vprang[i].second.second << endl;
+//}
 
 	pthread_t* pid = new pthread_t[T];
 	for (int i = 0; i<T; i++)
@@ -1111,7 +1051,9 @@ void MultiThreadQuickChecker::runMultiThreadChecker(int T)
 		pthread_join(pid[i], NULL);
 	delete pid;
 
+	pthread_mutex_destroy(&check_mutex);
 }
+
 
 void* MultiThreadQuickChecker::threadQuickCheck(void* ptr)
 {
@@ -1136,12 +1078,15 @@ void* MultiThreadQuickChecker::threadQuickCheck(void* ptr)
 
 		if (MultiThreadQuickChecker::listQuickCheckers[i].IsMatchFeasible(ContigsCompactor::vfs[j]) == true)
 		{
-			ContigsCompactor::ptabOverlap[i][j] = 1;
+			pthread_mutex_lock(&check_mutex);
+			ContigsCompactor::tempMergeInfo.push_back(std::make_pair(i, j));
+			pthread_mutex_unlock(&check_mutex);
 		}
 
 		j++;
 	}
 
+	pthread_exit(NULL);
 }
 
 //*******************************************************************************************
@@ -1614,286 +1559,295 @@ Return:
 	1: Overlap in range [minOverlapLenWithScaffold, minOverlapLen);
 	2: Overlap > minOverlapLen
 */
-int ContigsCompactor :: Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, ContigsCompactorAction &resCompact, bool fRelax)
+int ContigsCompactor::Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, ContigsCompactorAction &resCompact, bool fRelax)
 {
-    // perform simple DP to compare the two sequences
-    if( fVerbose == true )
-    {
-        cout << "Seq1: ";
-        pSeq1->printFasta(cout);
-        cout << ", Seq2: ";
-        pSeq2->printFasta(cout);
-        cout << endl;
-    }
-    // evalaute whether the area can be filled by the passed-in repeat
-    // use dynamic programming; use a simple score as follows
-    // match: 1, mismatch/indel/: -1
-    // middle gap: no penalty if length is within some threshold (+/- say 20%)
-    // otherwise: -inf
-    // tbl[x,y]: x is coordinate in repeats, y: scalfold (relative to the start)
-    // define scoring scheme (simple for now)
-    int scoreMatch = 1;
-    //int scoreMismatch = -1;
-    //int scoreIndel = -1;
-    
-    int szSeq1 = (int)pSeq1->size();
-    vector<vector<double> > tblScore( szSeq1+1 );
-    vector<vector<pair<int,int> > > tblTraceBack( szSeq1+1  );
-    int szSeq2 = (int)pSeq2->size();
-    for(int i=0; i<(int)tblScore.size(); ++i)
-    {
-        tblScore[i].resize(szSeq2+1);
-        tblTraceBack[i].resize(szSeq2+1);
-    }
-    // init: first row is all-0,
-    // meaning alignment can start from any point in the working zone
-    for(int j=0; j<(int)tblScore[0].size(); ++j )
-    {
-        int scoreInit = 0;
-        tblScore[0][j] = scoreInit;
-        pair<int,int> pp(-1,-1);
-        tblTraceBack[0][j] = pp;    // stop tracing
-    }
-    for(int i=1; i<(int)tblScore.size(); ++i)
-    {
-        // initial score: 0 s.t. we allow overlap alignment 
-        int scoreCol0 = 0;
-        // if over the threshold of end clipping of repeats, forbid
-        //if( i > (int)(pRepeatSeq->size()*thresEndClipRepeat)  )
-        //{
-        //    //
-        //    scoreCol0 = MAX_NEG_SCORE;
-        //}
-        tblScore[i][0] = scoreCol0;
-        pair<int,int> pp(-1,-1);
-        tblTraceBack[i][0] = pp;    // stop tracing
-        
-        //int posRep = i-1;
-        
-        for(int j=1; j<(int)tblScore[i].size(); ++j)
-        {
-            //cout << "### determine value for cell [" << i << "," << j << "]...\n";
-            // need to take special care if the column is right after gap in the scaffold
-            // in this, need to consider the previous column (i.e. in scaffold)
-            // can be mapped to a much wider range of repeat position (+/-)
-            // some gap size
-            int matchScoreStep = scoreMismatch;
-            if( pSeq1->at(i-1) == pSeq2->at( j-1 ) )
-            {
-                matchScoreStep = scoreMatch;
-            }
-            //cout << "gapRightBoundZeroBase: " << gapRightBoundZeroBase << ", posRep = " << posRep << "["  << pRepeatSeq->at(posRep) << "]" << ", posScaf = " << posScaf << " [" << pScaffoldSeq->at( posScaf )  << "]" << endl;
-            
-            double scoreStep;
-            pair<int,int> tbStep(-1, -1);
-            
-            // just take the normal DP
-            scoreStep = tblScore[i-1][j-1]+matchScoreStep;
-            tbStep.first = i-1;
-            tbStep.second = j-1;
-            if( scoreStep < tblScore[i-1][j] + scoreIndel )
-            {
-                scoreStep = tblScore[i-1][j]+ scoreIndel;
-                tbStep.first = i-1;
-                tbStep.second = j;
-            }
-            if( scoreStep < tblScore[i][j-1] + scoreIndel )
-            {
-                scoreStep = tblScore[i][j-1] + scoreIndel;
-                tbStep.first = i;
-                tbStep.second = j-1;
-            }
-            
-            tblScore[i][j] = scoreStep;
-            tblTraceBack[i][j] = tbStep;
-            //cout << "#### set value to " << scoreStep << " obtained from " << tbStep.first << ", " << tbStep.second << endl;
-        }
-    }
-    
-    // just find the largest score over the last row/column
-    int scoreMax = MAX_NEG_SCORE;
-    int posRowEnd = -1;
-    int posColEnd = -1;
-    for(int i=0; i<(int)tblScore.size(); ++i )
-    {
-        if( tblScore[i][szSeq2] > scoreMax  )
-        {
-            scoreMax = tblScore[i][szSeq2];
-            posColEnd = szSeq2;
-            posRowEnd = i;
-        }
-    }
-    for(int j=0; j<=szSeq2; ++j )
-    {
-        if( tblScore[szSeq1][j] > scoreMax  )
-        {
-            scoreMax = tblScore[szSeq1][j];
-            posColEnd = j;
-            posRowEnd = szSeq1;
-        }
-    }
-    
-    int res = 2;
-    // if in the relax mode, don't check for scoring 
-    if(  fRelax == false )
-    {
-		/*
-		const int OVERLAP_SMALLER_MINLENSCAFFOLD=0;
-const int OVERLAP_IN_RANGE=1;
-const int OVERLAP_LARGER_MINLEN=2;
-		*/
-		int score_significant=IsScoreSignificant( scoreMax, szSeq1, szSeq2, posRowEnd, posColEnd  );
-		if( score_significant == OVERLAP_SMALLER_MINLENSCAFFOLD)
+	// perform simple DP to compare the two sequences
+	if (fVerbose == true)
+	{
+		pthread_mutex_lock(&merge_mutex); //lock to make sure only one thread is writing at the same time 
+		pthread_t tid = pthread_self(); //thread id
+		cout << tid << " Evaluating..." << endl;
+		cout << " Seq1: ";
+		pSeq1->printFasta(cout);
+		cout << ", Seq2: ";
+		pSeq2->printFasta(cout);
+		cout << endl;
+		pthread_mutex_unlock(&merge_mutex);//unlock make sure
+	}
+	// evalaute whether the area can be filled by the passed-in repeat
+	// use dynamic programming; use a simple score as follows
+	// match: 1, mismatch/indel/: -1
+	// middle gap: no penalty if length is within some threshold (+/- say 20%)
+	// otherwise: -inf
+	// tbl[x,y]: x is coordinate in repeats, y: scalfold (relative to the start)
+	// define scoring scheme (simple for now)
+	
+
+	int scoreMatch = 1;
+	//int scoreMismatch = -1;
+	//int scoreIndel = -1;
+
+	int szSeq1 = (int)pSeq1->size();
+	vector<vector<double> > tblScore(szSeq1 + 1);
+	vector<vector<pair<int, int> > > tblTraceBack(szSeq1 + 1);
+	int szSeq2 = (int)pSeq2->size();
+	for (int i = 0; i<(int)tblScore.size(); ++i)
+	{
+		tblScore[i].resize(szSeq2 + 1);
+		tblTraceBack[i].resize(szSeq2 + 1);
+	}
+	// init: first row is all-0,
+	// meaning alignment can start from any point in the working zone
+	for (int j = 0; j<(int)tblScore[0].size(); ++j)
+	{
+		int scoreInit = 0;
+		tblScore[0][j] = scoreInit;
+		pair<int, int> pp(-1, -1);
+		tblTraceBack[0][j] = pp;    // stop tracing
+	}
+	for (int i = 1; i<(int)tblScore.size(); ++i)
+	{
+		// initial score: 0 s.t. we allow overlap alignment 
+		int scoreCol0 = 0;
+		// if over the threshold of end clipping of repeats, forbid
+		//if( i > (int)(pRepeatSeq->size()*thresEndClipRepeat)  )
+		//{
+		//    //
+		//    scoreCol0 = MAX_NEG_SCORE;
+		//}
+		tblScore[i][0] = scoreCol0;
+		pair<int, int> pp(-1, -1);
+		tblTraceBack[i][0] = pp;    // stop tracing
+
+									//int posRep = i-1;
+
+		for (int j = 1; j<(int)tblScore[i].size(); ++j)
+		{
+			//cout << "### determine value for cell [" << i << "," << j << "]...\n";
+			// need to take special care if the column is right after gap in the scaffold
+			// in this, need to consider the previous column (i.e. in scaffold)
+			// can be mapped to a much wider range of repeat position (+/-)
+			// some gap size
+			int matchScoreStep = scoreMismatch;
+			if (pSeq1->at(i - 1) == pSeq2->at(j - 1))
+			{
+				matchScoreStep = scoreMatch;
+			}
+			//cout << "gapRightBoundZeroBase: " << gapRightBoundZeroBase << ", posRep = " << posRep << "["  << pRepeatSeq->at(posRep) << "]" << ", posScaf = " << posScaf << " [" << pScaffoldSeq->at( posScaf )  << "]" << endl;
+
+			double scoreStep;
+			pair<int, int> tbStep(-1, -1);
+
+			// just take the normal DP
+			scoreStep = tblScore[i - 1][j - 1] + matchScoreStep;
+			tbStep.first = i - 1;
+			tbStep.second = j - 1;
+			if (scoreStep < tblScore[i - 1][j] + scoreIndel)
+			{
+				scoreStep = tblScore[i - 1][j] + scoreIndel;
+				tbStep.first = i - 1;
+				tbStep.second = j;
+			}
+			if (scoreStep < tblScore[i][j - 1] + scoreIndel)
+			{
+				scoreStep = tblScore[i][j - 1] + scoreIndel;
+				tbStep.first = i;
+				tbStep.second = j - 1;
+			}
+
+			tblScore[i][j] = scoreStep;
+			tblTraceBack[i][j] = tbStep;
+			//cout << "#### set value to " << scoreStep << " obtained from " << tbStep.first << ", " << tbStep.second << endl;
+		}
+	}
+
+	// just find the largest score over the last row/column
+	int scoreMax = MAX_NEG_SCORE;
+	int posRowEnd = -1;
+	int posColEnd = -1;
+	for (int i = 0; i<(int)tblScore.size(); ++i)
+	{
+		if (tblScore[i][szSeq2] > scoreMax)
+		{
+			scoreMax = tblScore[i][szSeq2];
+			posColEnd = szSeq2;
+			posRowEnd = i;
+		}
+	}
+	for (int j = 0; j <= szSeq2; ++j)
+	{
+		if (tblScore[szSeq1][j] > scoreMax)
+		{
+			scoreMax = tblScore[szSeq1][j];
+			posColEnd = j;
+			posRowEnd = szSeq1;
+		}
+	}
+
+	int res = 2;
+	// if in the relax mode, don't check for scoring
+	if (fRelax == false)
+	{
+		
+		//const int OVERLAP_SMALLER_MINLENSCAFFOLD=0;
+		//const int OVERLAP_IN_RANGE=1;
+		//const int OVERLAP_LARGER_MINLEN=2;
+
+		int score_significant = this->IsScoreSignificant(scoreMax, szSeq1, szSeq2, posRowEnd, posColEnd);
+		if (score_significant == OVERLAP_SMALLER_MINLENSCAFFOLD)
 			return OVERLAP_SMALLER_MINLENSCAFFOLD;
-		else if(score_significant == OVERLAP_IN_RANGE)
+		else if (score_significant == OVERLAP_IN_RANGE)
 			res = OVERLAP_IN_RANGE;
 		else
 			res = OVERLAP_LARGER_MINLEN;
 
-    }
-    
-    
-//#if 0
-    // now find trace back
-    pair<int,int> tbCur( posRowEnd, posColEnd );
-    string mergedSeqTB;
-    
-    // first get the clipped one (if any)
-    if(posRowEnd != szSeq1 && posColEnd != szSeq2   )
-    {
-        //
-        THROW("Fatal error1");
-    }
-    if( posRowEnd < szSeq1  )
-    {
-        //
-        for(int i=szSeq1; i>posRowEnd; --i)
-        {
-            mergedSeqTB.push_back( pSeq1->at(i-1)  );
-        }
-    }
-    if( posColEnd < szSeq2  )
-    {
-        //
-        for(int i=szSeq2; i>posColEnd; --i)
-        {
-            mergedSeqTB.push_back( pSeq2->at(i-1)  );
-        }
-    }
-    
-    while(tbCur.first > 0 && tbCur.second > 0)
-    {
-//cout << "--trace " << tbCur.first << "," << tbCur.second << ": \n" << mergedSeqTB << endl;
-        // stop if anything is out-of-scope
-        if( tbCur.first < 0 || tbCur.second < 0 || ( tbCur.first + tbCur.second == 0 ) )
-        {
-            // nothing more to trace
-            break;
-        }
-        
-        
-        // first put the two corresponding chars
-        // now trace back
-        pair<int,int> tbPre =  tblTraceBack[ tbCur.first ][ tbCur.second ];
-        
-        if( tbCur.second > tbPre.second )
-        {
-            if( tbCur.second > 0 )
-            {
-                int posScfConv = tbCur.second;
-                if( posScfConv < 0 || posScfConv > pSeq2->size() )
-                {
-                    THROW("Fatal error2");
-                }
-                //cout << "posScfConv = " << posScfConv << endl;
-                mergedSeqTB.push_back( pSeq2->at(posScfConv-1) );
-            }
-            else
-            {
-                mergedSeqTB.push_back( '-' );
-            }
-        }
-        else if( tbCur.first > tbPre.first )
-        {
-            if( tbCur.first >= 1 )
-            {
-                mergedSeqTB.push_back( pSeq1->at( tbCur.first-1 ) );
-            }
-            else
-            {
-                mergedSeqTB.push_back('-');
-            }
-        }
-        else
-        {
-            // done
-            break;
-            //mergedSeqTB.push_back('-');
-        }        
-        tbCur = tbPre;
-    }
-    
-    // get the clipped part on the left
-    if( tbCur.first > 0  )
-    {
-        //
-        for(int i=tbCur.first; i>0; --i)
-        {
-            mergedSeqTB.push_back( pSeq1->at(i-1)  );
-        }
-    }
-    if( tbCur.second > 0 )
-    {
-        //
-        for(int i=tbCur.second; i>0; --i)
-        {
-            mergedSeqTB.push_back( pSeq2->at(i-1)  );
-        }
-    }
+	}
 
-    
-    
-    // this is the traceback result
-    reverse( mergedSeqTB.begin(), mergedSeqTB.end() );
-    //resAlnPairs.first = scafTB;
-    //reverse( repTB.begin(), repTB.end() );
-    //resAlnPairs.second = repTB;
-    
-//cout << "The merged sequence: " << mergedSeqTB << endl;
-//cout << "posRowEnd: " << posRowEnd << ", length1: " << szSeq1 << ", length2: " << szSeq2 << ", posColEnd: " << posColEnd << endl;
-    //resCompact.SetMergedString( mergedSeqTB );
-    resCompact.SetPosEndSeq1( posRowEnd );
-    resCompact.SetOrigSeqLen( szSeq1, szSeq2 );
-    resCompact.SetAlnSeqs( pSeq1->c_str(), pSeq2->c_str() );
-    resCompact.SetDPEnds( posRowEnd, posColEnd );
-    resCompact.SetMergedStringConcat( );
-    
-//#endif
-    
+
+	//#if 0
+	// now find trace back
+	pair<int, int> tbCur(posRowEnd, posColEnd);
+	string mergedSeqTB;
+
+	// first get the clipped one (if any)
+	if (posRowEnd != szSeq1 && posColEnd != szSeq2)
+	{
+		//
+		THROW("Fatal error1");
+	}
+	if (posRowEnd < szSeq1)
+	{
+		//
+		for (int i = szSeq1; i>posRowEnd; --i)
+		{
+			mergedSeqTB.push_back(pSeq1->at(i - 1));
+		}
+	}
+	if (posColEnd < szSeq2)
+	{
+		//
+		for (int i = szSeq2; i>posColEnd; --i)
+		{
+			mergedSeqTB.push_back(pSeq2->at(i - 1));
+		}
+	}
+
+	while (tbCur.first > 0 && tbCur.second > 0)
+	{
+		//cout << "--trace " << tbCur.first << "," << tbCur.second << ": \n" << mergedSeqTB << endl;
+		// stop if anything is out-of-scope
+		if (tbCur.first < 0 || tbCur.second < 0 || (tbCur.first + tbCur.second == 0))
+		{
+			// nothing more to trace
+			break;
+		}
+
+
+		// first put the two corresponding chars
+		// now trace back
+		pair<int, int> tbPre = tblTraceBack[tbCur.first][tbCur.second];
+
+		if (tbCur.second > tbPre.second)
+		{
+			if (tbCur.second > 0)
+			{
+				int posScfConv = tbCur.second;
+				if (posScfConv < 0 || posScfConv > pSeq2->size())
+				{
+					THROW("Fatal error2");
+				}
+				//cout << "posScfConv = " << posScfConv << endl;
+				mergedSeqTB.push_back(pSeq2->at(posScfConv - 1));
+			}
+			else
+			{
+				mergedSeqTB.push_back('-');
+			}
+		}
+		else if (tbCur.first > tbPre.first)
+		{
+			if (tbCur.first >= 1)
+			{
+				mergedSeqTB.push_back(pSeq1->at(tbCur.first - 1));
+			}
+			else
+			{
+				mergedSeqTB.push_back('-');
+			}
+		}
+		else
+		{
+			// done
+			break;
+			//mergedSeqTB.push_back('-');
+		}
+		tbCur = tbPre;
+	}
+
+	// get the clipped part on the left
+	if (tbCur.first > 0)
+	{
+		//
+		for (int i = tbCur.first; i>0; --i)
+		{
+			mergedSeqTB.push_back(pSeq1->at(i - 1));
+		}
+	}
+	if (tbCur.second > 0)
+	{
+		//
+		for (int i = tbCur.second; i>0; --i)
+		{
+			mergedSeqTB.push_back(pSeq2->at(i - 1));
+		}
+	}
+
+
+
+	// this is the traceback result
+	reverse(mergedSeqTB.begin(), mergedSeqTB.end());
+	//resAlnPairs.first = scafTB;
+	//reverse( repTB.begin(), repTB.end() );
+	//resAlnPairs.second = repTB;
+
+	//cout << "The merged sequence: " << mergedSeqTB << endl;
+	//cout << "posRowEnd: " << posRowEnd << ", length1: " << szSeq1 << ", length2: " << szSeq2 << ", posColEnd: " << posColEnd << endl;
+	//resCompact.SetMergedString( mergedSeqTB );
+	resCompact.SetPosEndSeq1(posRowEnd);
+	resCompact.SetOrigSeqLen(szSeq1, szSeq2);
+	resCompact.SetAlnSeqs(pSeq1->c_str(), pSeq2->c_str());
+	resCompact.SetDPEnds(posRowEnd, posColEnd);
+	resCompact.SetMergedStringConcat();
+
+	//#endif
+
 #if 0
-    cout << " ^^^^ scoring matrix: \n";
-    for(int i=0; i<(int)tblScore.size(); ++i )
-    {
-        for(int j=0; j<(int)tblScore[i].size(); ++j)
-        {
-            cout << tblScore[i][j] << "  ";
-        }
-        cout << endl;
-    }
-    //#endif
-    cout << ", scoreMax = " << scoreMax << endl;
+	cout << " ^^^^ scoring matrix: \n";
+	for (int i = 0; i<(int)tblScore.size(); ++i)
+	{
+		for (int j = 0; j<(int)tblScore[i].size(); ++j)
+		{
+			cout << tblScore[i][j] << "  ";
+		}
+		cout << endl;
+	}
+	//#endif
+	cout << ", scoreMax = " << scoreMax << endl;
 #endif
+	return res;
 
-    return res;
-    
 }
+
 
 int ContigsCompactor :: IsScoreSignificant( int scoreMax, int szSeq1, int szSeq2, int rowStart, int colStart  ) const
 {
     if( fVerbose )
     {
-        cout << "IsScoreSignificant: score = " << scoreMax << ", szSeq1: " << szSeq1 << ", szSeq2: " << szSeq2 << ", rowStart: " << rowStart << ", colStart: " << colStart << endl;
-    }
+		pthread_mutex_lock(&merge_mutex);//unlock make sure
+		pthread_t tid = pthread_self(); //thread id
+		cout << tid << " IsScoreSignificant: score = " << scoreMax << ", szSeq1: " << szSeq1 << ", szSeq2: " << szSeq2 << ", rowStart: " << rowStart << ", colStart: " << colStart << endl;
+		pthread_mutex_unlock(&merge_mutex);//unlock make sure
+	}
     
     // must enforce at least half of overlap
     //int szOverlap = rowStart;
@@ -1902,7 +1856,7 @@ int ContigsCompactor :: IsScoreSignificant( int scoreMax, int szSeq1, int szSeq2
     //    szOverlap = colStart;
     //}
 
-    
+
     //
     int szOverlap0 = min(szSeq1, szSeq2);
     int szOverlap1 = szOverlap0 , szOverlap2=szOverlap0;
@@ -1973,15 +1927,16 @@ int ContigsCompactor :: IsScoreSignificant( int scoreMax, int szSeq1, int szSeq2
     if(scoreMax < scoreMinThres)
 		return OVERLAP_SMALLER_MINLENSCAFFOLD;
 
-	/*
-	const int OVERLAP_SMALLER_MINLENSCAFFOLD=0;
-const int OVERLAP_IN_RANGE=1;
-const int OVERLAP_LARGER_MINLEN=2;
-	*/
+	
+	//const int OVERLAP_SMALLER_MINLENSCAFFOLD=0;
+	//const int OVERLAP_IN_RANGE=1;
+	//const int OVERLAP_LARGER_MINLEN=2;
+	
 
 	if (szOverlap < minOverlapLenWithScaffold ) return OVERLAP_SMALLER_MINLENSCAFFOLD;
 	else if(szOverlap>=minOverlapLenWithScaffold && szOverlap <minOverlapLen) return OVERLAP_IN_RANGE;
 	else return OVERLAP_LARGER_MINLEN;
+
 }
 
 

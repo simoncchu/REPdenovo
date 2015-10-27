@@ -133,5 +133,3 @@ def assembleKmer(vpath, k_len, ffastq, min_contig_len, output_folder, VERBOSE):
     if VERBOSE != 0:
         print "Running command: "+ cmd +"..."
     Popen(cmd, shell = True, stdout = PIPE).communicate()
-
-

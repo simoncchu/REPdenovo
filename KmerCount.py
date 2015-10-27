@@ -42,5 +42,3 @@ def cntKmer(jpath, k_len, ithreads, flreads, frreads, min_cnt, foutput_dump, fou
         print "Running command: "+ cmd +"..."
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
-
-

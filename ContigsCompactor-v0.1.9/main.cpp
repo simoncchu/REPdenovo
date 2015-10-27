@@ -229,7 +229,6 @@ void TestKmerUtils( const char *repeatFileName)
 //repeatSeqs.Dump();
     MultiFastqSeqs listContigsOrig( repeatSeqs );
     
-
     
     // test scaffold filling
     //ScaffoldGapFiller filler;
