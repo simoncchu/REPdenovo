@@ -170,7 +170,7 @@ def readConfigFile(sfconfig):
 
     fconfig.close()
 
-######read in raw reads files###################################################################################################################
+######read in raw reads files###########################################################################################
 def readRawReadsList(sfreads_list):
     freads=open(sfreads_list,'r')
     sflines=freads.readlines()
@@ -232,7 +232,10 @@ def calcTotalCoverage():
     else:
         if os.path.exists(sfcoverage)!=True:
             #print "Test: ", sfleft_reads###########################################################################################################3
-            f=calcCoverage(sfleft_reads,READ_LENGTH, GENOME_LENGTH,VERBOSE) + calcCoverage(sfright_reads,READ_LENGTH, GENOME_LENGTH,VERBOSE)
+            if bpaired==True:
+                f=calcCoverage(sfleft_reads,READ_LENGTH, GENOME_LENGTH,VERBOSE) + calcCoverage(sfright_reads,READ_LENGTH, GENOME_LENGTH,VERBOSE)
+            else:
+                f=calcCoverage(sfsingle_reads,READ_LENGTH, GENOME_LENGTH,VERBOSE)
             fout_cov=open(sfcoverage,"wt")
             fout_cov.write(str(f))
             fout_cov.close()
@@ -260,30 +263,10 @@ def clearBeforeAssembly():
 def assembly():
 
     clearBeforeAssembly()
-
     temp_k=K_MIN
     last_temp_k=-1
 
-    print "Calculating average coverage...."
-    sfcoverage=OUTPUT_FOLDER+"reads_coverage.txt"
-    f=2.0
-    if READ_DEPTH>1:
-        f=READ_DEPTH
-    else:
-        if os.path.exists(sfcoverage)!=True:
-            f=calcCoverage(sfleft_reads,READ_LENGTH, GENOME_LENGTH,VERBOSE) + calcCoverage(sfright_reads,READ_LENGTH, GENOME_LENGTH,VERBOSE)
-            fout_cov=open(sfcoverage,"wt")
-            fout_cov.write(str(f))
-            fout_cov.close()
-        else:
-            #read in file
-            fin_cov=open(sfcoverage,"rt")
-            f=float(fin_cov.readline())
-            fin_cov.close()
-
-    stest_output="Read coverage is: {0}".format(f)
-    print stest_output
-
+    f=READ_DEPTH
     min_dump_cnt=0
     if int(f)>MIN_REPEAT_FREQ:
         min_dump_cnt=int(f)
@@ -299,7 +282,11 @@ def assembly():
         kmer_path=OUTPUT_FOLDER+kmer_path
         kmer_jf=OUTPUT_FOLDER+"mer_counts.jf"
         if os.path.exists(kmer_path)!=True:
-            cntKmer(JELLYFISH_PATH, temp_k, JELLYFISH_TREADS, sfleft_reads, sfright_reads, min_dump_cnt, kmer_path, kmer_jf,VERBOSE)
+            if bpaired==True:
+                cntKmer(JELLYFISH_PATH, temp_k, JELLYFISH_TREADS, sfleft_reads, sfright_reads, min_dump_cnt, kmer_path, kmer_jf,VERBOSE)
+            else:
+                cntKmer(JELLYFISH_PATH, temp_k, JELLYFISH_TREADS, sfsingle_reads, "-1", min_dump_cnt, kmer_path, kmer_jf,VERBOSE)
+
             if os.path.exists(kmer_jf) == True:
                 os.remove(kmer_jf)
 

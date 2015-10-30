@@ -18,26 +18,45 @@ def cntKmer(jpath, k_len, ithreads, flreads, frreads, min_cnt, foutput_dump, fou
 
     #check file format is fq or fastq.gz
     cmd=""
-    if flreads.lower().endswith(('.fq', '.fastq')) and frreads.lower().endswith(('.fq', '.fastq')):
-        cmd='{0} count -s 500M --bf-size 30M -C -m {1} -t {2} -o {3} -F 2 {4} {5}'.format(jpath, k_len, ithreads, foutput_jf, flreads, frreads)
-        if VERBOSE != 0:
-            print "Running command: "+ cmd +"..."
-        Popen(cmd, shell = True, stdout = PIPE).communicate()
-    elif flreads.lower().endswith(('.fastq.gz', 'fq.gz', 'gz')):
-        cmd_temp='ls {0} {1} | xargs -n 1 echo gunzip -c > {2}_generators'.format(flreads, frreads, foutput_dump)
-        if VERBOSE != 0:
-            print "Running command: "+ cmd_temp +"..."
-        Popen(cmd_temp, shell = True, stdout = PIPE).communicate()
-        cmd = '{0} count -s 500M --bf-size 30M -C -m {1} -t {2} -o {3} -F 2 -g {4}_generators -G 2'.format(jpath, k_len, ithreads, foutput_jf, foutput_dump)
-        if VERBOSE != 0:
-            print "Running command: "+ cmd +"..."
-        Popen(cmd, shell = True, stdout = PIPE).communicate()
+    if frreads!="-1": ##paired-end reads
+        if flreads.lower().endswith(('.fq', '.fastq')) and frreads.lower().endswith(('.fq', '.fastq')):
+            cmd='{0} count -s 500M --bf-size 30M -C -m {1} -t {2} -o {3} -F 2 {4} {5}'.format(jpath, k_len, ithreads, foutput_jf, flreads, frreads)
+            if VERBOSE != 0:
+                print "Running command: "+ cmd +"..."
+            Popen(cmd, shell = True, stdout = PIPE).communicate()
+        elif flreads.lower().endswith(('.fastq.gz', 'fq.gz', 'gz')):
+            cmd_temp='ls {0} {1} | xargs -n 1 echo gunzip -c > {2}_generators'.format(flreads, frreads, foutput_dump)
+            if VERBOSE != 0:
+                print "Running command: "+ cmd_temp +"..."
+            Popen(cmd_temp, shell = True, stdout = PIPE).communicate()
+            cmd = '{0} count -s 500M --bf-size 30M -C -m {1} -t {2} -o {3} -F 2 -g {4}_generators -G 2'.format(jpath, k_len, ithreads, foutput_jf, foutput_dump)
+            if VERBOSE != 0:
+                print "Running command: "+ cmd +"..."
+            Popen(cmd, shell = True, stdout = PIPE).communicate()
+        else:
+            print "The reads file is not ended with .fq, .fastq, .fq.gz, .fastq.gz or .gz!!!!"
     else:
-        print "The reads file is not ended with .fq, .fastq, .fq.gz, .fastq.gz or .gz!!!!"
+        ##single-end reads
+        if flreads.lower().endswith(('.fq', '.fastq')):
+            cmd='{0} count -s 500M --bf-size 30M -C -m {1} -t {2} -o {3} {4}'.format(jpath, k_len, ithreads, foutput_jf, flreads)
+            if VERBOSE != 0:
+                print "Running command: "+ cmd +"..."
+            Popen(cmd, shell = True, stdout = PIPE).communicate()
+        elif flreads.lower().endswith(('.fastq.gz', 'fq.gz', 'gz')):
+            cmd_temp='ls {0} | xargs -n 1 echo gunzip -c > {1}_generators'.format(flreads, foutput_dump)
+            if VERBOSE != 0:
+                print "Running command: "+ cmd_temp +"..."
+            Popen(cmd_temp, shell = True, stdout = PIPE).communicate()
+            cmd = '{0} count -s 500M --bf-size 30M -C -m {1} -t {2} -o {3} -g {4}_generators'.format(jpath, k_len, ithreads, foutput_jf, foutput_dump)
+            if VERBOSE != 0:
+                print "Running command: "+ cmd +"..."
+            Popen(cmd, shell = True, stdout = PIPE).communicate()
+        else:
+            print "The reads file is not ended with .fq, .fastq, .fq.gz, .fastq.gz or .gz!!!!"
 
 
     #dump
-    cmd="{0} dump -L 10 -o {2} {3}".format(jpath, min_cnt,foutput_dump, foutput_jf)
+    cmd="{0} dump -L 5 -o {2} {3}".format(jpath, min_cnt,foutput_dump, foutput_jf)
     if VERBOSE != 0:
         print "Running command: "+ cmd +"..."
     Popen(cmd, shell = True, stdout = PIPE).communicate()

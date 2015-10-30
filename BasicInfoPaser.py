@@ -8,7 +8,7 @@ import glob
 from subprocess import *
 
 
-#calculate coverage 
+#calculate coverage
 def calcCoverage(fpath, read_length, genome_length, VERBOSE):
     #print fpath
     cnt_lines=0
