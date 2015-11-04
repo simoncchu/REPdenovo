@@ -105,7 +105,7 @@ Run the assembly part:
 
 python ./main.py Assembly configuration-file-name raw-reads-file-name 
  
-Then run the scaffolding and analysis part:
+Then run the scaffolding and analysis part (not work for single-end reads):
 
 python ./main.py Scaffolding configuration-file-name raw-reads-file-name
 
