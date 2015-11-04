@@ -23,19 +23,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="main.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="321" column="7" selection-start="11907" selection-end="11907" vertical-scroll-proportion="0.116883114" vertical-offset="5223" max-vertical-offset="6069">
+            <state line="338" column="52" selection-start="13007" selection-end="13007" vertical-scroll-proportion="0.0" vertical-offset="4917" max-vertical-offset="6069">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gnrtConcensusKmers.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="gnrtConcensusKmers.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/gnrtConcensusKmers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="102" column="40" selection-start="2489" selection-end="2489" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2465">
+            <state line="11" column="18" selection-start="224" selection-end="224" vertical-scroll-proportion="0.17171717" vertical-offset="0" max-vertical-offset="2465">
               <folding />
             </state>
           </provider>
@@ -792,16 +792,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/gnrtConcensusKmers.py">
+    <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="102" column="40" selection-start="2489" selection-end="2489" vertical-scroll-proportion="0.0" vertical-offset="803" max-vertical-offset="2465">
+        <state line="338" column="52" selection-start="13007" selection-end="13007" vertical-scroll-proportion="0.0" vertical-offset="4917" max-vertical-offset="6069">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/gnrtConcensusKmers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="321" column="7" selection-start="11907" selection-end="11907" vertical-scroll-proportion="0.116883114" vertical-offset="5223" max-vertical-offset="6069">
+        <state line="11" column="18" selection-start="224" selection-end="224" vertical-scroll-proportion="0.17171717" vertical-offset="0" max-vertical-offset="2465">
           <folding />
         </state>
       </provider>
