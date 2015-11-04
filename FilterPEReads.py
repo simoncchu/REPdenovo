@@ -3,6 +3,8 @@ __author__ = 'Chong Chu'
 import sys
 import os
 from subprocess import *
+from Utility import SAMTOOLS_PATH
+from Utility import getSamtoolsPath
 
 #sam reads sorted by read name
 def filterPEByMapQuality(sfsam,mapq, sfsam_output):
@@ -64,28 +66,31 @@ def filterByCigar():
     return
 
 def filterSam(sfsam, mapq,sfsam_output):
+    SAMTOOLS_PATH=getSamtoolsPath()
+
     print "First, filter out those unmapped reads in {0} ...".format(sfsam)
     #First, only keep those fully mapped reads
     sintermediate="{0}_intermediate.sam".format(sfsam)
-    cmd="samtools view -h -S -F 4 {0} > {1}".format(sfsam,sintermediate)
+    cmd="{0} view -h -S -F 4 {1} > {2}".format(SAMTOOLS_PATH,sfsam,sintermediate)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="samtools view -h -S -b {0} > {1}.bam".format(sintermediate,sintermediate)
+    cmd="{0} view -h -S -b {1} > {2}.bam".format(SAMTOOLS_PATH,sintermediate,sintermediate)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
     os.remove(sfsam)
 
     ##keep the mapped reads(for calculating coverage), covert to bam and sort
     sbam_for_cov="{0}_for_coverage".format(sfsam)
     print "Sort filtered {0} ...".format(sintermediate)
-    cmd="samtools sort {0}.bam {1}.sorted".format(sintermediate,sbam_for_cov)
+    cmd="{0} sort {1}.bam {2}.sorted".format(SAMTOOLS_PATH,sintermediate,sbam_for_cov)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="samtools index {0}.sorted.bam".format(sbam_for_cov)
+    cmd="{0} index {1}.sorted.bam".format(SAMTOOLS_PATH,sbam_for_cov)
+    Popen(cmd, shell = True, stdout = PIPE).communicate()
 
     print "Sort filtered {0} by read name ...".format(sfsam)
     #first covert to bam, then sort
-    cmd="samtools sort -n {0}.bam {1}.sortbyname".format(sintermediate,sintermediate)
+    cmd="{0} sort -n {1}.bam {2}.sortbyname".format(SAMTOOLS_PATH,sintermediate,sintermediate)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
     # then covert back to sam
-    cmd="samtools view -h {0}.sortbyname.bam > {1}".format(sintermediate,sintermediate)
+    cmd="{0} view -h {1}.sortbyname.bam > {2}".format(SAMTOOLS_PATH,sintermediate,sintermediate)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
     print "Filter out pairs that mapping quality are low, or only one in pair is qualified...."

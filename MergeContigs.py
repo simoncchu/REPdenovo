@@ -3,40 +3,45 @@ __author__ = 'Chong Chu'
 import sys
 import os
 from subprocess import *
-
-'''
-sh removeDupRepeatsOfOneContigSet.sh $1 $1.no_dup.fa $2
-sh mergeContigs.sh $1.no_dup.fa
-sh removeDupRepeatsOfOneContigSet.sh $1.no_dup.fa.merged.fa $1.no_dup.fa.merged.fa.no_dup.fa $3
-sh removeContainedRepeatsOfOneContigSet.sh $1.no_dup.fa.merged.fa.no_dup.fa $1.no_dup.fa.merged.fa.no_dup.no_contain.fa $3
-sh alignContigs2Bcmk.sh $1.no_dup.fa.merged.fa.no_dup.fa
-'''
+from Utility import printCommand
+from Utility import BWA_PATH
+from Utility import getBWAPath
+from Utility import SAMTOOLS_PATH
+from Utility import getSamtoolsPath
+from Utility import REFINER_PATH
+from Utility import getRefinerPath
 
 def removeDuplicateContained(fcontig, foutput, cutoff, brm_contained):
+    BWA_PATH=getBWAPath()
+    SAMTOOLS_PATH=getSamtoolsPath()
+    REFINER_PATH=getRefinerPath()
+
     #remove duplicate or contained contigs
-    cmd="samtools faidx {0}".format(fcontig)
+    cmd="{0} faidx {1}".format(SAMTOOLS_PATH,fcontig)
+    printCommand("Running command: "+cmd)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="./TERefiner_1 -U -r {0} -o {1}".format(fcontig,fcontig)
-    Popen(cmd, shell = True, stdout = PIPE).communicate()
-
-    cmd="samtools faidx {0}".format(fcontig)
-    Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="bwa index {0}".format(fcontig)
-    Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="bwa mem -a {0} {1} > {2}.itself.sam".format(fcontig,fcontig,fcontig)
+    cmd="{0} -U -r {1} -o {2}".format(REFINER_PATH,fcontig,fcontig)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
-    cmd="samtools view -h -S -b {0}.itself.sam > {1}.itself.bam".format(fcontig,fcontig)
+    cmd="{0} faidx {1}".format(SAMTOOLS_PATH,fcontig)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="samtools sort {0}.itself.bam {1}.itself.sort".format(fcontig,fcontig)
+    cmd="{0} index {1}".format(BWA_PATH,fcontig)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="samtools index {0}.itself.sort.bam".format(fcontig)
+    cmd="{0} mem -a {1} {2} > {3}.itself.sam".format(BWA_PATH,fcontig,fcontig,fcontig)
+    Popen(cmd, shell = True, stdout = PIPE).communicate()
+
+    cmd="{0} view -h -S -b {1}.itself.sam > {2}.itself.bam".format(SAMTOOLS_PATH,fcontig,fcontig)
+    Popen(cmd, shell = True, stdout = PIPE).communicate()
+    cmd="{0} sort {1}.itself.bam {2}.itself.sort".format(SAMTOOLS_PATH,fcontig,fcontig)
+    Popen(cmd, shell = True, stdout = PIPE).communicate()
+    cmd="{0} index {1}.itself.sort.bam".format(SAMTOOLS_PATH,fcontig)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
     if brm_contained==True:
-        cmd="./TERefiner_1 -P -b {0}.itself.sort.bam -r {1} -o {2} -c {3} -g".format(fcontig,fcontig,foutput,cutoff)
+        cmd="{0} -P -b {1}.itself.sort.bam -r {2} -o {3} -c {4} -g".format(REFINER_PATH,fcontig,fcontig,foutput,cutoff)
     else:
-        cmd="./TERefiner_1 -P -b {0}.itself.sort.bam -r {1} -o {2} -c {3}".format(fcontig,fcontig,foutput,cutoff)
+        cmd="{0} -P -b {1}.itself.sort.bam -r {2} -o {3} -c {4}".format(REFINER_PATH,fcontig,fcontig,foutput,cutoff)
+    printCommand(cmd)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
     ##clean all the temporary files
@@ -62,20 +67,21 @@ def removeDuplicateContained(fcontig, foutput, cutoff, brm_contained):
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
 
-def mergeContigs(fout_folder, nthreads, cutoff_dup_bf_merge, cutoff_dup_af_merge):
+def mergeContigs(contigs_merger_path, fout_folder, nthreads, cutoff_dup_bf_merge, cutoff_dup_af_merge):
     fcontig=fout_folder+"contigs.fa"
     foutput=fcontig+"_no_dup.fa"
     removeDuplicateContained(fcontig, foutput, cutoff_dup_bf_merge, False)
 
-    cmd="./ContigsMerger -s 0.2 -i1 -6.0 -i2 -6.0 -x 15 -k 10 -t {0} -m 1 -o {1}.merge.info {2} > {3}.merged.fa".format(nthreads,foutput,foutput,foutput)
+    cmd="{0} -s 0.2 -i1 -6.0 -i2 -6.0 -x 15 -k 10 -t {1} -m 1 -o {2}.merge.info {3} > {4}.merged.fa".format(contigs_merger_path,nthreads,foutput,foutput,foutput)
+    printCommand(cmd)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
     fcontig="{0}.merged.fa".format(foutput)
     foutput="{0}.no_dup.fa".format(fcontig)
-    removeDuplicateContained(fcontig,foutput, cutoff_dup_af_merge ,False)
+    removeDuplicateContained(fcontig,foutput, cutoff_dup_af_merge, False)
     fcontig=foutput
     foutput=fcontig+".no_contained.fa"
-    removeDuplicateContained(fcontig,foutput, cutoff_dup_af_merge ,True)
+    removeDuplicateContained(fcontig, foutput, cutoff_dup_af_merge, True)
 
     #rename contigs.fa
     os.rename(fout_folder+"contigs.fa", fout_folder+"original_contigs_before_merging.fa")

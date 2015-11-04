@@ -1,0 +1,1 @@
+/data2/chongchu/1000Genomes/NA12889/ERR234328.filt.fastq -1 -1 -1

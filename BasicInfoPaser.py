@@ -6,46 +6,55 @@ import os
 import shutil
 import glob
 from subprocess import *
+from Utility import OUTPUT_FOLDER
+from Utility import getOutputFolder
+from Utility import printCommand
 
+def calcTotalCoverage(bpaired,sfleft_reads,sfright_reads,sfsingle_reads,READ_LENGTH,GENOME_LENGTH):
+    print "Calculating average coverage...."
+    OUTPUT_FOLDER=getOutputFolder()
+    sfcoverage=OUTPUT_FOLDER+"reads_coverage.txt"
+    f=2.0
+
+    if os.path.exists(sfcoverage)!=True:
+        #print "Test: ", sfleft_reads###########################################################################################################3
+        if bpaired==True:
+            f=calcCoverage(sfleft_reads,READ_LENGTH, GENOME_LENGTH) + calcCoverage(sfright_reads,READ_LENGTH, GENOME_LENGTH)
+        else:
+            f=calcCoverage(sfsingle_reads,READ_LENGTH, GENOME_LENGTH)
+        fout_cov=open(sfcoverage,"wt")
+        fout_cov.write(str(f))
+        fout_cov.close()
+    else:
+        #read in file
+        fin_cov=open(sfcoverage,"rt")
+        f=float(fin_cov.readline())
+        fin_cov.close()
+
+    stest_output="Read coverage is: {0}".format(f)
+    print stest_output
+    return f
 
 #calculate coverage
-def calcCoverage(fpath, read_length, genome_length, VERBOSE):
-    #print fpath
+def calcCoverage(fpath, read_length, genome_length):
     cnt_lines=0
     cmd=""
     if fpath.lower().endswith(('.fq', '.fastq')):
         cmd="echo $(wc -l {0})".format(fpath)
     elif fpath.lower().endswith(('.fastq.gz', 'fq.gz', 'gz')):
         cmd="echo $(zcat {0} | wc -l)".format(fpath)
-        #p=Popen(cmd, shell = True, stdout = PIPE)
-        #p.communicate()
-        #cnt_lines=int(p.stdout.readline())
     else:
         print "Something wrong with the raw reads files format:", fpath
 
-    if VERBOSE != 0:
-        print "Running command: "+ cmd +"..."
+    printCommand("Running command: "+ cmd +"...")
+
     tp=tuple(Popen(cmd, shell = True, stdout = PIPE).communicate())
     lcnt=str(tp[0]).split()
-    print "The number of reads in file {0} is {1}".format(fpath,tp)
+    printCommand("The number of reads in file {0} is {1}".format(fpath,tp))
     cnt_lines=int(lcnt[0])
     cnt_reads=int(cnt_lines)/4
     cov=float(cnt_reads*read_length)/float(genome_length)
     return cov
-
-#calcCoverage(sys.argv[1], 0, 0)
-
-#concatenate files of given suffix
-#Input: suffix
-#Output:
-'''
-def concatenateFiles(suffix, sout):
-    with open(sout, 'wb') as outfile:
-        for filename in glob.glob(suffix):
-            with open(filename, 'rb') as readfile:
-                shutil.copyfileobj(readfile, outfile)
-
-'''
 
 
 '''
