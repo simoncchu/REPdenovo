@@ -53,7 +53,7 @@ For single end reads, group, mean-insert-size and insert-size-standard-derivatio
 
 For paired-end reads, left raw reads and right raw reads should be in separate files, and in two lines (one line for left raw reads, and the other for right raw reads). 
 The "group" should be same for these two lines. 
-**Users can find one sample (for both paired-end reads and single-end reads) from the same folder in this github cite.**
+**Users can find sample files (for both paired-end reads and single-end reads) from the same folder in this github cite.**
 
 REPdenovo needs a configuration file, which tells REPdenovo the basic settings. Users can find one sample from the same folder in this github cite.
 
