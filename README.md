@@ -11,8 +11,8 @@ Please check back this site for more up-to-date information on citing this softw
 
 ## **Functionalities and Usage of REPdenovo**
 REPdenovo is designed for constructing repeats directly from sequence reads. It based on the idea of frequent k-mer assembly. REPdenovo provides many
-functionalities, and can generate much longer repeats than existing tools.
-REPdenovo supports the following main functionalities. 
+functionalities, and can generate much longer repeats than existing tools. The overall pipeline is shown in the mannual file.
+REPdenovo supports the following main functionalities.
 
 1. Assembly. This step performs k-mer counting. Then we find frequent k-mers whose frequencies are over certain threshold. We then assemble these frequent k-mers into consensus repeats (in the form of contigs). Then we merge the constructed contigs to more completeness ones.
 
