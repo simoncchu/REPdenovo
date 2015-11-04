@@ -47,18 +47,19 @@ chmod +x ./TERefiner_1  &&  chmod +x ./ContigsMerger
 ## **Preparing inputs**
 REPdenovo takes sequence reads in the FASTQ format (uncompressed or compressed in .fastq.gz format). A raw reads file which list the path, mean and standard derivation of the insert size should be provided in the format:
 
-Read-file-path group mean-insert-size insert-size-standard-derivation
+**Read-file-path group mean-insert-size insert-size-standard-derivation**
 
 For single end reads, group, mean-insert-size and insert-size-standard-derivation should be set to -1. 
 
 For paired-end reads, left raw reads and right raw reads should be in separate files, and in two lines (one line for left raw reads, and the other for right raw reads). 
 The "group" should be same for these two lines. 
-Users can find one sample (for paired-end reads) from the same folder in this github cite.
+**Users can find one sample (for both paired-end reads and single-end reads) from the same folder in this github cite.**
 
 REPdenovo needs a configuration file, which tells REPdenovo the basic settings. Users can find one sample from the same folder in this github cite.
 
 Here, we give an explanation on the parameters.
-In general, you should have all the entries shown in the figure. For some parameters, the values shown in the example are perhaps those that you should use (especially those are said to not change below).
+**In general, you can find all the entries in the sample configuration file.** For some parameters, 
+the values shown in the example are perhaps those that you should use (especially those are said to not change below).
 
 MIN_REPEAT_FREQ.  This is the cutoff of k-mers that are considered to be frequent for assembly. Note that this is the relative to the average coverage of the sequence reads. The average coverage of the sequence reads is calculated by the number of reads, reads length and the genome size. 
 
