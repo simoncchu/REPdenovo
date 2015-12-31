@@ -56,7 +56,7 @@ def cntKmer(jpath, k_len, ithreads, flreads, frreads, min_cnt, foutput_dump, fou
 
 
     #dump
-    cmd="{0} dump -L 10 -o {2} {3}".format(jpath, min_cnt,foutput_dump, foutput_jf)
+    cmd="{0} dump -L {1} -o {2} {3}".format(jpath, min_cnt,foutput_dump, foutput_jf)
     if VERBOSE != 0:
         print "Running command: "+ cmd +"..."
     Popen(cmd, shell = True, stdout = PIPE).communicate()
