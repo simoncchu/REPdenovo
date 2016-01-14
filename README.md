@@ -106,11 +106,11 @@ VERBOSE. If set to be 1, output more information about the current running state
 ## **Basic usage**
 Run the assembly part:
 
-python ./main.py Assembly configuration-file-name raw-reads-file-name 
+python ./main.py -c Assembly -g configuration-file-name -r raw-reads-file-name 
  
 Then run the scaffolding and analysis part (not work for single-end reads):
 
-python ./main.py Scaffolding configuration-file-name raw-reads-file-name
+python ./main.py -c Scaffolding -g configuration-file-name -r raw-reads-file-name
 
 ## **Ouptput**
 Two main output:
