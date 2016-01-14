@@ -1,19 +1,21 @@
-
 __author__ = 'Chong Chu'
 #!/usr/bin/env python
 
 import sys
 import os
+import argparse
 from subprocess import *
 
-from Utility import setParameters
+from Utility import *
 from Assembly import *
 from BasicInfoPaser import *
 from ClassifyContigs import *
 from MergeContigs import *
 from FilterAndScaffold import *
 
-##########################################################################################################
+############################################################################76 characters
+
+############################################################################
 ###public values #######################
 MIN_REPEAT_FREQ=1000
 RELATIVE_FREQ_ON=1
@@ -45,7 +47,6 @@ sfright_reads=""
 sfsingle_reads=""
 file_list=[]
 
-
 local_BWA_PATH="bwa"
 local_SAMTOOLS_PATH="samtools"
 local_REFINER_PATH="./TERefiner_1"
@@ -55,10 +56,10 @@ local_CONTIGS_MERGER_PATH="./ContigsMerger"
 local_THREADS=15
 local_OUTPUT_FOLDER="./REPdenovo_Output/"
 local_VERBOSE=0
-########################################################################################################
+#############################################################################
 
-#####read in configuration file#########################################################################
-def readConfigFile(sfconfig):
+#####read in configuration file##############################################
+def read_configfile(sfconfig):
     fconfig=open(sfconfig,"r")
     sflines=fconfig.readlines()
     for line in sflines:
@@ -182,11 +183,14 @@ def readConfigFile(sfconfig):
         info="{0} is not found !".format(local_CONTIGS_MERGER_PATH)
         sys.exit(info)
 
-    setParameters(local_BWA_PATH,local_SAMTOOLS_PATH,local_REFINER_PATH,local_JELLYFISH_PATH,local_VELVET_PATH,\
+    set_parameters(local_BWA_PATH,local_SAMTOOLS_PATH,local_REFINER_PATH,\
+                  local_JELLYFISH_PATH,local_VELVET_PATH,\
                   local_THREADS,local_OUTPUT_FOLDER,local_VERBOSE)
 
+
+
 ######read in raw reads files###########################################################################################
-def readRawReadsList(sfreads_list):
+def read_rawreads_list(sfreads_list):
     freads=open(sfreads_list,'r')
     sflines=freads.readlines()
     i=0
@@ -234,8 +238,8 @@ def readRawReadsList(sfreads_list):
     freads.close()
 
 
-############main procedure of assembly and process contigs##############################################################
-def rmTRFromContigs(vtr):
+############main procedure of assembly and process contigs#####################
+def rmTR_from_contigs(vtr):
     global  local_OUTPUT_FOLDER
 
     dtr={}
@@ -244,7 +248,7 @@ def rmTRFromContigs(vtr):
             dtr[sname]=1
     sall=local_OUTPUT_FOLDER+"contigs.fa"
     shutil.copy2(sall, local_OUTPUT_FOLDER+"contigs_before_remove_TR.fa")
-    dcontigs=readContigFa(sall,False)
+    dcontigs=read_contig_fa(sall,False)
 
     fnew_contigs=open(sall,"w")
     for key in dcontigs:
@@ -256,35 +260,55 @@ def rmTRFromContigs(vtr):
     fnew_contigs.close()
 
 
-def clearAll():
+def clear_all():
     global  local_OUTPUT_FOLDER
 
     cmd="rm {0}reads_coverage.txt".format(local_OUTPUT_FOLDER)
-    printCommand(cmd)
+    print_command(cmd)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
-    printCommand(cmd)
+    print_command(cmd)
     cmd="rm {0}dumped_*mers.txt".format(local_OUTPUT_FOLDER)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
-    printCommand(cmd)
+    print_command(cmd)
     print "Running command: "+ cmd +"..."
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
 
 def usage():
-    print 'Usage: python {0} Options configure_file raw_reads_list_file(or sam file)\n'.format(sys.argv[0]),
+    print 'Usage: python {0} -c Options -g configure_file -r raw_reads_list_file(or sam file)\n'.format(sys.argv[0]),
     print 'Options:\n',
     print '    Clean          Remove all the temporary files\n',
     print '    All            Run the whole pipeline\n',
     print '    Assembly       Only run the assembly part\n',
+    print '    RmDup          Remove duplicate and contained ones\n',
     print '    Classify       Classfy tandem repeats from other types of repeats',
     print '    Scaffolding    Only run the scaffolding part, with the given contig file\n'
     print '    Analysis       Scaffolding and analysis with given bam files and contig file\n',
-    print 'Example of running the whole pipeline: python main.py All configre.txt ram_reads.txt'
+    print 'Example of running the whole pipeline: python main.py -c All -g config.txt -r ram_reads.txt'
 ########################################################################################################################
+
+
+def get_args():
+    # Assign description to the help doc
+    parser = argparse.ArgumentParser(
+        description='Run the pipeline of REPdenovo')
+    # Add arguments
+    parser.add_argument(
+        '-g', '--config', type=str, help='Configuration file name', required=True)
+    parser.add_argument(
+        '-r', '--reads', type=str, help='Raw reads file names', required=True)
+    parser.add_argument(
+        '-c', '--command', type=str, help='Specific command', required=True)
+
+    args = parser.parse_args()
+    sfconfig=args.config
+    sfreads_list = args.reads
+    scommand=args.command
+
+    return sfconfig, sfreads_list, scommand
+
 #####Main Procedure#####################################################################################################
-
-
-def mainFunc(scommand,sfconfig,sfreads_list):
+def main_func(scommand,sfconfig,sfreads_list):
     global READ_DEPTH
     global MIN_REPEAT_FREQ
     global local_OUTPUT_FOLDER
@@ -295,7 +319,7 @@ def mainFunc(scommand,sfconfig,sfreads_list):
     global local_THREADS, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF
 
     assert os.path.exists(sfconfig),"configuration file is not found"
-    readConfigFile(sfconfig)
+    read_configfile(sfconfig)
 
     if local_OUTPUT_FOLDER[-1]!='/':
         local_OUTPUT_FOLDER+="/"
@@ -303,7 +327,7 @@ def mainFunc(scommand,sfconfig,sfreads_list):
         os.makedirs(local_OUTPUT_FOLDER)
 
     assert os.path.exists(sfreads_list),"raw reads list file is not found"
-    readRawReadsList(sfreads_list)
+    read_rawreads_list(sfreads_list)
 
     if bpaired==True:
         sfleft_reads=file_list[0][0]
@@ -315,36 +339,45 @@ def mainFunc(scommand,sfconfig,sfreads_list):
         isinsert_size=file_list[0][1]
 
     if READ_DEPTH<=1:
-        READ_DEPTH=calcTotalCoverage(bpaired,sfleft_reads,sfright_reads,sfsingle_reads,READ_LENGTH,GENOME_LENGTH)
+        READ_DEPTH=calc_total_coverage(bpaired,sfleft_reads,sfright_reads,\
+                                     sfsingle_reads,READ_LENGTH,GENOME_LENGTH)
 
     MIN_REPEAT_FREQ=int(MIN_REPEAT_FREQ*READ_DEPTH) ##use value that relative to coverage
 
     if scommand=="Scaffolding":
-        alignReadToContigs(file_list)
+        align_read_to_contigs(file_list)
         scaffold(file_list,READ_LENGTH,COV_DIFF_CUTOFF, MIN_SUPPORT_PAIRS)
     elif scommand=="Analysis":
-        scaffoldwithBamList(file_list,READ_LENGTH,COV_DIFF_CUTOFF,MIN_SUPPORT_PAIRS)
+        scaffold_with_bam_list(file_list,READ_LENGTH,COV_DIFF_CUTOFF,MIN_SUPPORT_PAIRS)
     elif scommand=="Clean":
-        clearAll()
+        clear_all()
     elif scommand=='Assembly':
-        assembly(K_MIN, K_MAX, K_INC, MIN_REPEAT_FREQ, RANGE_ASM_FREQ_DEC_TIMES, RANGE_ASM_FREQ_INC_TIMES,READ_DEPTH,\
-             ASM_NODE_LENGTH_OFFSET, MIN_CONTIG_LENGTH,RANGE_ASM_FREQ_DEC,\
-             bpaired, sfleft_reads, sfright_reads, sfsingle_reads)
-        mergeContigs(local_CONTIGS_MERGER_PATH,local_OUTPUT_FOLDER,local_THREADS, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
+        assembly(K_MIN, K_MAX, K_INC, MIN_REPEAT_FREQ, RANGE_ASM_FREQ_DEC_TIMES,\
+                 RANGE_ASM_FREQ_INC_TIMES,READ_DEPTH,\
+                 ASM_NODE_LENGTH_OFFSET, MIN_CONTIG_LENGTH,RANGE_ASM_FREQ_DEC,\
+                 bpaired, sfleft_reads, sfright_reads, sfsingle_reads)
+        merge_contigs(local_CONTIGS_MERGER_PATH,local_OUTPUT_FOLDER,local_THREADS, \
+                     RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
     elif scommand=="Merging":
-        mergeContigs(local_CONTIGS_MERGER_PATH,local_OUTPUT_FOLDER,local_THREADS, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
+        merge_contigs(local_CONTIGS_MERGER_PATH,local_OUTPUT_FOLDER,local_THREADS, \
+                     RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
     elif scommand=='Classify':
-        vtr=classifyContigs(local_OUTPUT_FOLDER, K_MIN, K_MAX, K_INC, ASM_NODE_LENGTH_OFFSET, TR_SIMILARITY)
-        #rmTRFromContigs(vtr)
+        vtr=classify_contigs(local_OUTPUT_FOLDER, K_MIN, K_MAX, K_INC, \
+                            ASM_NODE_LENGTH_OFFSET, TR_SIMILARITY)
+        #rmTR_from_contigs(vtr)
     elif scommand=="All":
-        assembly(K_MIN, K_MAX, K_INC, MIN_REPEAT_FREQ, RANGE_ASM_FREQ_DEC_TIMES, RANGE_ASM_FREQ_INC_TIMES,READ_DEPTH,\
-             ASM_NODE_LENGTH_OFFSET, MIN_CONTIG_LENGTH,RANGE_ASM_FREQ_DEC,\
-             bpaired, sfleft_reads, sfright_reads, sfsingle_reads)
-        mergeContigs(local_CONTIGS_MERGER_PATH,local_OUTPUT_FOLDER, local_THREADS, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
+        assembly(K_MIN, K_MAX, K_INC, MIN_REPEAT_FREQ, RANGE_ASM_FREQ_DEC_TIMES, \
+                 RANGE_ASM_FREQ_INC_TIMES,READ_DEPTH,\
+                 ASM_NODE_LENGTH_OFFSET, MIN_CONTIG_LENGTH,RANGE_ASM_FREQ_DEC,\
+                 bpaired, sfleft_reads, sfright_reads, sfsingle_reads)
+        merge_contigs(local_CONTIGS_MERGER_PATH,local_OUTPUT_FOLDER, \
+                     local_THREADS, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF)
         #vtr=classifyContigs(OUTPUT_FOLDER, K_MIN, K_MAX, K_INC, ASM_NODE_LENGTH_OFFSET, TR_SIMILARITY)
-        #rmTRFromContigs(vtr)
-        alignReadToContigs(file_list)
+        #rmTR_from_contigs(vtr)
+        align_read_to_contigs(file_list)
         scaffold(file_list,READ_LENGTH,COV_DIFF_CUTOFF, MIN_SUPPORT_PAIRS)
+    elif scommand=="RmDup":
+        rm_dup_contain(local_OUTPUT_FOLDER, RM_DUP_AF_MERGE_CUTOFF)
     else:
         print "Wrong parameters!!!\n"
         usage()
@@ -355,7 +388,8 @@ if __name__ == "__main__":
         usage()
         raise SystemExit
 
-    scommand=sys.argv[1]
-    sfconfig=sys.argv[2]
-    sfreads_list=sys.argv[3]
-    mainFunc(scommand,sfconfig,sfreads_list)
+    #scommand=sys.argv[1]
+    #sfconfig=sys.argv[2]
+    #sfreads_list=sys.argv[3]
+    sfconfig, sfreads_list, scommand = get_args()
+    main_func(scommand,sfconfig,sfreads_list)

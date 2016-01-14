@@ -4,10 +4,10 @@ import sys
 import os
 from subprocess import *
 from Utility import SAMTOOLS_PATH
-from Utility import getSamtoolsPath
+from Utility import get_samtools_path
 
 #sam reads sorted by read name
-def filterPEByMapQuality(sfsam,mapq, sfsam_output):
+def filter_PE_by_map_quality(sfsam,mapq, sfsam_output):
     print "Filtering out PE reads with mapping quality are smaller than "+str(mapq)+" ..."
 
     #first check whether files are existing
@@ -62,11 +62,11 @@ def filterPEByMapQuality(sfsam,mapq, sfsam_output):
 
 
 ##filter by cigar
-def filterByCigar():
+def filter_by_cigar():
     return
 
-def filterSam(sfsam, mapq,sfsam_output):
-    SAMTOOLS_PATH=getSamtoolsPath()
+def filter_sam(sfsam, mapq,sfsam_output):
+    SAMTOOLS_PATH=get_samtools_path()
 
     print "First, filter out those unmapped reads in {0} ...".format(sfsam)
     #First, only keep those fully mapped reads
@@ -95,7 +95,7 @@ def filterSam(sfsam, mapq,sfsam_output):
 
     print "Filter out pairs that mapping quality are low, or only one in pair is qualified...."
     #Then, filter through mapping quality
-    filterPEByMapQuality(sintermediate, mapq, sfsam_output)
+    filter_PE_by_map_quality(sintermediate, mapq, sfsam_output)
 
     #remove useless files
     os.remove(sintermediate)

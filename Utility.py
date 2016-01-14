@@ -7,7 +7,7 @@ THREADS=15
 OUTPUT_FOLDER="./REPdenovo_Output/"
 VERBOSE=True
 
-def setParameters(pbwa,psamtools,prefiner,pjellyfish,pvelvet,t,pout,vbs):
+def set_parameters(pbwa,psamtools,prefiner,pjellyfish,pvelvet,t,pout,vbs):
     global  BWA_PATH
     BWA_PATH=pbwa
     global  SAMTOOLS_PATH
@@ -25,38 +25,38 @@ def setParameters(pbwa,psamtools,prefiner,pjellyfish,pvelvet,t,pout,vbs):
     global VERBOSE
     VERBOSE=vbs
 
-def getBWAPath():
+def get_bwa_path():
     global BWA_PATH
     return BWA_PATH
 
-def getSamtoolsPath():
+def get_samtools_path():
     global SAMTOOLS_PATH
     return SAMTOOLS_PATH
 
-def getRefinerPath():
+def get_refiner_path():
     global REFINER_PATH
     return REFINER_PATH
 
-def getJellyfishPath():
+def get_jellyfish_path():
     global JELLYFISH_PATH
     return JELLYFISH_PATH
 
-def getVelvetPath():
+def get_velvet_path():
     global VELVET_PATH
     return VELVET_PATH
 
-def getThreadsNum():
+def get_threads_num():
     global THREADS
     return THREADS
 
-def getOutputFolder():
+def get_output_folder():
     global OUTPUT_FOLDER
     return OUTPUT_FOLDER
 
-def getVerbose():
+def get_verbose():
     global VERBOSE
     return VERBOSE
 
-def printCommand(cmd):
+def print_command(cmd):
     if VERBOSE!=0:
         print "Running command: "+cmd+" ..."

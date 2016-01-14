@@ -7,21 +7,21 @@ import shutil
 import glob
 from subprocess import *
 from Utility import OUTPUT_FOLDER
-from Utility import getOutputFolder
-from Utility import printCommand
+from Utility import get_output_folder
+from Utility import print_command
 
-def calcTotalCoverage(bpaired,sfleft_reads,sfright_reads,sfsingle_reads,READ_LENGTH,GENOME_LENGTH):
+def calc_total_coverage(bpaired,sfleft_reads,sfright_reads,sfsingle_reads,READ_LENGTH,GENOME_LENGTH):
     print "Calculating average coverage...."
-    OUTPUT_FOLDER=getOutputFolder()
+    OUTPUT_FOLDER=get_output_folder()
     sfcoverage=OUTPUT_FOLDER+"reads_coverage.txt"
     f=2.0
 
     if os.path.exists(sfcoverage)!=True:
         #print "Test: ", sfleft_reads###########################################################################################################3
         if bpaired==True:
-            f=calcCoverage(sfleft_reads,READ_LENGTH, GENOME_LENGTH) + calcCoverage(sfright_reads,READ_LENGTH, GENOME_LENGTH)
+            f=calc_coverage(sfleft_reads,READ_LENGTH, GENOME_LENGTH) + calc_coverage(sfright_reads,READ_LENGTH, GENOME_LENGTH)
         else:
-            f=calcCoverage(sfsingle_reads,READ_LENGTH, GENOME_LENGTH)
+            f=calc_coverage(sfsingle_reads,READ_LENGTH, GENOME_LENGTH)
         fout_cov=open(sfcoverage,"wt")
         fout_cov.write(str(f))
         fout_cov.close()
@@ -36,7 +36,7 @@ def calcTotalCoverage(bpaired,sfleft_reads,sfright_reads,sfsingle_reads,READ_LEN
     return f
 
 #calculate coverage
-def calcCoverage(fpath, read_length, genome_length):
+def calc_coverage(fpath, read_length, genome_length):
     cnt_lines=0
     cmd=""
     if fpath.lower().endswith(('.fq', '.fastq')):
@@ -46,11 +46,11 @@ def calcCoverage(fpath, read_length, genome_length):
     else:
         print "Something wrong with the raw reads files format:", fpath
 
-    printCommand("Running command: "+ cmd +"...")
+    print_command("Running command: "+ cmd +"...")
 
     tp=tuple(Popen(cmd, shell = True, stdout = PIPE).communicate())
     lcnt=str(tp[0]).split()
-    printCommand("The number of reads in file {0} is {1}".format(fpath,tp))
+    print_command("The number of reads in file {0} is {1}".format(fpath,tp))
     cnt_lines=int(lcnt[0])
     cnt_reads=int(cnt_lines)/4
     cov=float(cnt_reads*read_length)/float(genome_length)
@@ -64,7 +64,7 @@ Parameters:
     sffa: path of fa file
     brstrip: whether strip '\n' or others can be striped by rstrip()
 '''
-def readContigFa(sffa,brstrip):
+def read_contig_fa(sffa,brstrip):
     dcontigs={}
     name=""
     seq=""

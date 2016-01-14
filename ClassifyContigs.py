@@ -4,10 +4,10 @@ import sys
 import os
 from subprocess import *
 from collections import defaultdict
-from BasicInfoPaser import readContigFa
+from BasicInfoPaser import read_contig_fa
 
 
-def isSufPreOverlap(seq,ilen,icutoff):
+def is_suf_pre_overlap(seq,ilen,icutoff):
     if len(seq)<ilen:
         ilen=len(seq)
 
@@ -42,7 +42,7 @@ def parseSPRepeatContig(sffa):
         if line[0]=='>':
             name=line[1:]
             if last_name!="":
-                if isSufPreOverlap(seq,40,7)==True:
+                if is_suf_pre_overlap(seq,40,7)==True:
                     dcontigs[last_name]=seq
                     #print last_name, seq ####################################################################
                 seq=""
@@ -50,14 +50,14 @@ def parseSPRepeatContig(sffa):
         else:
             seq=seq+line
     ##check whether there is suffix and prefix overlap
-    if isSufPreOverlap(seq,40,7)==True:
+    if is_suf_pre_overlap(seq,40,7)==True:
         dcontigs[last_name]=seq
         print last_name, seq ################################################################################
     ffa.close()
     return dcontigs
 '''
 
-def classifyContigs(OUTPUT_FOLDER, k_start, k_end, k_inc, ASM_NODE_LENGTH_OFFSET, TR_SIMILARITY):
+def classify_contigs(OUTPUT_FOLDER, k_start, k_end, k_inc, ASM_NODE_LENGTH_OFFSET, TR_SIMILARITY):
     k_rounds=(k_end-k_start)/k_inc + 1
     #first read in all the length in to an array
     dseqs=[] #[]{}
@@ -66,7 +66,7 @@ def classifyContigs(OUTPUT_FOLDER, k_start, k_end, k_inc, ASM_NODE_LENGTH_OFFSET
     while k_begin<=k_end:
         sfcontig=OUTPUT_FOLDER+"contig_backup_for_{0}mer.fa".format(k_begin)
 
-        dfa=readContigFa(sfcontig,True)
+        dfa=read_contig_fa(sfcontig,True)
         dseqs.append(dfa)
 
         cmd="samtools faidx {0}".format(sfcontig)
@@ -147,7 +147,7 @@ def classifyContigs(OUTPUT_FOLDER, k_start, k_end, k_inc, ASM_NODE_LENGTH_OFFSET
             btr=True ##flag, is tandem repeat or not
 
             imin_len=k_start+ASM_NODE_LENGTH_OFFSET-1
-            if isSufPreOverlap(seq0,k_end+1,imin_len)==False: #######################################suffix prefix overlap
+            if is_suf_pre_overlap(seq0,k_end+1,imin_len)==False: #######################################suffix prefix overlap
                 btr=False
                 continue
             ##check whether can find an alignment in every other rounds
@@ -178,7 +178,7 @@ def classifyContigs(OUTPUT_FOLDER, k_start, k_end, k_inc, ASM_NODE_LENGTH_OFFSET
                     break
 
                 imin_len=j*k_inc+k_start+ASM_NODE_LENGTH_OFFSET-1
-                if isSufPreOverlap(dseqs[j][opt_node],k_end+1,imin_len)==False: #######################################suffix prefix overlap
+                if is_suf_pre_overlap(dseqs[j][opt_node],k_end+1,imin_len)==False: #######################################suffix prefix overlap
                     btr=False
                     break
 

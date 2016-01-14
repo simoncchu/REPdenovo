@@ -5,29 +5,22 @@ import sys
 import os
 import shutil
 from subprocess import *
-from KmerCount import *
-from Utility import OUTPUT_FOLDER
-from Utility import getOutputFolder
-from Utility import VELVET_PATH
-from Utility import getVelvetPath
-from Utility import JELLYFISH_PATH
-from Utility import getJellyfishPath
-from Utility import VERBOSE
-from Utility import getVerbose
-from Utility import THREADS
-from Utility import getThreadsNum
 
-def assembly(K_MIN, K_MAX, K_INC, MIN_REPEAT_FREQ, RANGE_ASM_FREQ_DEC_TIMES, RANGE_ASM_FREQ_INC_TIMES,READ_DEPTH,\
+from KmerCount import *
+from Utility import *
+
+def assembly(K_MIN, K_MAX, K_INC, MIN_REPEAT_FREQ, RANGE_ASM_FREQ_DEC_TIMES, \
+             RANGE_ASM_FREQ_INC_TIMES,READ_DEPTH,\
              ASM_NODE_LENGTH_OFFSET, MIN_CONTIG_LENGTH,RANGE_ASM_FREQ_DEC,\
              bpaired, sfleft_reads, sfright_reads, sfsingle_reads):
 
-    OUTPUT_FOLDER=getOutputFolder()
-    THREADS=getThreadsNum()
-    VERBOSE=getVerbose()
-    JELLYFISH_PATH=getJellyfishPath()
-    VELVET_PATH=getVelvetPath()
+    OUTPUT_FOLDER=get_output_folder()
+    THREADS=get_threads_num()
+    VERBOSE=get_verbose()
+    JELLYFISH_PATH=get_jellyfish_path()
+    VELVET_PATH=get_velvet_path()
 
-    clearBeforeAssembly()
+    clean_before_assembly()
     temp_k=K_MIN
     last_temp_k=-1
 
@@ -48,9 +41,11 @@ def assembly(K_MIN, K_MAX, K_INC, MIN_REPEAT_FREQ, RANGE_ASM_FREQ_DEC_TIMES, RAN
         kmer_jf=OUTPUT_FOLDER+"mer_counts.jf"
         if os.path.exists(kmer_path)!=True:
             if bpaired==True:
-                cntKmer(JELLYFISH_PATH, temp_k, THREADS, sfleft_reads, sfright_reads, min_dump_cnt, kmer_path, kmer_jf,VERBOSE)
+                cnt_kmers(JELLYFISH_PATH, temp_k, THREADS, sfleft_reads, \
+                        sfright_reads, min_dump_cnt, kmer_path, kmer_jf,VERBOSE)
             else:
-                cntKmer(JELLYFISH_PATH, temp_k, THREADS, sfsingle_reads, "-1", min_dump_cnt, kmer_path, kmer_jf,VERBOSE)
+                cnt_kmers(JELLYFISH_PATH, temp_k, THREADS, sfsingle_reads, \
+                        "-1", min_dump_cnt, kmer_path, kmer_jf,VERBOSE)
 
             if os.path.exists(kmer_jf) == True:
                 os.remove(kmer_jf)
@@ -121,10 +116,12 @@ def assembly(K_MIN, K_MAX, K_INC, MIN_REPEAT_FREQ, RANGE_ASM_FREQ_DEC_TIMES, RAN
 
             velvet_k=temp_k+ASM_NODE_LENGTH_OFFSET
 
-            output_folder1="{0}Asm_{1}_{2}_{3}".format(OUTPUT_FOLDER,temp_k,cur_kmer_freq,velvet_k)
+            output_folder1="{0}Asm_{1}_{2}_{3}".format(OUTPUT_FOLDER,temp_k,\
+                                                       cur_kmer_freq,velvet_k)
             sexist=output_folder1+"/contigs.fa"
             if os.path.exists(sexist)!=True:
-                assembleKmer(VELVET_PATH,velvet_k, kmer_fastq, MIN_CONTIG_LENGTH, output_folder1,VERBOSE)
+                assemble_kmers(VELVET_PATH,velvet_k, kmer_fastq, \
+                             MIN_CONTIG_LENGTH, output_folder1,VERBOSE)
 
             outfile=open(sconcate, 'a')
             readfile1=open(sexist, 'r')
@@ -153,8 +150,8 @@ def assembly(K_MIN, K_MAX, K_INC, MIN_REPEAT_FREQ, RANGE_ASM_FREQ_DEC_TIMES, RAN
         last_temp_k=temp_k
         temp_k += K_INC
 
-def clearBeforeAssembly():
-    OUTPUT_FOLDER=getOutputFolder()
+def clean_before_assembly():
+    OUTPUT_FOLDER=get_output_folder()
     cmd="rm -r {0}Asm_*".format(OUTPUT_FOLDER)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
     print cmd
@@ -166,7 +163,7 @@ def clearBeforeAssembly():
     print cmd
 
 #get file size
-def getSize(filename):
+def get_size(filename):
     st = os.stat(filename)
     return st.st_size
 
@@ -175,7 +172,7 @@ def getSize(filename):
 # -1, if no output
 #0, otherwise
 ####################
-def collectHighFreqKmers(kmer_freq, fkmer, fname_out):
+def collect_high_freq_kmers(kmer_freq, fkmer, fname_out):
     sss="Collect high frequency (larger than {0}) kmers...".format(kmer_freq)
     print sss
     cnt=0
@@ -202,7 +199,7 @@ def collectHighFreqKmers(kmer_freq, fkmer, fname_out):
     fout.close()
     fin.close()
 
-    if getSize(fname_out)<=0:
+    if get_size(fname_out)<=0:
         ss="No kmer found when frequency is {0}".format(kmer_freq)
         print ss
         return -1
@@ -214,7 +211,7 @@ def collectHighFreqKmers(kmer_freq, fkmer, fname_out):
 # -1, if no output
 #0, otherwise
 ####################
-def collectHighFreqKmersOfRegion(kmer_freq, slack ,fkmer, fname_out):
+def collect_high_freq_kmers_of_region(kmer_freq, slack ,fkmer, fname_out):
     sss="Collect high frequency (larger than {0}) kmers...".format(kmer_freq)
     print sss
     cnt=0
@@ -241,25 +238,25 @@ def collectHighFreqKmersOfRegion(kmer_freq, slack ,fkmer, fname_out):
     fout.close()
     fin.close()
 
-    if getSize(fname_out)<=0:
+    if get_size(fname_out)<=0:
         ss="No kmer found when frequency is {0}".format(kmer_freq)
         print ss
         return -1
     return 1
 
 
-def assembleKmer(vpath, k_len, ffastq, min_contig_len, output_folder, verbose):
+def assemble_kmers(vpath, k_len, ffastq, min_contig_len, output_folder, verbose):
     print "Assembly high frequency kmers ..."
     if vpath!="" and vpath[-1]!="/":
         vpath+="/"
     vpath_h = vpath+"velveth"
     vpath_g = vpath+"velvetg"
-    #print vpath_h########################################################################################################
+    #print vpath_h###############################################################################################
     assert os.path.exists(vpath_h),"velveth is not installed, or given the wrong path in configuration file!!!"
     assert os.path.exists(vpath_g),"velvetg is not installed, or given the wrong path in configuration file!!!"
 
     newpath=output_folder
-    #print newpath######################################################################################################################################
+    #print newpath################################################################################################
     if not os.path.exists(newpath): os.makedirs(newpath)
 
     cmd="{0} {1} {2} -fastq -short {3}".format(vpath_h,newpath,k_len,ffastq)

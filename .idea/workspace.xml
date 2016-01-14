@@ -23,85 +23,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="cntHitRepeats.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../Analysis_10X_100X/ncbi_blast/cntHitRepeats.py">
+      <file leaf-file-name="main.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="50" selection-start="900" selection-end="900" vertical-scroll-proportion="0.0" vertical-offset="646" max-vertical-offset="1105">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="parseCoveredReads.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/parseCoveredReads.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="17" selection-start="793" selection-end="793" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="1513">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="getQualifiedConcensus.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/getQualifiedConcensus.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="50" selection-start="225" selection-end="225" vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="221">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="checkDiff.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/REPolisher/checkDiff.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="1" selection-start="308" selection-end="308" vertical-scroll-proportion="0.0" vertical-offset="8" max-vertical-offset="1139">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="KmerCount.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/KmerCount.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="0" selection-start="440" selection-end="440" vertical-scroll-proportion="0.2905983" vertical-offset="0" max-vertical-offset="1139">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Assembly.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Assembly.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="0" selection-start="881" selection-end="881" vertical-scroll-proportion="-10.461538" vertical-offset="204" max-vertical-offset="4726">
+            <state line="389" column="0" selection-start="14797" selection-end="14797" vertical-scroll-proportion="1.3474114" vertical-offset="5624" max-vertical-offset="6817">
               <folding>
                 <element signature="e#48#58#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="106" selection-start="378" selection-end="378" vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="6086">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="getReadsKmerCntAssemblyGivenList.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/assemblyFromConcensus/getReadsKmerCntAssemblyGivenList.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="7" selection-start="1855" selection-end="1855" vertical-scroll-proportion="0.0" vertical-offset="748" max-vertical-offset="2465">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="splitConcensus.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/splitConcensus.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="62" column="23" selection-start="1471" selection-end="1471" vertical-scroll-proportion="0.0" vertical-offset="726" max-vertical-offset="1428">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -119,29 +47,16 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/copy_number/getCopyNum.py" />
-        <option value="$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/MaskedByRepeatMasker/parseRepeatFamilyFromRmsk.py" />
-        <option value="$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/MaskedByRepeatMasker/parseRepeatFamilyCopyNumFromRmsk.py" />
-        <option value="$PROJECT_DIR$/../../Results_10X/basic_info/calcN50.py" />
-        <option value="$PROJECT_DIR$/../../Results_10X/basic_info/cntContigNumLength.py" />
-        <option value="$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/getTotalMappedBases.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/region_kmer_counting/parseSubSam.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/checkHitFromCov.py" />
         <option value="$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/align.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/getReadsKmerCntAssemblyGivenList.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/findComponentsWithUnionFindSet.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/getReadsKmerCntAssemblyGivenList.py" />
-        <option value="$PROJECT_DIR$/FilterPEReads.py" />
         <option value="$PROJECT_DIR$/RmExactDupContigs.py" />
-        <option value="$PROJECT_DIR$/FilterAndScaffold.py" />
-        <option value="$PROJECT_DIR$/BasicInfoPaser.py" />
-        <option value="$PROJECT_DIR$/MergeContigs.py" />
-        <option value="$PROJECT_DIR$/Utility.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/UnionFindSet_RC.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/LTR10C/getEnd2EndFromBWA.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/LTR10C/grntExtendedFa.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/gnrtConcensusKmers_extnd.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/gnrtConcensusKmers.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/clusterKmers.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/clusterExactSeeds.py" />
@@ -164,20 +79,33 @@
         <option value="$PROJECT_DIR$/../../Kmer_analysis/parseCoveredReads.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/splitConcensus.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/assemblyFromConcensus/getReadsKmerCntAssemblyGivenList.py" />
-        <option value="G:/Others/DepOfPhy/DataAnalysis/stopResume.py" />
-        <option value="G:/Others/DepOfPhy/DataAnalysis/movingBalls.py" />
-        <option value="G:/Others/DepOfPhy/DataAnalysis/bonounceBalls.py" />
         <option value="$PROJECT_DIR$/../../Kmer_analysis/REPolisher/checkDiff.py" />
-        <option value="$PROJECT_DIR$/Assembly.py" />
+        <option value="$PROJECT_DIR$/../../Results_10X/human_validate/differ_kmers/blastRepbase2Constructed.py" />
+        <option value="G:/Others/DepOfPhy/DataAnalysis/stopResume.py" />
+        <option value="G:/Others/DepOfPhy/DataAnalysis/AsyLoadData.py" />
+        <option value="G:/Others/DepOfPhy/DataAnalysis/bonounceBalls.py" />
+        <option value="$PROJECT_DIR$/../../Repeats_PacBio/downSampling.py" />
+        <option value="G:/Others/DepOfPhy/DataAnalysis/data/downSampling.py" />
+        <option value="G:/Others/DepOfPhy/DataAnalysis/movingBalls.py" />
+        <option value="G:/Others/DepOfPhy/DataAnalysis/database.py" />
+        <option value="G:/Others/DepOfPhy/DataAnalysis/GameReViewer.py" />
         <option value="$PROJECT_DIR$/KmerCount.py" />
+        <option value="$PROJECT_DIR$/Utility.py" />
+        <option value="$PROJECT_DIR$/Assembly.py" />
+        <option value="$PROJECT_DIR$/MergeContigs.py" />
+        <option value="$PROJECT_DIR$/BasicInfoPaser.py" />
+        <option value="$PROJECT_DIR$/FilterPEReads.py" />
+        <option value="$PROJECT_DIR$/FilterAndScaffold.py" />
+        <option value="$PROJECT_DIR$/ClassifyContigs.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-7" />
-    <option name="y" value="2" />
-    <option name="width" value="1550" />
-    <option name="height" value="905" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1554" />
+    <option name="height" value="916" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -205,6 +133,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -225,7 +154,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -242,61 +170,7 @@
       <console-settings />
     </option>
   </component>
-  <component name="RunManager" selected="Python.bonounceBalls">
-    <configuration default="false" name="clusterKmers" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="REPdenovo" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/clusterKmers.py" />
-      <option name="PARAMETERS" value="" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="gnrtConcensusKmers_SeedExtendHash" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="REPdenovo" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/gnrtConcensusKmers_SeedExtendHash.py" />
-      <option name="PARAMETERS" value="" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="stopResume" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="G:/Others/DepOfPhy/DataAnalysis" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="REPdenovo" />
-      <option name="SCRIPT_NAME" value="G:/Others/DepOfPhy/DataAnalysis/stopResume.py" />
-      <option name="PARAMETERS" value="" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.database">
     <configuration default="false" name="movingBalls" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -315,7 +189,7 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <configuration default="false" name="bonounceBalls" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="AsyLoadData" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -327,7 +201,63 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="REPdenovo" />
-      <option name="SCRIPT_NAME" value="G:/Others/DepOfPhy/DataAnalysis/bonounceBalls.py" />
+      <option name="SCRIPT_NAME" value="G:/Others/DepOfPhy/DataAnalysis/AsyLoadData.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="downSampling" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="G:/Others/DepOfPhy/DataAnalysis/data" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="REPdenovo" />
+      <option name="SCRIPT_NAME" value="G:/Others/DepOfPhy/DataAnalysis/data/downSampling.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="database" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="G:/Others/DepOfPhy/DataAnalysis" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="REPdenovo" />
+      <option name="SCRIPT_NAME" value="G:/Others/DepOfPhy/DataAnalysis/database.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="GameReViewer" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="G:/Others/DepOfPhy/DataAnalysis" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="REPdenovo" />
+      <option name="SCRIPT_NAME" value="G:/Others/DepOfPhy/DataAnalysis/GameReViewer.py" />
       <option name="PARAMETERS" value="" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
@@ -455,19 +385,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.clusterKmers" />
-      <item index="1" class="java.lang.String" itemvalue="Python.gnrtConcensusKmers_SeedExtendHash" />
-      <item index="2" class="java.lang.String" itemvalue="Python.stopResume" />
-      <item index="3" class="java.lang.String" itemvalue="Python.movingBalls" />
-      <item index="4" class="java.lang.String" itemvalue="Python.bonounceBalls" />
+      <item index="0" class="java.lang.String" itemvalue="Python.movingBalls" />
+      <item index="1" class="java.lang.String" itemvalue="Python.AsyLoadData" />
+      <item index="2" class="java.lang.String" itemvalue="Python.downSampling" />
+      <item index="3" class="java.lang.String" itemvalue="Python.database" />
+      <item index="4" class="java.lang.String" itemvalue="Python.GameReViewer" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.bonounceBalls" />
-        <item index="1" class="java.lang.String" itemvalue="Python.movingBalls" />
-        <item index="2" class="java.lang.String" itemvalue="Python.stopResume" />
-        <item index="3" class="java.lang.String" itemvalue="Python.gnrtConcensusKmers_SeedExtendHash" />
-        <item index="4" class="java.lang.String" itemvalue="Python.clusterKmers" />
+        <item index="0" class="java.lang.String" itemvalue="Python.database" />
+        <item index="1" class="java.lang.String" itemvalue="Python.GameReViewer" />
+        <item index="2" class="java.lang.String" itemvalue="Python.movingBalls" />
+        <item index="3" class="java.lang.String" itemvalue="Python.downSampling" />
+        <item index="4" class="java.lang.String" itemvalue="Python.AsyLoadData" />
       </list>
     </recent_temporary>
   </component>
@@ -481,18 +411,18 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="2" width="1550" height="905" extended-state="1" />
+    <frame x="-8" y="-8" width="1554" height="916" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19431593" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19380356" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39892185" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3257677" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38157895" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -518,86 +448,20 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/KmerCount.py</url>
+          <line>3</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
+      <option name="time" value="17" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/assemblyFromConcensus/cntHitRepeats.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="39" selection-start="968" selection-end="968" vertical-scroll-proportion="0.0" vertical-offset="697" max-vertical-offset="1105">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/assemblyFromConcensus/getReadsKmerCntAssemblyGivenList.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="7" selection-start="1855" selection-end="1855" vertical-scroll-proportion="0.0" vertical-offset="748" max-vertical-offset="2465">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/splitConcensus.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="23" selection-start="1471" selection-end="1471" vertical-scroll-proportion="0.0" vertical-offset="726" max-vertical-offset="1428">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/align.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="0" selection-start="624" selection-end="624" vertical-scroll-proportion="0.3936324" vertical-offset="0" max-vertical-offset="691" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../RNA_Reads_Mapping/SpliceJumper/SpliceJumper/algorithms/local_alignment.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="40" selection-start="705" selection-end="705" vertical-scroll-proportion="0.50710225" vertical-offset="0" max-vertical-offset="704" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/checkHitFromCov.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="31" selection-start="253" selection-end="253" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1173" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/assemblyBySGA/parseSam.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="3" selection-start="1222" selection-end="1222" vertical-scroll-proportion="0.0" vertical-offset="1200" max-vertical-offset="1904" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FilterPEReads.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="57" selection-start="2710" selection-end="2710" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1870" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MergeContigs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="57" selection-start="2267" selection-end="2267" vertical-scroll-proportion="0.0" vertical-offset="561" max-vertical-offset="1615" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/getReadsKmerCntAssemblyGivenList.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="82" selection-start="3569" selection-end="3569" vertical-scroll-proportion="1.4127465" vertical-offset="327" max-vertical-offset="2006" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/hitRepbase_analysis/parseSam.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="20" selection-start="1135" selection-end="1135" vertical-scroll-proportion="0.73363096" vertical-offset="391" max-vertical-offset="1921" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/LTR10C/grntExtendedFa.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="223" selection-end="223" vertical-scroll-proportion="0.27827382" vertical-offset="0" max-vertical-offset="672" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Utility.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="25" selection-start="880" selection-end="880" vertical-scroll-proportion="1.005772" vertical-offset="0" max-vertical-offset="1139" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FilterAndScaffold.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="140" column="81" selection-start="5573" selection-end="5573" vertical-scroll-proportion="2.85" vertical-offset="204" max-vertical-offset="2907" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/gnrtConcensusKmers_extnd.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="196" column="24" selection-start="5302" selection-end="5302" vertical-scroll-proportion="0.0" vertical-offset="2881" max-vertical-offset="4420" />
@@ -715,59 +579,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Analysis_10X_100X/ncbi_blast/cntHitRepeats.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="50" selection-start="900" selection-end="900" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="1088">
-          <folding />
-        </state>
+        <state line="38" column="50" selection-start="900" selection-end="900" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="1088" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/parseCoveredReads.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="17" selection-start="793" selection-end="793" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="1496">
-          <folding />
-        </state>
+        <state line="30" column="17" selection-start="793" selection-end="793" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="1496" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/assemblyFromConcensus/cntHitRepeats.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="39" selection-start="968" selection-end="968" vertical-scroll-proportion="0.0" vertical-offset="386" max-vertical-offset="1088">
-          <folding />
-        </state>
+        <state line="41" column="39" selection-start="968" selection-end="968" vertical-scroll-proportion="0.0" vertical-offset="386" max-vertical-offset="1088" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/splitConcensus.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="23" selection-start="1471" selection-end="1471" vertical-scroll-proportion="0.0" vertical-offset="726" max-vertical-offset="1428">
-          <folding />
-        </state>
+        <state line="62" column="23" selection-start="1471" selection-end="1471" vertical-scroll-proportion="0.0" vertical-offset="726" max-vertical-offset="1428" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/assemblyFromConcensus/getReadsKmerCntAssemblyGivenList.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="7" selection-start="1855" selection-end="1855" vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="1887">
-          <folding />
-        </state>
+        <state line="44" column="7" selection-start="1855" selection-end="1855" vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="1887" />
       </provider>
     </entry>
-    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/bonounceBalls.py">
+    <entry file="file://$PROJECT_DIR$/../../Results_10X/blastRepbaseMammalAll/blastRepbase2Constructed.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="14" selection-start="654" selection-end="654" vertical-scroll-proportion="0.43589744" vertical-offset="0" max-vertical-offset="3468" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/movingBalls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="94" column="0" selection-start="2810" selection-end="2810" vertical-scroll-proportion="0.41880342" vertical-offset="1304" max-vertical-offset="2261" />
+        <state line="53" column="36" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.46879536" vertical-offset="510" max-vertical-offset="1513" />
       </provider>
     </entry>
     <entry file="file://G:/Others/DepOfPhy/DataAnalysis/stopResume.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="49" selection-start="686" selection-end="686" vertical-scroll-proportion="0.46011397" vertical-offset="0" max-vertical-offset="1207" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/REPolisher/checkDiff.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="1" selection-start="308" selection-end="308" vertical-scroll-proportion="0.0" vertical-offset="8" max-vertical-offset="1139">
-          <folding />
-        </state>
+        <state line="36" column="0" selection-start="1189" selection-end="1189" vertical-scroll-proportion="0.84647304" vertical-offset="0" max-vertical-offset="1207" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/getQualifiedConcensus.py">
@@ -777,33 +619,163 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BasicInfoPaser.py">
+    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/REPolisher/checkDiff.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="12" selection-start="1200" selection-end="1200" vertical-scroll-proportion="0.6780627" vertical-offset="0" max-vertical-offset="1462">
+        <state line="14" column="1" selection-start="308" selection-end="308" vertical-scroll-proportion="0.0" vertical-offset="8" max-vertical-offset="1139">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/assemblyBySGA/checkHitFromCov.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.36978418" vertical-offset="257" max-vertical-offset="1156" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Repeats_PacBio/downSampling.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="40" selection-start="451" selection-end="451" vertical-scroll-proportion="0.50070125" vertical-offset="0" max-vertical-offset="713">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/movingBalls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="0" selection-start="166" selection-end="4213" vertical-scroll-proportion="0.19074334" vertical-offset="0" max-vertical-offset="4012">
+          <folding>
+            <element signature="e#0#38#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/bonounceBalls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="76" column="42" selection-start="2454" selection-end="2454" vertical-scroll-proportion="0.53269756" vertical-offset="884" max-vertical-offset="3451">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/data/downSampling.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="33" selection-start="902" selection-end="902" vertical-scroll-proportion="0.85694826" vertical-offset="0" max-vertical-offset="734">
+          <folding>
+            <element signature="e#0#10#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/AsyLoadData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="0" selection-start="2187" selection-end="2187" vertical-scroll-proportion="0.57901907" vertical-offset="867" max-vertical-offset="1700">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Results_10X/human_validate/differ_kmers/blastRepbase2Constructed.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="80" column="0" selection-start="2535" selection-end="2535" vertical-scroll-proportion="0.7220709" vertical-offset="762" max-vertical-offset="1496">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/GameReViewer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="21" selection-start="535" selection-end="535" vertical-scroll-proportion="0.41689372" vertical-offset="0" max-vertical-offset="2040">
+          <folding>
+            <element signature="e#0#22#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/database.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="115" column="0" selection-start="3542" selection-end="3542" vertical-scroll-proportion="0.8610354" vertical-offset="1068" max-vertical-offset="1802">
+          <folding>
+            <element signature="e#0#14#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Assembly.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="0" selection-start="881" selection-end="881" vertical-scroll-proportion="-10.461538" vertical-offset="204" max-vertical-offset="4726">
+        <state line="151" column="0" selection-start="5076" selection-end="5076" vertical-scroll-proportion="3.497275" vertical-offset="0" max-vertical-offset="4675">
           <folding>
             <element signature="e#48#58#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/BasicInfoPaser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="106" selection-start="378" selection-end="378" vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="6086">
+        <state line="66" column="18" selection-start="2137" selection-end="2137" vertical-scroll-proportion="0.5776567" vertical-offset="698" max-vertical-offset="1581">
+          <folding>
+            <element signature="e#48#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ExtractKmers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="20" selection-start="147" selection-end="147" vertical-scroll-proportion="0.1852861" vertical-offset="0" max-vertical-offset="734">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ClassifyContigs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="26" selection-start="1963" selection-end="1963" vertical-scroll-proportion="0.33242506" vertical-offset="912" max-vertical-offset="3570">
+          <folding>
+            <element signature="e#26#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Utility.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="59" column="11" selection-start="1168" selection-end="1168" vertical-scroll-proportion="1.366485" vertical-offset="0" max-vertical-offset="1139">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MergeContigs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="36" selection-start="309" selection-end="309" vertical-scroll-proportion="0.2547684" vertical-offset="0" max-vertical-offset="1751">
+          <folding>
+            <element signature="e#26#36#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/KmerCount.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="440" selection-end="440" vertical-scroll-proportion="0.2905983" vertical-offset="0" max-vertical-offset="1139">
+        <state line="57" column="16" selection-start="2726" selection-end="2726" vertical-scroll-proportion="0.9536785" vertical-offset="235" max-vertical-offset="1275">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FilterPEReads.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="34" selection-start="911" selection-end="911" vertical-scroll-proportion="0.880109" vertical-offset="0" max-vertical-offset="1870">
+          <folding>
+            <element signature="e#26#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FilterAndScaffold.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="86" column="18" selection-start="3062" selection-end="3062" vertical-scroll-proportion="1.7933426" vertical-offset="169" max-vertical-offset="3145">
+          <folding>
+            <element signature="e#26#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="389" column="0" selection-start="14797" selection-end="14797" vertical-scroll-proportion="1.3474114" vertical-offset="5624" max-vertical-offset="6817">
+          <folding>
+            <element signature="e#48#58#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
