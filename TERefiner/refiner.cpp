@@ -1152,7 +1152,7 @@ void Refiner::cntContigLinkage(std::string fbam, std::string fref, std::string f
 			
 			Alignment alnmt;
 			alnmt.setBar(bp.bam_aln_records[i]);
-			int refid=bp.bam_aln_records[i]->rID;
+			int refid=bp.bam_aln_records[i]->rID;//start from 0
 			int mate_refid=bp.bam_aln_records[i]->rNextID;
 			int pos=bp.bam_aln_records[i]->pos;
 			int mpos=bp.bam_aln_records[i]->pNext;
@@ -1175,8 +1175,8 @@ void Refiner::cntContigLinkage(std::string fbam, std::string fref, std::string f
 				cnt_full_map_pairs++;
 			}	
 			
-			string rname=faipsr.getChromName(refid);
-			string mrname=faipsr.getChromName(mate_refid);
+			string rname = faipsr.vchroms[refid].cname;//faipsr.getChromName(refid);
+			string mrname= faipsr.vchroms[mate_refid].cname;//faipsr.getChromName(mate_refid);
 			
 			if(rname!=mrname)
 			{	
