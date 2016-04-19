@@ -23,10 +23,48 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="gnrtGapPositions.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/gnrtGapPositions.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="247" column="42" selection-start="9714" selection-end="9714" vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="4437">
+              <folding>
+                <element signature="e#1840#2140#0" expanded="false" />
+                <element signature="e#2198#6473#0" expanded="false" />
+                <element signature="e#6542#8034#0" expanded="false" />
+                <element signature="e#8070#8604#0" expanded="false" />
+                <element signature="e#8629#9144#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MergeContigs.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/MergeContigs.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="86" column="22" selection-start="3956" selection-end="3956" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="1802">
+              <folding>
+                <element signature="e#26#36#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="assembleGaps.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/assembleGaps.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="301" column="57" selection-start="9550" selection-end="9550" vertical-scroll-proportion="0.0" vertical-offset="3774" max-vertical-offset="5916">
+              <folding>
+                <element signature="e#243#1761#0" expanded="false" />
+                <element signature="e#8794#8926#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="376" column="9" selection-start="14433" selection-end="14433" vertical-scroll-proportion="0.0" vertical-offset="6392" max-vertical-offset="6817">
+            <state line="395" column="0" selection-start="14976" selection-end="14976" vertical-scroll-proportion="1.1374474" vertical-offset="5734" max-vertical-offset="6647">
               <folding />
             </state>
           </provider>
@@ -35,85 +73,52 @@
       <file leaf-file-name="FilterAndScaffold.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FilterAndScaffold.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="112" column="7" selection-start="4083" selection-end="4083" vertical-scroll-proportion="0.0" vertical-offset="1292" max-vertical-offset="2907">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GameReViewer.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://G:/Others/DepOfPhy/DataAnalysis/GameReViewer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="39" selection-start="540" selection-end="540" vertical-scroll-proportion="0.40236688" vertical-offset="0" max-vertical-offset="4148">
+            <state line="127" column="60" selection-start="4910" selection-end="4910" vertical-scroll-proportion="0.0" vertical-offset="1782" max-vertical-offset="3145">
               <folding>
-                <element signature="e#0#38#0" expanded="true" />
-                <element signature="e#274#389#0" expanded="false" />
-                <element signature="e#659#897#0" expanded="false" />
+                <element signature="e#26#36#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="progressBar.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://G:/Others/DepOfPhy/DataAnalysis/progressBar.py">
+      <file leaf-file-name="run_multi_threads_discordant.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_discordant.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="184" column="17" selection-start="6296" selection-end="6296" vertical-scroll-proportion="0.0" vertical-offset="522" max-vertical-offset="3366">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="database.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://G:/Others/DepOfPhy/DataAnalysis/database.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="93" column="0" selection-start="2949" selection-end="2949" vertical-scroll-proportion="0.0" vertical-offset="998" max-vertical-offset="2431">
+            <state line="531" column="27" selection-start="19835" selection-end="19835" vertical-scroll-proportion="0.0" vertical-offset="6800" max-vertical-offset="7990">
               <folding>
-                <element signature="e#0#14#0" expanded="true" />
+                <element signature="e#4861#5575#0" expanded="false" />
+                <element signature="e#5600#5645#0" expanded="false" />
+                <element signature="e#5681#6083#0" expanded="false" />
+                <element signature="e#6244#8911#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cntReadsByDistance.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../Distance_based_align/human_repbase/cntReadsByDistance.py">
+      <file leaf-file-name="run_multi_threads_collect_reads.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_collect_reads.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="33" selection-start="1674" selection-end="1674" vertical-scroll-proportion="0.0" vertical-offset="913" max-vertical-offset="2023">
+            <state line="31" column="56" selection-start="767" selection-end="767" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="918">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="addDivergentCopyNum.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../Distance_based_align/human_repbase/addDivergentCopyNum.py">
+      <file leaf-file-name="collect_discordant_low_mapq_reads.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/collect_discordant_low_mapq_reads.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="0" selection-start="554" selection-end="554" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
-              <folding />
+            <state line="27" column="35" selection-start="738" selection-end="738" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1598">
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="parseSam.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/assemblyBySGA/parseSam.py">
+      <file leaf-file-name="collect_reads_for_gaps.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/collect_reads_for_gaps.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="17" selection-start="750" selection-end="750" vertical-scroll-proportion="0.0" vertical-offset="629" max-vertical-offset="1921">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="checkCoveredRepeats.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../Repeats_reads_analysis/checkCoveredRepeats.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="184" column="110" selection-start="6214" selection-end="6214" vertical-scroll-proportion="0.0" vertical-offset="3128" max-vertical-offset="3808">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="analysiCoveredRepeatsByReads_cnv1.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/analysiCoveredRepeatsByReads_cnv1.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="111" column="28" selection-start="3716" selection-end="3716" vertical-scroll-proportion="0.0" vertical-offset="1887" max-vertical-offset="2363">
+            <state line="13" column="13" selection-start="205" selection-end="205" vertical-scroll-proportion="0.0" vertical-offset="2908" max-vertical-offset="3621">
               <folding />
             </state>
           </provider>
@@ -132,38 +137,12 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/gnrtConcensusKmers.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/clusterKmers.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/clusterExactSeeds.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/gnrtSeeds.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/gnrtConcensusKmers_SeedExtend.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/gnrtConcensusKmers_SeedExtendHash.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/gnrtConcensusKmers_SeedExtendFMIndex_Pipe.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/UnionFindSet.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/rmSeq.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/gnrtConcensusKmers_SeedExtendFMIndex.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/gnrtUniqueSeed.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/testMemory.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/getQualifiedConcensus.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/gaga_chrom14/analysiCoveredRepeatsByReads_cnv1.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/gaga_chrom14/downSamplingReads.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/Arabidopsis_thaliana/analysiCoveredRepeatsByReads_cnv1.py" />
-        <option value="$PROJECT_DIR$/../../Analysis_10X_100X/ncbi_blast/cntHitRepeats.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/Arabidopsis_thaliana/cmp/calcN50.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/parseCoveredReads.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/splitConcensus.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/assemblyFromConcensus/getReadsKmerCntAssemblyGivenList.py" />
-        <option value="$PROJECT_DIR$/../../Kmer_analysis/REPolisher/checkDiff.py" />
-        <option value="$PROJECT_DIR$/../../Results_10X/human_validate/differ_kmers/blastRepbase2Constructed.py" />
-        <option value="G:/Others/DepOfPhy/DataAnalysis/stopResume.py" />
-        <option value="G:/Others/DepOfPhy/DataAnalysis/AsyLoadData.py" />
         <option value="$PROJECT_DIR$/../../Repeats_PacBio/downSampling.py" />
         <option value="G:/Others/DepOfPhy/DataAnalysis/data/downSampling.py" />
         <option value="G:/Others/DepOfPhy/DataAnalysis/movingBalls.py" />
         <option value="$PROJECT_DIR$/KmerCount.py" />
         <option value="$PROJECT_DIR$/Utility.py" />
         <option value="$PROJECT_DIR$/Assembly.py" />
-        <option value="$PROJECT_DIR$/MergeContigs.py" />
         <option value="$PROJECT_DIR$/BasicInfoPaser.py" />
         <option value="$PROJECT_DIR$/FilterPEReads.py" />
         <option value="$PROJECT_DIR$/ClassifyContigs.py" />
@@ -175,22 +154,48 @@
         <option value="$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/calcMappedBases.py" />
         <option value="$PROJECT_DIR$/../../Repeats_reads_analysis/checkCoveredRepeats.py" />
         <option value="$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/copy_number/getCopyNum.py" />
-        <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/FilterAndScaffold.py" />
         <option value="$PROJECT_DIR$/../../Results_frog/align_distance_based/cntReadsByDistance.py" />
         <option value="$PROJECT_DIR$/../../Distance_based_align/human_repbase/cntReadsByDistance.py" />
         <option value="$PROJECT_DIR$/../../Distance_based_align/human_repbase/addDivergentCopyNum.py" />
         <option value="G:/Others/DepOfPhy/DataAnalysis/progressBar.py" />
+        <option value="$PROJECT_DIR$/../../../ResolveMultiMapping/getSampleDiscordantReads.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/concateGapFlank.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/getReadsForGaps.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/test.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_pipeline.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/collectReadsForGaps.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/convert_ReverseComplementary.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/split_fastq.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/utility.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/discordant_alignment_statistic.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/validate_results.py" />
+        <option value="$PROJECT_DIR$/MergeContigs.py" />
+        <option value="$PROJECT_DIR$/main.py" />
+        <option value="G:/Others/CodeJam2016/A-CountingSheep.py" />
+        <option value="G:/Others/CodeJam2016/B/B-Revenge-of-the-Pancakes.py" />
+        <option value="G:/Others/CodeJam2016/C/C_Coin Jam.py" />
+        <option value="G:/Others/CodeJam2016/C/C-Coin-Jam.py" />
         <option value="G:/Others/DepOfPhy/DataAnalysis/database.py" />
         <option value="G:/Others/DepOfPhy/DataAnalysis/GameReViewer.py" />
+        <option value="G:/Others/CodeJam2016/1round/A/the_last_word.py" />
+        <option value="G:/Others/CodeJam2016/1round/B/rank_the_file.py" />
+        <option value="G:/Others/CodeJam2016/1round/C/BFFs.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_collect_reads.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/collect_discordant_low_mapq_reads.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_discordant.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/collect_reads_for_gaps.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/MergeContigs.py" />
+        <option value="$PROJECT_DIR$/FilterAndScaffold.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/assembleGaps.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/gnrtGapPositions.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-7" />
-    <option name="y" value="2" />
-    <option name="width" value="1550" />
-    <option name="height" value="905" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1554" />
+    <option name="height" value="916" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -218,7 +223,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -239,6 +243,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -255,7 +260,43 @@
       <console-settings />
     </option>
   </component>
-  <component name="RunManager" selected="Python.GameReViewer">
+  <component name="RunManager" selected="Python.rank_the_file">
+    <configuration default="false" name="B-Revenge-of-the-Pancakes" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="G:/Others/CodeJam2016/B" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="REPdenovo" />
+      <option name="SCRIPT_NAME" value="G:/Others/CodeJam2016/B/B-Revenge-of-the-Pancakes.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="C_Coin Jam" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="G:/Others/CodeJam2016/C" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="REPdenovo" />
+      <option name="SCRIPT_NAME" value="G:/Others/CodeJam2016/C/C_Coin Jam.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
     <configuration default="false" name="GameReViewer" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -274,73 +315,37 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <configuration default="false" name="XMLParser" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="the_last_word" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="G:/Others/DepOfPhy/DataAnalysis" />
+      <option name="WORKING_DIRECTORY" value="G:/Others/CodeJam2016/1round/A" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="REPdenovo" />
-      <option name="SCRIPT_NAME" value="G:/Others/DepOfPhy/DataAnalysis/XMLParser.py" />
+      <option name="SCRIPT_NAME" value="G:/Others/CodeJam2016/1round/A/the_last_word.py" />
       <option name="PARAMETERS" value="" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <configuration default="false" name="plot" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="rank_the_file" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/Age_analysis" />
+      <option name="WORKING_DIRECTORY" value="G:/Others/CodeJam2016/1round/B" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="REPdenovo" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/Age_analysis/plot.py" />
-      <option name="PARAMETERS" value="" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="progressBar" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="G:/Others/DepOfPhy/DataAnalysis" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="REPdenovo" />
-      <option name="SCRIPT_NAME" value="G:/Others/DepOfPhy/DataAnalysis/progressBar.py" />
-      <option name="PARAMETERS" value="" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="examples" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="G:/Others/DepOfPhy/progressbar2-3.6.2/progressbar2-3.6.2" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="REPdenovo" />
-      <option name="SCRIPT_NAME" value="G:/Others/DepOfPhy/progressbar2-3.6.2/progressbar2-3.6.2/examples.py" />
+      <option name="SCRIPT_NAME" value="G:/Others/CodeJam2016/1round/B/rank_the_file.py" />
       <option name="PARAMETERS" value="" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
@@ -467,20 +472,39 @@
       <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
-    <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.GameReViewer" />
-      <item index="1" class="java.lang.String" itemvalue="Python.XMLParser" />
-      <item index="2" class="java.lang.String" itemvalue="Python.plot" />
-      <item index="3" class="java.lang.String" itemvalue="Python.progressBar" />
-      <item index="4" class="java.lang.String" itemvalue="Python.examples" />
+    <configuration default="false" name="C-Coin-Jam" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="G:/Others/CodeJam2016/C" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="REPdenovo" />
+      <option name="SCRIPT_NAME" value="G:/Others/CodeJam2016/C/C-Coin-Jam.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <list size="6">
+      <item index="0" class="java.lang.String" itemvalue="Python.C-Coin-Jam" />
+      <item index="1" class="java.lang.String" itemvalue="Python.B-Revenge-of-the-Pancakes" />
+      <item index="2" class="java.lang.String" itemvalue="Python.C_Coin Jam" />
+      <item index="3" class="java.lang.String" itemvalue="Python.GameReViewer" />
+      <item index="4" class="java.lang.String" itemvalue="Python.the_last_word" />
+      <item index="5" class="java.lang.String" itemvalue="Python.rank_the_file" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.GameReViewer" />
-        <item index="1" class="java.lang.String" itemvalue="Python.progressBar" />
-        <item index="2" class="java.lang.String" itemvalue="Python.examples" />
-        <item index="3" class="java.lang.String" itemvalue="Python.plot" />
-        <item index="4" class="java.lang.String" itemvalue="Python.XMLParser" />
+        <item index="0" class="java.lang.String" itemvalue="Python.rank_the_file" />
+        <item index="1" class="java.lang.String" itemvalue="Python.the_last_word" />
+        <item index="2" class="java.lang.String" itemvalue="Python.GameReViewer" />
+        <item index="3" class="java.lang.String" itemvalue="Python.C_Coin Jam" />
+        <item index="4" class="java.lang.String" itemvalue="Python.B-Revenge-of-the-Pancakes" />
       </list>
     </recent_temporary>
   </component>
@@ -510,27 +534,47 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="2" width="1550" height="905" extended-state="1" />
+    <frame x="-8" y="-8" width="1554" height="916" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19431593" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19380356" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39892185" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38050735" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37894738" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -561,179 +605,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://G:/Others/DepOfPhy/DataAnalysis/GameReViewer.py</url>
-          <line>110</line>
+          <line>112</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="20" />
+      <option name="time" value="23" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/AsyLoadData.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="0" selection-start="2187" selection-end="2187" vertical-scroll-proportion="0.57901907" vertical-offset="867" max-vertical-offset="1700" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../Results_10X/human_validate/differ_kmers/blastRepbase2Constructed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="0" selection-start="2535" selection-end="2535" vertical-scroll-proportion="0.7220709" vertical-offset="762" max-vertical-offset="1496" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assembly.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="151" column="0" selection-start="5076" selection-end="5076" vertical-scroll-proportion="3.497275" vertical-offset="0" max-vertical-offset="4675" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BasicInfoPaser.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="18" selection-start="2137" selection-end="2137" vertical-scroll-proportion="0.5776567" vertical-offset="698" max-vertical-offset="1581" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ExtractKmers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="20" selection-start="147" selection-end="147" vertical-scroll-proportion="0.1852861" vertical-offset="0" max-vertical-offset="734" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Utility.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="11" selection-start="1168" selection-end="1168" vertical-scroll-proportion="1.366485" vertical-offset="0" max-vertical-offset="1139" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MergeContigs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="36" selection-start="309" selection-end="309" vertical-scroll-proportion="0.2547684" vertical-offset="0" max-vertical-offset="1751" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/KmerCount.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="16" selection-start="2726" selection-end="2726" vertical-scroll-proportion="0.9536785" vertical-offset="235" max-vertical-offset="1275">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FilterPEReads.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="34" selection-start="911" selection-end="911" vertical-scroll-proportion="0.880109" vertical-offset="0" max-vertical-offset="1870" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/test/ecos-python-master/ecos-python-master/src/ecos.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="20" selection-start="668" selection-end="668" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1105" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/test/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/src/expcone.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3383" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/test/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/src/preproc.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="16966" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/test/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/src/runecos.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1683" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/test/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/src/equil.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="3" selection-start="827" selection-end="827" vertical-scroll-proportion="0.37146893" vertical-offset="26" max-vertical-offset="6834" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/test/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/src/kkt.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="18" selection-start="409" selection-end="409" vertical-scroll-proportion="0.15536723" vertical-offset="26" max-vertical-offset="7684" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/test/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/src/runecos_exp.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="19" selection-start="391" selection-end="391" vertical-scroll-proportion="0.15827338" vertical-offset="26" max-vertical-offset="2295" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/test/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/src/spla.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="20" selection-start="411" selection-end="411" vertical-scroll-proportion="0.15536723" vertical-offset="26" max-vertical-offset="2890" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/test/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/src/splamm.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="22" selection-start="455" selection-end="455" vertical-scroll-proportion="0.20338982" vertical-offset="26" max-vertical-offset="6494" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/test/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/src/timer.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="2" selection-start="432" selection-end="432" vertical-scroll-proportion="0.17937852" vertical-offset="26" max-vertical-offset="1887" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/test/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/src/wright_omega.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="26" selection-start="229" selection-end="229" vertical-scroll-proportion="0.17937852" vertical-offset="26" max-vertical-offset="1360" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/test/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/src/cone.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9639" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/test/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/src/ctrlc.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="28" selection-start="528" selection-end="528" vertical-scroll-proportion="0.22740114" vertical-offset="26" max-vertical-offset="1904" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/test/ecos-python-master/ecos-python-master/src/ecosmodule.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="394" column="82" selection-start="13456" selection-end="13456" vertical-scroll-proportion="0.4647482" vertical-offset="6375" max-vertical-offset="15640" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/test/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/ecos-4ae77dbf655feb830735a20ad3b42edcf65be7cf/src/ecos.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="92" column="57" selection-start="3140" selection-end="3140" vertical-scroll-proportion="0.30503598" vertical-offset="1352" max-vertical-offset="27489" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/data/downSampling.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="26" selection-start="306" selection-end="306" vertical-scroll-proportion="0.1852861" vertical-offset="0" max-vertical-offset="734" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/getReadsKmerCntAssemblyGivenList.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="9" selection-start="20" selection-end="20" vertical-scroll-proportion="0.023578363" vertical-offset="0" max-vertical-offset="2074" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/IGV_view_regions/UnionFindSet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="31" selection-start="382" selection-end="382" vertical-scroll-proportion="0.2547684" vertical-offset="0" max-vertical-offset="1139" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../Pacbio_error_correction/fc_run.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="72" selection-start="221" selection-end="221" vertical-scroll-proportion="0.06948229" vertical-offset="0" max-vertical-offset="734" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../Pacbio_error_correction/run_on_hornet/check.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765" />
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/movingBalls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="23" selection-start="949" selection-end="949" vertical-scroll-proportion="0.60027665" vertical-offset="25" max-vertical-offset="3910" />
-      </provider>
-    </entry>
-    <entry file="file://C:/Python27/Lib/lib-tk/Tkinter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="322" column="4" selection-start="11143" selection-end="11143" vertical-scroll-proportion="0.33333334" vertical-offset="5233" max-vertical-offset="63563" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/Age_analysis/plot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="14" selection-start="248" selection-end="248" vertical-scroll-proportion="0.30567083" vertical-offset="0" max-vertical-offset="723" />
-      </provider>
-    </entry>
     <entry file="file://G:/Others/DepOfPhy/DataAnalysis/bonounceBalls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="41" column="16" selection-start="1369" selection-end="1369" vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="3468" />
@@ -744,18 +626,9 @@
         <state line="80" column="4" selection-start="1648" selection-end="1648" vertical-scroll-proportion="0.33333334" vertical-offset="1119" max-vertical-offset="2380" />
       </provider>
     </entry>
-    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/XMLParser.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="51" selection-start="1058" selection-end="1058" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ClassifyContigs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="22" selection-start="560" selection-end="560" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3570">
-          <folding />
-        </state>
+        <state line="23" column="22" selection-start="560" selection-end="560" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3570" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/calcMappedBases.py">
@@ -765,9 +638,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/analysiCoveredRepeatsByReads_cnv1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="28" selection-start="3716" selection-end="3716" vertical-scroll-proportion="0.0" vertical-offset="1453" max-vertical-offset="2295">
-          <folding />
-        </state>
+        <state line="111" column="28" selection-start="3716" selection-end="3716" vertical-scroll-proportion="0.0" vertical-offset="1453" max-vertical-offset="2295" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/getTotalMappedBases.py">
@@ -777,23 +648,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Kmer_analysis/assemblyFromReads/assemblyBySGA/parseSam.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="17" selection-start="750" selection-end="750" vertical-scroll-proportion="0.0" vertical-offset="212" max-vertical-offset="1904">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="376" column="9" selection-start="14433" selection-end="14433" vertical-scroll-proportion="0.0" vertical-offset="5737" max-vertical-offset="6647">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../Repeats_reads_analysis/checkCoveredRepeats.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="184" column="110" selection-start="6214" selection-end="6214" vertical-scroll-proportion="0.0" vertical-offset="2584" max-vertical-offset="3791">
-          <folding />
-        </state>
+        <state line="37" column="17" selection-start="750" selection-end="750" vertical-scroll-proportion="0.0" vertical-offset="212" max-vertical-offset="1904" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Results_frog/align_distance_based/cntReadsByDistance.py">
@@ -801,58 +656,284 @@
         <state line="93" column="45" selection-start="2845" selection-end="2845" vertical-scroll-proportion="0.37037036" vertical-offset="1321" max-vertical-offset="2040" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../Distance_based_align/human_repbase/cntReadsByDistance.py">
+    <entry file="file://$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/copy_number/getCopyNum.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="33" selection-start="1674" selection-end="1674" vertical-scroll-proportion="0.0" vertical-offset="913" max-vertical-offset="2023">
-          <folding />
-        </state>
+        <state line="17" column="29" selection-start="356" selection-end="356" vertical-scroll-proportion="-0.024216523" vertical-offset="289" max-vertical-offset="1190" />
+      </provider>
+    </entry>
+    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/progressBar.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="184" column="17" selection-start="6296" selection-end="6296" vertical-scroll-proportion="0.0" vertical-offset="522" max-vertical-offset="3366" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Code/FilterPEReads.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.5185186" vertical-offset="1066" max-vertical-offset="1768" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../ResolveMultiMapping/resolveMultipleMapping.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-2.1723647" vertical-offset="1525" max-vertical-offset="2227" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../ResolveMultiMapping/NA12889_bwamem_all/findPairs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="702" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../ResolveMultiMapping/NA12889_bwamem_all/FreqStatistic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="702" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../ResolveMultiMapping/NA12889_bwamem_all/cntDup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="702" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../ResolveMultiMapping/getSampleDiscordantReads.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="50" selection-start="808" selection-end="808" vertical-scroll-proportion="0.53276354" vertical-offset="153" max-vertical-offset="1003" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Repeats_reads_analysis/checkCoveredRepeats.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="184" column="110" selection-start="6214" selection-end="6214" vertical-scroll-proportion="0.0" vertical-offset="2584" max-vertical-offset="3791" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Distance_based_align/human_repbase/addDivergentCopyNum.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="554" selection-end="554" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
+        <state line="22" column="0" selection-start="554" selection-end="554" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../ResolveMultiMapping/parseMultiMappedReadsInFa.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.16239317" vertical-offset="114" max-vertical-offset="816" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../ResolveMultiMapping/getUniqueMateMultiPairsFromSam.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="19" selection-start="332" selection-end="332" vertical-scroll-proportion="0.12820514" vertical-offset="148" max-vertical-offset="850" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../ResolveMultiMapping/getUnResolvedDiscordant.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="702" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Distance_based_align/human_repbase/cntReadsByDistance.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="32" selection-start="1900" selection-end="1900" vertical-scroll-proportion="0.0" vertical-offset="913" max-vertical-offset="2023" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/concateGapFlank.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="0" selection-start="210" selection-end="210" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="36" selection-start="168" selection-end="168" vertical-scroll-proportion="0.11921459" vertical-offset="0" max-vertical-offset="713" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/convert_ReverseComplementary.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="0" selection-start="557" selection-end="557" vertical-scroll-proportion="0.5483871" vertical-offset="0" max-vertical-offset="713" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/split_fastq.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="0" selection-start="1046" selection-end="1046" vertical-scroll-proportion="0.73913044" vertical-offset="0" max-vertical-offset="714" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assembly.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="30" selection-start="731" selection-end="731" vertical-scroll-proportion="0.6676017" vertical-offset="0" max-vertical-offset="4675" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/discordant_alignment_statistic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="54" selection-start="2562" selection-end="2562" vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="3060" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MergeContigs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="28" selection-start="134" selection-end="134" vertical-scroll-proportion="0.14305751" vertical-offset="0" max-vertical-offset="1751" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Utility.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="23" selection-start="354" selection-end="354" vertical-scroll-proportion="0.33380085" vertical-offset="0" max-vertical-offset="1139" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/Utility.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="19" selection-start="621" selection-end="621" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1139">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../ComparativeAnalysisOfMammals/AlignReads2Contigs/copy_number/getCopyNum.py">
+    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/XMLParser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="29" selection-start="356" selection-end="356" vertical-scroll-proportion="-0.024216523" vertical-offset="289" max-vertical-offset="1190">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FilterAndScaffold.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="7" selection-start="4083" selection-end="4083" vertical-scroll-proportion="0.0" vertical-offset="1292" max-vertical-offset="2907">
+        <state line="51" column="76" selection-start="2686" selection-end="2686" vertical-scroll-proportion="1.2159888" vertical-offset="0" max-vertical-offset="1020">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://G:/Others/DepOfPhy/DataAnalysis/database.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="0" selection-start="2949" selection-end="2949" vertical-scroll-proportion="0.0" vertical-offset="998" max-vertical-offset="2431">
+        <state line="2" column="15" selection-start="41" selection-end="41" vertical-scroll-proportion="0.047685836" vertical-offset="0" max-vertical-offset="3111">
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/progressBar.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="184" column="17" selection-start="6296" selection-end="6296" vertical-scroll-proportion="0.0" vertical-offset="522" max-vertical-offset="3366">
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://G:/Others/DepOfPhy/DataAnalysis/GameReViewer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="39" selection-start="540" selection-end="540" vertical-scroll-proportion="0.40236688" vertical-offset="0" max-vertical-offset="4148">
+        <state line="248" column="35" selection-start="8853" selection-end="8853" vertical-scroll-proportion="0.8345021" vertical-offset="3621" max-vertical-offset="4420">
           <folding>
-            <element signature="e#0#38#0" expanded="true" />
-            <element signature="e#274#389#0" expanded="false" />
-            <element signature="e#659#897#0" expanded="false" />
+            <element signature="e#0#38#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://G:/Others/CodeJam2016/1round/A/the_last_word.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="19" selection-start="37" selection-end="37" vertical-scroll-proportion="0.047685836" vertical-offset="0" max-vertical-offset="713">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://G:/Others/CodeJam2016/B/B-Revenge-of-the-Pancakes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="44" selection-start="1139" selection-end="1139" vertical-scroll-proportion="0.8569425" vertical-offset="545" max-vertical-offset="1258">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://G:/Others/CodeJam2016/1round/C/BFFs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="44" selection-start="1290" selection-end="1290" vertical-scroll-proportion="0.49929875" vertical-offset="613" max-vertical-offset="1326">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://G:/Others/CodeJam2016/1round/B/rank_the_file.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="42" selection-start="648" selection-end="648" vertical-scroll-proportion="0.5483871" vertical-offset="0" max-vertical-offset="713">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://G:/Others/CodeJam2016/C/C-Coin-Jam.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="122" column="55" selection-start="2741" selection-end="2741" vertical-scroll-proportion="0.8330996" vertical-offset="1463" max-vertical-offset="2176">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://G:/Others/CodeJam2016/A/A-CountingSheep.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="78" column="12" selection-start="1785" selection-end="1785" vertical-scroll-proportion="0.5231417" vertical-offset="953" max-vertical-offset="1666">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_collect_reads.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="56" selection-start="767" selection-end="767" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="918">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/collect_discordant_low_mapq_reads.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="35" selection-start="738" selection-end="738" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1598">
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_discordant.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="531" column="27" selection-start="19835" selection-end="19835" vertical-scroll-proportion="0.0" vertical-offset="6800" max-vertical-offset="7990">
+          <folding>
+            <element signature="e#4861#5575#0" expanded="false" />
+            <element signature="e#5600#5645#0" expanded="false" />
+            <element signature="e#5681#6083#0" expanded="false" />
+            <element signature="e#6244#8911#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/collect_reads_for_gaps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="13" selection-start="205" selection-end="205" vertical-scroll-proportion="0.0" vertical-offset="2908" max-vertical-offset="3621">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/MergeContigs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="86" column="22" selection-start="3956" selection-end="3956" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="1802">
+          <folding>
+            <element signature="e#26#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BasicInfoPaser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="15" selection-start="1848" selection-end="1848" vertical-scroll-proportion="0.33239833" vertical-offset="545" max-vertical-offset="1462">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FilterPEReads.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.16830294" vertical-offset="120" max-vertical-offset="1802">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FilterAndScaffold.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="127" column="60" selection-start="4910" selection-end="4910" vertical-scroll-proportion="0.0" vertical-offset="1782" max-vertical-offset="3145">
+          <folding>
+            <element signature="e#26#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/assembleGaps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="301" column="57" selection-start="9550" selection-end="9550" vertical-scroll-proportion="0.0" vertical-offset="3774" max-vertical-offset="5916">
+          <folding>
+            <element signature="e#243#1761#0" expanded="false" />
+            <element signature="e#8794#8926#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/gnrtGapPositions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="247" column="42" selection-start="9714" selection-end="9714" vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="4437">
+          <folding>
+            <element signature="e#1840#2140#0" expanded="false" />
+            <element signature="e#2198#6473#0" expanded="false" />
+            <element signature="e#6542#8034#0" expanded="false" />
+            <element signature="e#8070#8604#0" expanded="false" />
+            <element signature="e#8629#9144#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="395" column="0" selection-start="14976" selection-end="14976" vertical-scroll-proportion="1.1374474" vertical-offset="5734" max-vertical-offset="6647">
+          <folding />
         </state>
       </provider>
     </entry>

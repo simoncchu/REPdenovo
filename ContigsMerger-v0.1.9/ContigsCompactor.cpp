@@ -8,6 +8,9 @@
 //	Change the QuickChecker part to Multi-thread.
 //  The pairwise comparison part is changed to multi-thread.
 //
+//	Fix one bug on DP part (04/12/16, C.C.): when check whether one is contained in another,
+//                          some are wrongly considered as contained which are overlap
+//  
 
 #include <algorithm>
 #include <iostream>
@@ -35,7 +38,7 @@ const int OVERLAP_LARGER_MINLEN=2;
 
 
 double ContigsCompactor::fractionLossScore = 0.05;
-double ContigsCompactor::fracMinOverlap = 0.5;
+double ContigsCompactor::fracMinOverlap = 0.01;
 double ContigsCompactor::minOverlapLen= 10000;
 double ContigsCompactor::minOverlapLenWithScaffold= QUICK_CHECK_KMER_LEN;
 
@@ -110,13 +113,14 @@ void ContigsCompactorAction :: SetMergedStringConcat()
     // if overlap, then just take prefix/suffix of the two strings
     
 //cout << "SetMergedStringConcat: posRowEnd: " << posRowEnd << ", posColEnd: " << posColEnd << ", aln1str: " << alnStr1.length() << ", aln2str: " << alnStr2.length() << endl;
-    if( posRowEnd == (int)alnStr1.length() && alnStr1.length() <  alnStr2.length()  )
+
+	if(bcontained && posRowEnd == (int)alnStr1.length() && alnStr1.length() <  alnStr2.length()  )
     {
 //cout << "Contained: 2 contain 1\n";
         // alnStr1 is contained
         strCompact = alnStr2;
     }
-    else  if( posColEnd == (int)alnStr2.length() && alnStr2.length() < alnStr1.length()  )
+    else  if(bcontained && posColEnd == (int)alnStr2.length() && alnStr2.length() < alnStr1.length()  )
     {
 //cout << "Contained: 1 contain 2\n";
         // alnStr1 is contained
@@ -129,22 +133,21 @@ void ContigsCompactorAction :: SetMergedStringConcat()
         {
 //cout << "Prefix/suffix: 1 follow by 2\n";
             //
-            if( (int)alnStr1.length()<posColEnd )
+            /*if( (int)alnStr1.length()<posColEnd )
             {
                 cout << "WARNING: wrong0\n";
-            }
-            strCompact = alnStr1.substr(0, (int)alnStr1.length()-posColEnd );
-            strCompact += alnStr2;
+            }*/
+			strCompact = alnStr1 + alnStr2.substr(posColEnd, (int)alnStr2.length()-posColEnd);
         }
         else
         {
 //cout << "Prefix/suffix: 2 follow by 1\n";
-            if( (int)alnStr2.length() < posRowEnd )
+            /*if( (int)alnStr2.length() < posRowEnd )
             {
                 cout << "WARNING: wrong1\n";
-            }
-            strCompact = alnStr2.substr(0, (int)alnStr2.length()-posRowEnd );
-            strCompact += alnStr1;
+            }*/
+            strCompact = alnStr2 + alnStr1.substr(posRowEnd, (int)alnStr1.length()-posRowEnd );
+            
         }
     }
     
@@ -154,7 +157,7 @@ void ContigsCompactorAction :: SetMergedStringConcat()
 bool ContigsCompactorAction :: IsContainment() const
 {
     //
-    return ( posRowEnd == (int)alnStr1.length() && (int)alnStr1.length() <  posColEnd ) || ( posColEnd == (int)alnStr2.length() && (int)alnStr2.length() < posRowEnd  );
+    return bcontained && (( posRowEnd == (int)alnStr1.length() && (int)alnStr1.length() <  posColEnd ) || ( posColEnd == (int)alnStr2.length() && (int)alnStr2.length() < posRowEnd  ));
 }
 
 // ******************************************************************
@@ -646,10 +649,10 @@ void* ContigsCompactor::threadMergeContigV2(void *ptr)
 //continue;
 
 		ContigsCompactorAction ccAct;
-		bool fMatch = false;
+		//bool fMatch = false;
 		string asmMode;
-		fMatch = pThis->Evaluate(ContigsCompactor::vfs[i], ContigsCompactor::vfs[j], ccAct);
-		if (fMatch == true)
+		int fMatch = pThis->Evaluate(ContigsCompactor::vfs[i], ContigsCompactor::vfs[j], ccAct);
+		if (fMatch == OVERLAP_LARGER_MINLEN)
 		{
 			//
 			if (ccAct.GetPosEndSeq1() <  ContigsCompactor::vfs[i]->size())
@@ -669,7 +672,7 @@ void* ContigsCompactor::threadMergeContigV2(void *ptr)
 		}
 
 		// YW: we don't allow containment; they don't form edges
-		if (fMatch == true && ccAct.IsContainment() == false)
+		if (fMatch == OVERLAP_LARGER_MINLEN && ccAct.IsContainment() == false)
 		{
 			double pathLen = -1.0*ccAct.GetOverlapSize();           // we want to connect two nodes using the shortest total seq length
 			
@@ -1477,8 +1480,9 @@ exit(1);
 }
 #endif
         ContigsCompactorAction ccAct;
-        bool fMatch = Evaluate( &seqMerg, pSeqi, ccAct, true);
-        if( fMatch == false)
+        //bool fMatch = Evaluate( &seqMerg, pSeqi, ccAct, true);
+        int fMatch = Evaluate(&seqMerg, pSeqi, ccAct, true);
+		if( fMatch != OVERLAP_LARGER_MINLEN)
         {
             // do the other way
             //FastaSequence seqRevComp( seqMerg );
@@ -1497,7 +1501,6 @@ exit(1);
                 pSeqipre->printFasta(cout);
             }
             return seqMerg.c_str();
-            
         }
         seqMerg.SetSeq( ccAct.GetMerged() );
     }
@@ -1784,7 +1787,8 @@ int ContigsCompactor::Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, Conti
 		tbCur = tbPre;
 	}
 
-	// get the clipped part on the left
+	bool bcontained = false;
+	// get the clipped part on the left 
 	if (tbCur.first > 0)
 	{
 		//
@@ -1803,6 +1807,11 @@ int ContigsCompactor::Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, Conti
 	}
 
 
+	if (posRowEnd == szSeq1 && tbCur.first == 0)
+		bcontained = true;
+	if (posColEnd == szSeq2 && tbCur.second == 0)
+		bcontained = true;
+	
 
 	// this is the traceback result
 	reverse(mergedSeqTB.begin(), mergedSeqTB.end());
@@ -1817,6 +1826,7 @@ int ContigsCompactor::Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, Conti
 	resCompact.SetOrigSeqLen(szSeq1, szSeq2);
 	resCompact.SetAlnSeqs(pSeq1->c_str(), pSeq2->c_str());
 	resCompact.SetDPEnds(posRowEnd, posColEnd);
+	resCompact.SetContainedFlag(bcontained);
 	resCompact.SetMergedStringConcat();
 
 	//#endif
@@ -1855,7 +1865,7 @@ int ContigsCompactor :: IsScoreSignificant( int scoreMax, int szSeq1, int szSeq2
     //{
     //    szOverlap = colStart;
     //}
-
+	
 
     //
     int szOverlap0 = min(szSeq1, szSeq2);
@@ -1873,7 +1883,7 @@ int ContigsCompactor :: IsScoreSignificant( int scoreMax, int szSeq1, int szSeq2
     //{
     //    cout << "FATAL ERROR.\n";
     //    exit(1);
-    //}   
+    //}
     
     if( szOverlap < szSeq1*fracMinOverlap && szOverlap < szSeq2*fracMinOverlap )
     {
@@ -1931,7 +1941,10 @@ int ContigsCompactor :: IsScoreSignificant( int scoreMax, int szSeq1, int szSeq2
 	//const int OVERLAP_SMALLER_MINLENSCAFFOLD=0;
 	//const int OVERLAP_IN_RANGE=1;
 	//const int OVERLAP_LARGER_MINLEN=2;
-	
+
+//if (szOverlap < minOverlapLenWithScaffold) cout << "OVERLAP_SMALLER_MINLENSCAFFOLD" << endl;
+//else if (szOverlap >= minOverlapLenWithScaffold && szOverlap < minOverlapLen) cout << " OVERLAP_IN_RANGE" << endl;
+//else cout<<" OVERLAP_LARGER_MINLEN"<<endl;
 
 	if (szOverlap < minOverlapLenWithScaffold ) return OVERLAP_SMALLER_MINLENSCAFFOLD;
 	else if(szOverlap>=minOverlapLenWithScaffold && szOverlap <minOverlapLen) return OVERLAP_IN_RANGE;
@@ -2031,6 +2044,7 @@ void QuickCheckerContigsMatch :: GetKmersList( FastaSequence *pSeq, int posStart
     const char *ptCharBuf = pSeq->c_str(posStart);
     GetAllKmersFromSeq( ptCharBuf, lenSeq, kmerLen, listKmers );
 }
+
 
 bool QuickCheckerContigsMatch :: AreKmersMatch( const vector<KmerTypeShort> &listKmers, double minRatioKmerMatch ) const
 {

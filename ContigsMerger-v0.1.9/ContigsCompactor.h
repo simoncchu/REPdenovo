@@ -10,6 +10,10 @@
 //	Change the QuickChecker part to Multi-thread using hashing
 //  The pairwise comparison part is changed to multi-thread
 
+//	Fix one bug on DP part (04/12/16, C.C.): when check whether one is contained in another,
+//                          some are wrongly considered as contained which are overlap
+
+
 #ifndef ____ContigsCompactor__
 #define ____ContigsCompactor__
 
@@ -47,6 +51,7 @@ public:
     void SetAlnSeqs( const char * pstr1, const char *pstr2) { alnStr1 = pstr1; alnStr2 = pstr2; }
     void SetDPEnds(int v1, int v2) { posRowEnd = v1; posColEnd = v2; }
     void SetMergedStringConcat();
+	bool SetContainedFlag(bool b) { bcontained = b; }
     bool IsContainment() const;
     
 private:
@@ -58,6 +63,7 @@ private:
     string alnStr2;
     int posRowEnd;
     int posColEnd;
+	bool bcontained;
 };
 
 // ******************************************************************
