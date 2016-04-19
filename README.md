@@ -7,7 +7,6 @@ A manuscript for this software is submitted to PLoS One.
 If you use this program in a publication, please cite the following reference:  
 Chong Chu, Rasmus Nielsen and Yufeng Wu,
 REPdenovo: Inferring de novo repeat motifs from short sequence reads, PLoS One 11.3 (2016): e0150719.
-Please check back this site for more up-to-date information on citing this software.
 
 ## **Functionalities and Usage of REPdenovo**
 REPdenovo is designed for constructing repeats directly from sequence reads. It based on the idea of frequent k-mer assembly. REPdenovo provides many
