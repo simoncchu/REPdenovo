@@ -3,7 +3,6 @@
 kind. In no event shall the author be held responsible for any damage resulting from the
 use of this software. The program package, including source codes, executables, and this
 documentation, is distributed free of charge.
-A manuscript for this software is submitted to PLoS One.
 If you use this program in a publication, please cite the following reference:  
 Chong Chu, Rasmus Nielsen and Yufeng Wu,
 REPdenovo: Inferring de novo repeat motifs from short sequence reads, PLoS One 11.3 (2016): e0150719.
@@ -116,4 +115,4 @@ Two main output:
 
 contigs.fa which contains the constructed repeats.
 
-X_contig_pairs_info.txt_cov_info_with_cutoff.txt contains the repeat coverage information.
+X_contig_pairs_info.txt_cov_info_with_cutoff.txt contains the repeat coverage information. There are 3 columns for each line: Repeat-Id, Repeat-Length, Repeat-Average-coverage. 

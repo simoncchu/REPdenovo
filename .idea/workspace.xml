@@ -26,7 +26,7 @@
       <file leaf-file-name="gnrtGapPositions.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/gnrtGapPositions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="247" column="42" selection-start="9714" selection-end="9714" vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="4437">
+            <state line="12" column="41" selection-start="218" selection-end="218" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4437">
               <folding>
                 <element signature="e#1840#2140#0" expanded="false" />
                 <element signature="e#2198#6473#0" expanded="false" />
@@ -52,7 +52,7 @@
       <file leaf-file-name="assembleGaps.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/assembleGaps.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="301" column="57" selection-start="9550" selection-end="9550" vertical-scroll-proportion="0.5245442" vertical-offset="3774" max-vertical-offset="5916">
+            <state line="345" column="59" selection-start="10689" selection-end="10689" vertical-scroll-proportion="0.42917252" vertical-offset="4590" max-vertical-offset="5916">
               <folding>
                 <element signature="e#243#1761#0" expanded="false" />
                 <element signature="e#8794#8926#0" expanded="false" />
@@ -75,7 +75,7 @@
       <file leaf-file-name="run_multi_threads_discordant.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_discordant.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="531" column="27" selection-start="19835" selection-end="19835" vertical-scroll-proportion="0.0" vertical-offset="6800" max-vertical-offset="7990">
+            <state line="531" column="27" selection-start="19835" selection-end="19835" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7990">
               <folding>
                 <element signature="e#4861#5575#0" expanded="false" />
                 <element signature="e#5600#5645#0" expanded="false" />
@@ -109,7 +109,7 @@
       <file leaf-file-name="collect_reads_for_gaps.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/collect_reads_for_gaps.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="13" selection-start="205" selection-end="205" vertical-scroll-proportion="0.0" vertical-offset="2908" max-vertical-offset="3621">
+            <state line="13" column="13" selection-start="205" selection-end="205" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3621">
               <folding />
             </state>
           </provider>
@@ -177,8 +177,8 @@
         <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/collect_reads_for_gaps.py" />
         <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/MergeContigs.py" />
         <option value="$PROJECT_DIR$/FilterAndScaffold.py" />
-        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/assembleGaps.py" />
         <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/gnrtGapPositions.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/assembleGaps.py" />
       </list>
     </option>
   </component>
@@ -831,38 +831,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_collect_reads.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="56" selection-start="767" selection-end="767" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="918">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/collect_discordant_low_mapq_reads.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="27" column="35" selection-start="738" selection-end="738" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1598">
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_discordant.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="531" column="27" selection-start="19835" selection-end="19835" vertical-scroll-proportion="0.0" vertical-offset="6800" max-vertical-offset="7990">
-          <folding>
-            <element signature="e#4861#5575#0" expanded="false" />
-            <element signature="e#5600#5645#0" expanded="false" />
-            <element signature="e#5681#6083#0" expanded="false" />
-            <element signature="e#6244#8911#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/collect_reads_for_gaps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="205" selection-end="205" vertical-scroll-proportion="0.0" vertical-offset="2908" max-vertical-offset="3621">
-          <folding />
         </state>
       </provider>
     </entry>
@@ -898,9 +872,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="395" column="0" selection-start="14976" selection-end="14976" vertical-scroll-proportion="1.1374474" vertical-offset="5734" max-vertical-offset="6647">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/gnrtGapPositions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="247" column="42" selection-start="9714" selection-end="9714" vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="4437">
+        <state line="12" column="41" selection-start="218" selection-end="218" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4437">
           <folding>
             <element signature="e#1840#2140#0" expanded="false" />
             <element signature="e#2198#6473#0" expanded="false" />
@@ -911,16 +892,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_discordant.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="395" column="0" selection-start="14976" selection-end="14976" vertical-scroll-proportion="1.1374474" vertical-offset="5734" max-vertical-offset="6647">
+        <state line="531" column="27" selection-start="19835" selection-end="19835" vertical-scroll-proportion="0.0" vertical-offset="6800" max-vertical-offset="7990">
+          <folding>
+            <element signature="e#4861#5575#0" expanded="false" />
+            <element signature="e#5600#5645#0" expanded="false" />
+            <element signature="e#5681#6083#0" expanded="false" />
+            <element signature="e#6244#8911#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_collect_reads.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="56" selection-start="767" selection-end="767" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="918">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/collect_reads_for_gaps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="13" selection-start="205" selection-end="205" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3621">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/assembleGaps.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="301" column="57" selection-start="9550" selection-end="9550" vertical-scroll-proportion="0.5245442" vertical-offset="3774" max-vertical-offset="5916">
+        <state line="345" column="59" selection-start="10689" selection-end="10689" vertical-scroll-proportion="0.42917252" vertical-offset="4590" max-vertical-offset="5916">
           <folding>
             <element signature="e#243#1761#0" expanded="false" />
             <element signature="e#8794#8926#0" expanded="false" />
