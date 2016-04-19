@@ -49,23 +49,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="assembleGaps.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="assembleGaps.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/assembleGaps.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="301" column="57" selection-start="9550" selection-end="9550" vertical-scroll-proportion="0.0" vertical-offset="3774" max-vertical-offset="5916">
+            <state line="301" column="57" selection-start="9550" selection-end="9550" vertical-scroll-proportion="0.5245442" vertical-offset="3774" max-vertical-offset="5916">
               <folding>
                 <element signature="e#243#1761#0" expanded="false" />
                 <element signature="e#8794#8926#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="395" column="0" selection-start="14976" selection-end="14976" vertical-scroll-proportion="1.1374474" vertical-offset="5734" max-vertical-offset="6647">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -555,7 +546,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1554" height="916" extended-state="6" />
+    <frame x="-8" y="-8" width="1554" height="916" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -907,16 +898,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/assembleGaps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="301" column="57" selection-start="9550" selection-end="9550" vertical-scroll-proportion="0.0" vertical-offset="3774" max-vertical-offset="5916">
-          <folding>
-            <element signature="e#243#1761#0" expanded="false" />
-            <element signature="e#8794#8926#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/gnrtGapPositions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="247" column="42" selection-start="9714" selection-end="9714" vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="4437">
@@ -934,6 +915,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="395" column="0" selection-start="14976" selection-end="14976" vertical-scroll-proportion="1.1374474" vertical-offset="5734" max-vertical-offset="6647">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/assembleGaps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="301" column="57" selection-start="9550" selection-end="9550" vertical-scroll-proportion="0.5245442" vertical-offset="3774" max-vertical-offset="5916">
+          <folding>
+            <element signature="e#243#1761#0" expanded="false" />
+            <element signature="e#8794#8926#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

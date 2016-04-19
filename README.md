@@ -116,4 +116,4 @@ Two main output:
 
 contigs.fa which contains the constructed repeats.
 
-X_contig_pairs_info.txt_cov_info_with_cutoff.txt contains the repeat coverage information.
+X_contig_pairs_info.txt_cov_info_with_cutoff.txt contains the repeat coverage information. There are 3 columns for each line: Repeat-Id, Repeat-Length, Repeat-Average-coverage. 
