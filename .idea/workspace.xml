@@ -22,100 +22,7 @@
     <favorites_list name="REPdenovo" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="gnrtGapPositions.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/gnrtGapPositions.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="41" selection-start="218" selection-end="218" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4437">
-              <folding>
-                <element signature="e#1840#2140#0" expanded="false" />
-                <element signature="e#2198#6473#0" expanded="false" />
-                <element signature="e#6542#8034#0" expanded="false" />
-                <element signature="e#8070#8604#0" expanded="false" />
-                <element signature="e#8629#9144#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MergeContigs.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/MergeContigs.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="86" column="22" selection-start="3956" selection-end="3956" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="1802">
-              <folding>
-                <element signature="e#26#36#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="assembleGaps.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/assembleGaps.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="345" column="59" selection-start="10689" selection-end="10689" vertical-scroll-proportion="0.42917252" vertical-offset="4590" max-vertical-offset="5916">
-              <folding>
-                <element signature="e#243#1761#0" expanded="false" />
-                <element signature="e#8794#8926#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FilterAndScaffold.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FilterAndScaffold.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="127" column="60" selection-start="4910" selection-end="4910" vertical-scroll-proportion="0.0" vertical-offset="1782" max-vertical-offset="3145">
-              <folding>
-                <element signature="e#26#36#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="run_multi_threads_discordant.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_discordant.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="531" column="27" selection-start="19835" selection-end="19835" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7990">
-              <folding>
-                <element signature="e#4861#5575#0" expanded="false" />
-                <element signature="e#5600#5645#0" expanded="false" />
-                <element signature="e#5681#6083#0" expanded="false" />
-                <element signature="e#6244#8911#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="run_multi_threads_collect_reads.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_collect_reads.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="56" selection-start="767" selection-end="767" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="918">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="collect_discordant_low_mapq_reads.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/collect_discordant_low_mapq_reads.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="35" selection-start="738" selection-end="738" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1598">
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="collect_reads_for_gaps.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/collect_reads_for_gaps.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="13" selection-start="205" selection-end="205" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3621">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -128,8 +35,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/../../Repeats_PacBio/downSampling.py" />
-        <option value="G:/Others/DepOfPhy/DataAnalysis/data/downSampling.py" />
         <option value="G:/Others/DepOfPhy/DataAnalysis/movingBalls.py" />
         <option value="$PROJECT_DIR$/KmerCount.py" />
         <option value="$PROJECT_DIR$/Utility.py" />
@@ -173,12 +78,14 @@
         <option value="G:/Others/CodeJam2016/1round/C/BFFs.py" />
         <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_collect_reads.py" />
         <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/collect_discordant_low_mapq_reads.py" />
-        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_discordant.py" />
-        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/collect_reads_for_gaps.py" />
         <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/MergeContigs.py" />
         <option value="$PROJECT_DIR$/FilterAndScaffold.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_discordant.py" />
         <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/gnrtGapPositions.py" />
         <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/assembleGaps.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/gnrt_pos_true_seqs.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/collect_reads_for_gaps.py" />
+        <option value="$PROJECT_DIR$/../../../GapFilling/test_cases/GAPdenovo/collect_reads_for_gaps.py" />
       </list>
     </option>
   </component>
@@ -222,23 +129,13 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="REPdenovo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="REPdenovo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="D:/Others/learn_python" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../GAPdenovo/GAPdenovo_code" />
     <property name="options.lastSelected" value="settings.github" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
@@ -546,14 +443,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1554" height="916" extended-state="7" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1554" height="916" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19380356" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19380356" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39892185" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -561,11 +458,11 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -603,15 +500,10 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="23" />
+      <option name="time" value="24" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://G:/Others/DepOfPhy/DataAnalysis/bonounceBalls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="16" selection-start="1369" selection-end="1369" vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="3468" />
-      </provider>
-    </entry>
     <entry file="file://C:/Python27/Lib/lib-tk/tkMessageBox.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="80" column="4" selection-start="1648" selection-end="1648" vertical-scroll-proportion="0.33333334" vertical-offset="1119" max-vertical-offset="2380" />
@@ -717,34 +609,9 @@
         <state line="73" column="32" selection-start="1900" selection-end="1900" vertical-scroll-proportion="0.0" vertical-offset="913" max-vertical-offset="2023" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/concateGapFlank.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="210" selection-end="210" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="36" selection-start="168" selection-end="168" vertical-scroll-proportion="0.11921459" vertical-offset="0" max-vertical-offset="713" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/convert_ReverseComplementary.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="557" selection-end="557" vertical-scroll-proportion="0.5483871" vertical-offset="0" max-vertical-offset="713" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/split_fastq.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="1046" selection-end="1046" vertical-scroll-proportion="0.73913044" vertical-offset="0" max-vertical-offset="714" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Assembly.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="28" column="30" selection-start="731" selection-end="731" vertical-scroll-proportion="0.6676017" vertical-offset="0" max-vertical-offset="4675" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/discordant_alignment_statistic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="54" selection-start="2562" selection-end="2562" vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="3060" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MergeContigs.py">
@@ -757,18 +624,9 @@
         <state line="14" column="23" selection-start="354" selection-end="354" vertical-scroll-proportion="0.33380085" vertical-offset="0" max-vertical-offset="1139" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/Utility.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="19" selection-start="621" selection-end="621" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1139">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://G:/Others/DepOfPhy/DataAnalysis/XMLParser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="76" selection-start="2686" selection-end="2686" vertical-scroll-proportion="1.2159888" vertical-offset="0" max-vertical-offset="1020">
-          <folding />
-        </state>
+        <state line="51" column="76" selection-start="2686" selection-end="2686" vertical-scroll-proportion="1.2159888" vertical-offset="0" max-vertical-offset="1020" />
       </provider>
     </entry>
     <entry file="file://G:/Others/DepOfPhy/DataAnalysis/database.py">
@@ -791,141 +649,62 @@
     </entry>
     <entry file="file://G:/Others/CodeJam2016/1round/A/the_last_word.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="19" selection-start="37" selection-end="37" vertical-scroll-proportion="0.047685836" vertical-offset="0" max-vertical-offset="713">
-          <folding />
-        </state>
+        <state line="2" column="19" selection-start="37" selection-end="37" vertical-scroll-proportion="0.047685836" vertical-offset="0" max-vertical-offset="713" />
       </provider>
     </entry>
     <entry file="file://G:/Others/CodeJam2016/B/B-Revenge-of-the-Pancakes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="44" selection-start="1139" selection-end="1139" vertical-scroll-proportion="0.8569425" vertical-offset="545" max-vertical-offset="1258">
-          <folding />
-        </state>
+        <state line="68" column="44" selection-start="1139" selection-end="1139" vertical-scroll-proportion="0.8569425" vertical-offset="545" max-vertical-offset="1258" />
       </provider>
     </entry>
     <entry file="file://G:/Others/CodeJam2016/1round/C/BFFs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="44" selection-start="1290" selection-end="1290" vertical-scroll-proportion="0.49929875" vertical-offset="613" max-vertical-offset="1326">
-          <folding />
-        </state>
+        <state line="57" column="44" selection-start="1290" selection-end="1290" vertical-scroll-proportion="0.49929875" vertical-offset="613" max-vertical-offset="1326" />
       </provider>
     </entry>
     <entry file="file://G:/Others/CodeJam2016/1round/B/rank_the_file.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="42" selection-start="648" selection-end="648" vertical-scroll-proportion="0.5483871" vertical-offset="0" max-vertical-offset="713">
-          <folding />
-        </state>
+        <state line="23" column="42" selection-start="648" selection-end="648" vertical-scroll-proportion="0.5483871" vertical-offset="0" max-vertical-offset="713" />
       </provider>
     </entry>
     <entry file="file://G:/Others/CodeJam2016/C/C-Coin-Jam.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="122" column="55" selection-start="2741" selection-end="2741" vertical-scroll-proportion="0.8330996" vertical-offset="1463" max-vertical-offset="2176">
-          <folding />
-        </state>
+        <state line="122" column="55" selection-start="2741" selection-end="2741" vertical-scroll-proportion="0.8330996" vertical-offset="1463" max-vertical-offset="2176" />
       </provider>
     </entry>
     <entry file="file://G:/Others/CodeJam2016/A/A-CountingSheep.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="12" selection-start="1785" selection-end="1785" vertical-scroll-proportion="0.5231417" vertical-offset="953" max-vertical-offset="1666">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/collect_discordant_low_mapq_reads.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="35" selection-start="738" selection-end="738" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1598">
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/MergeContigs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="22" selection-start="3956" selection-end="3956" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="1802">
-          <folding>
-            <element signature="e#26#36#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="78" column="12" selection-start="1785" selection-end="1785" vertical-scroll-proportion="0.5231417" vertical-offset="953" max-vertical-offset="1666" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BasicInfoPaser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="15" selection-start="1848" selection-end="1848" vertical-scroll-proportion="0.33239833" vertical-offset="545" max-vertical-offset="1462">
-          <folding />
-        </state>
+        <state line="53" column="15" selection-start="1848" selection-end="1848" vertical-scroll-proportion="0.33239833" vertical-offset="545" max-vertical-offset="1462" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FilterPEReads.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.16830294" vertical-offset="120" max-vertical-offset="1802">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FilterAndScaffold.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="127" column="60" selection-start="4910" selection-end="4910" vertical-scroll-proportion="0.0" vertical-offset="1782" max-vertical-offset="3145">
-          <folding>
-            <element signature="e#26#36#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.16830294" vertical-offset="120" max-vertical-offset="1802" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="395" column="0" selection-start="14976" selection-end="14976" vertical-scroll-proportion="1.1374474" vertical-offset="5734" max-vertical-offset="6647">
-          <folding />
-        </state>
+        <state line="395" column="0" selection-start="14976" selection-end="14976" vertical-scroll-proportion="1.1374474" vertical-offset="5734" max-vertical-offset="6647" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/gnrtGapPositions.py">
+    <entry file="file://$PROJECT_DIR$/FilterAndScaffold.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="41" selection-start="218" selection-end="218" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4437">
-          <folding>
-            <element signature="e#1840#2140#0" expanded="false" />
-            <element signature="e#2198#6473#0" expanded="false" />
-            <element signature="e#6542#8034#0" expanded="false" />
-            <element signature="e#8070#8604#0" expanded="false" />
-            <element signature="e#8629#9144#0" expanded="false" />
-          </folding>
-        </state>
+        <state line="127" column="60" selection-start="4910" selection-end="4910" vertical-scroll-proportion="3.0842857" vertical-offset="0" max-vertical-offset="3145" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_discordant.py">
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/GAPdenovo/collect_reads_for_gaps.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="531" column="27" selection-start="19835" selection-end="19835" vertical-scroll-proportion="0.0" vertical-offset="6800" max-vertical-offset="7990">
-          <folding>
-            <element signature="e#4861#5575#0" expanded="false" />
-            <element signature="e#5600#5645#0" expanded="false" />
-            <element signature="e#5681#6083#0" expanded="false" />
-            <element signature="e#6244#8911#0" expanded="false" />
-          </folding>
-        </state>
+        <state line="27" column="61" selection-start="543" selection-end="543" vertical-scroll-proportion="0.6253406" vertical-offset="0" max-vertical-offset="3621" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/run_multi_threads_collect_reads.py">
+    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/GAPdenovo/run_multi_threads_collect_reads.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="56" selection-start="767" selection-end="767" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="918">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/collect_reads_for_gaps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="205" selection-end="205" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3621">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../GapFilling/test_cases/assembleGaps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="345" column="59" selection-start="10689" selection-end="10689" vertical-scroll-proportion="0.42917252" vertical-offset="4590" max-vertical-offset="5916">
-          <folding>
-            <element signature="e#243#1761#0" expanded="false" />
-            <element signature="e#8794#8926#0" expanded="false" />
-          </folding>
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="952" />
       </provider>
     </entry>
   </component>

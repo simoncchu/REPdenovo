@@ -80,14 +80,14 @@ def filter_sam(sfsam, mapq,sfsam_output):
     ##keep the mapped reads(for calculating coverage), covert to bam and sort
     sbam_for_cov="{0}_for_coverage".format(sfsam)
     print "Sort filtered {0} ...".format(sintermediate)
-    cmd="{0} sort {1}.bam {2}.sorted".format(SAMTOOLS_PATH,sintermediate,sbam_for_cov)
+    cmd="{0} sort {1}.bam -o {2}.sorted.bam".format(SAMTOOLS_PATH,sintermediate,sbam_for_cov)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
     cmd="{0} index {1}.sorted.bam".format(SAMTOOLS_PATH,sbam_for_cov)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
     print "Sort filtered {0} by read name ...".format(sfsam)
     #first covert to bam, then sort
-    cmd="{0} sort -n {1}.bam {2}.sortbyname".format(SAMTOOLS_PATH,sintermediate,sintermediate)
+    cmd="{0} sort -n {1}.bam -o {2}.sortbyname.bam".format(SAMTOOLS_PATH,sintermediate,sintermediate)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
     # then covert back to sam
     cmd="{0} view -h {1}.sortbyname.bam > {2}".format(SAMTOOLS_PATH,sintermediate,sintermediate)

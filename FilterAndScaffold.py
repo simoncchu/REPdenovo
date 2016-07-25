@@ -27,7 +27,7 @@ def preprocess_sam(sfsam):
     #print "Running command: "+ cmd +"..."
     print_command(cmd)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="{0} sort {1}.bam {2}.sort".format(SAMTOOLS_PATH,sfsam,sfsam)
+    cmd="{0} sort {1}.bam -o {2}.sort.bam".format(SAMTOOLS_PATH,sfsam,sfsam)
     #print "Running command: "+ cmd +"..."
     print_command(cmd)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
@@ -90,7 +90,7 @@ def align_read_to_contigs(file_list):
         #print "Running command: "+ cmd +"..."
         print_command(cmd)
         Popen(cmd, shell = True, stdout = PIPE).communicate()
-        cmd="{0} sort {1}_{2}.bam {3}_{4}.sort".format(SAMTOOLS_PATH,sall,j,sall,j)
+        cmd="{0} sort {1}_{2}.bam -o {3}_{4}.sort.bam".format(SAMTOOLS_PATH,sall,j,sall,j)
         #print "Running command: "+ cmd +"..."
         print_command(cmd)
         Popen(cmd, shell = True, stdout = PIPE).communicate()

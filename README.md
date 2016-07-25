@@ -27,7 +27,7 @@ The current released version of REPdenovo runs on Linux OS. And REPdenovo needs 
 
 4. Reads mapping. REPdenovo uses bwa mem. BWA (version 0.7 or later) can be downloaded from https://github.com/lh3/bwa.
 
-5. Sequence processing utilities. These include the commonly used samtools. Our code also uses bamtools (https://github.com/pezmaster31/bamtools), but bamtools is not required to be installed.
+5. Sequence processing utilities. These include the commonly used samtools (v1.3.1 or later, note old version of samtools have different parameter setting with the latest one, now REPdenovo fully support the latest version (1.3.1) of samtools, but may fail when use older version). Our code also uses bamtools (https://github.com/pezmaster31/bamtools), but bamtools is not required to be installed.
 
 ## **Download and Install**
 First, download the whole folder from https://github.com/Reedwarbler/REPdenovo, including the subfolder TERefiner and ContigsMerger-v0.1.9.

@@ -32,7 +32,7 @@ def remove_duplicate_contained(fcontig, foutput, cutoff, brm_contained):
 
     cmd="{0} view -h -S -b {1}.itself.sam > {2}.itself.bam".format(SAMTOOLS_PATH,fcontig,fcontig)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="{0} sort {1}.itself.bam {2}.itself.sort".format(SAMTOOLS_PATH,fcontig,fcontig)
+    cmd="{0} sort {1}.itself.bam -o {2}.itself.sort.bam".format(SAMTOOLS_PATH,fcontig,fcontig)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
     cmd="{0} index {1}.itself.sort.bam".format(SAMTOOLS_PATH,fcontig)
     Popen(cmd, shell = True, stdout = PIPE).communicate()

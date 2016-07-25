@@ -137,6 +137,8 @@ def read_configfile(sfconfig):
         elif parts[0]=="OUTPUT_FOLDER":
             global local_OUTPUT_FOLDER
             local_OUTPUT_FOLDER=parts[1]
+            if local_OUTPUT_FOLDER[-1]!="/":
+                local_OUTPUT_FOLDER=local_OUTPUT_FOLDER+"/"
         elif parts[0]=="READ_DEPTH":
             global READ_DEPTH
             READ_DEPTH=float(parts[1])
