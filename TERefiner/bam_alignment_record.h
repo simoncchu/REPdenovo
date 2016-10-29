@@ -134,6 +134,6 @@ public:
 //public:
 //	std::vector<BamAlignmentRecord> records;
 //	
-//}; 
+//};
 
 #endif

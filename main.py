@@ -40,6 +40,7 @@ RANGE_ASM_FREQ_INC_TIMES=5 ##increase 5 times
 RANGE_ASM_FREQ_DEC_TIMES=0.1 ##decrease 0.1 times
 RM_DUP_BF_MERGE_CUTOFF=0.9
 RM_DUP_AF_MERGE_CUTOFF=0.85
+RM_CTN_CUTOFF=0.9
 
 bpaired=True
 sfleft_reads=""
@@ -163,6 +164,10 @@ def read_configfile(sfconfig):
         elif parts[0]=="RM_DUP_AF_MERGE_CUTOFF":
             global RM_DUP_AF_MERGE_CUTOFF
             RM_DUP_AF_MERGE_CUTOFF=float(parts[1])
+        elif parts[0]=="RM_CTN_CUTOFF":
+            global RM_CTN_CUTOFF
+            RM_CTN_CUTOFF=float(parts[1])
+
     fconfig.close()
 
     ##check each path exist
@@ -283,6 +288,7 @@ def usage():
     print '    All            Run the whole pipeline\n',
     print '    Assembly       Only run the assembly part\n',
     print '    RmDup          Remove duplicate and contained ones\n',
+    print '    RmCtn          Remove contained ones\n',
     print '    Classify       Classfy tandem repeats from other types of repeats',
     print '    Scaffolding    Only run the scaffolding part, with the given contig file\n'
     print '    Analysis       Scaffolding and analysis with given bam files and contig file\n',
@@ -318,7 +324,7 @@ def main_func(scommand,sfconfig,sfreads_list):
     global READ_LENGTH,GENOME_LENGTH,COV_DIFF_CUTOFF,MIN_SUPPORT_PAIRS
     global K_MIN, K_MAX, K_INC, ASM_NODE_LENGTH_OFFSET, TR_SIMILARITY
     global RANGE_ASM_FREQ_DEC_TIMES, RANGE_ASM_FREQ_INC_TIMES,MIN_CONTIG_LENGTH,RANGE_ASM_FREQ_DEC
-    global local_THREADS, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF
+    global local_THREADS, RM_DUP_BF_MERGE_CUTOFF, RM_DUP_AF_MERGE_CUTOFF, RM_CTN_CUTOFF
 
     assert os.path.exists(sfconfig),"configuration file is not found"
     read_configfile(sfconfig)
@@ -380,6 +386,8 @@ def main_func(scommand,sfconfig,sfreads_list):
         scaffold(file_list,READ_LENGTH,COV_DIFF_CUTOFF, MIN_SUPPORT_PAIRS)
     elif scommand=="RmDup":
         rm_dup_contain(local_OUTPUT_FOLDER, RM_DUP_AF_MERGE_CUTOFF)
+    elif scommand=="RmCtn":
+        rm_contain(local_OUTPUT_FOLDER, RM_CTN_CUTOFF)
     else:
         print "Wrong parameters!!!\n"
         usage()

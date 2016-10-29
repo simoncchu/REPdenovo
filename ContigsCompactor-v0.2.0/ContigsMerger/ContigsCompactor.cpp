@@ -10,7 +10,8 @@
 //
 //	Fix one bug on DP part (04/12/16, C.C.): when check whether one is contained in another,
 //                          some are wrongly considered as contained which are overlap
-//  
+//
+//  Edit: In this version, we are going to allow some mismatch at one end of the two sequences to be merged. (By Chong Chu on 04/29/16)
 
 #include <algorithm>
 #include <iostream>
@@ -40,6 +41,7 @@ const int OVERLAP_LARGER_MINLEN=2;
 double ContigsCompactor::fractionLossScore = 0.05;
 double ContigsCompactor::fracMinOverlap = 0.01;
 double ContigsCompactor::minOverlapLen= 10000;
+double ContigsCompactor::maxOverlapClipLen = 0;
 double ContigsCompactor::minOverlapLenWithScaffold= QUICK_CHECK_KMER_LEN;
 
 double ContigsCompactor::scoreMismatch= -1.0;
@@ -60,7 +62,6 @@ long ContigsCompactor::vistPos;
 int ContigsCompactor::numOfContigs;
 int ContigsCompactor::minNumKmerSupport;
 
-
 std::vector< FastaSequence *> ContigsCompactor::vfs;
 
 static pthread_mutex_t merge_mutex= PTHREAD_MUTEX_INITIALIZER;
@@ -69,7 +70,7 @@ static pthread_mutex_t check_mutex= PTHREAD_MUTEX_INITIALIZER;
 // ******************************************************************
 // Testing
 
-void TestGraph( )
+void TestGraph()
 {
     // create a graph and check SCC
     AbstractGraph graphSimple;
@@ -103,9 +104,7 @@ void TestGraph( )
 }
 
 // ******************************************************************
-// merge info: how should we merge 
-
-
+// merge info: how should we merge
 void ContigsCompactorAction :: SetMergedStringConcat()
 {
     // set the merged string to be something really simple
@@ -114,13 +113,13 @@ void ContigsCompactorAction :: SetMergedStringConcat()
     
 //cout << "SetMergedStringConcat: posRowEnd: " << posRowEnd << ", posColEnd: " << posColEnd << ", aln1str: " << alnStr1.length() << ", aln2str: " << alnStr2.length() << endl;
 
-	if(bcontained && posRowEnd == (int)alnStr1.length() && alnStr1.length() <  alnStr2.length()  )
+	if(bcontained && (posRowEnd+nclip) == (int)alnStr1.length() && alnStr1.length() <  alnStr2.length()  )
     {
 //cout << "Contained: 2 contain 1\n";
         // alnStr1 is contained
         strCompact = alnStr2;
     }
-    else  if(bcontained && posColEnd == (int)alnStr2.length() && alnStr2.length() < alnStr1.length()  )
+    else  if(bcontained && (posColEnd+nclip) == (int)alnStr2.length() && alnStr2.length() < alnStr1.length()  )
     {
 //cout << "Contained: 1 contain 2\n";
         // alnStr1 is contained
@@ -129,7 +128,7 @@ void ContigsCompactorAction :: SetMergedStringConcat()
     else
     {
         // this should be the case of prefix/suffix overlap
-        if( posRowEnd == (int)alnStr1.length() )
+        if( (posRowEnd+nclip) == (int)alnStr1.length() )
         {
 //cout << "Prefix/suffix: 1 follow by 2\n";
             //
@@ -137,7 +136,7 @@ void ContigsCompactorAction :: SetMergedStringConcat()
             {
                 cout << "WARNING: wrong0\n";
             }*/
-			strCompact = alnStr1 + alnStr2.substr(posColEnd, (int)alnStr2.length()-posColEnd);
+			strCompact = alnStr1.substr(0,alnStr1.length()-nclip) + alnStr2.substr(posColEnd, (int)alnStr2.length()-posColEnd);
         }
         else
         {
@@ -146,8 +145,7 @@ void ContigsCompactorAction :: SetMergedStringConcat()
             {
                 cout << "WARNING: wrong1\n";
             }*/
-            strCompact = alnStr2 + alnStr1.substr(posRowEnd, (int)alnStr1.length()-posRowEnd );
-            
+            strCompact = alnStr2.substr(0, alnStr2.length() - nclip) + alnStr1.substr(posRowEnd, (int)alnStr1.length()-posRowEnd );   
         }
     }
     
@@ -157,7 +155,7 @@ void ContigsCompactorAction :: SetMergedStringConcat()
 bool ContigsCompactorAction :: IsContainment() const
 {
     //
-    return bcontained && (( posRowEnd == (int)alnStr1.length() && (int)alnStr1.length() <  posColEnd ) || ( posColEnd == (int)alnStr2.length() && (int)alnStr2.length() < posRowEnd  ));
+    return bcontained && (( (posRowEnd+nclip) == (int)alnStr1.length() && (int)alnStr1.length() <  posColEnd ) || ( (posColEnd+nclip) == (int)alnStr2.length() && (int)alnStr2.length() < posRowEnd  ));
 }
 
 // ******************************************************************
@@ -655,7 +653,7 @@ void* ContigsCompactor::threadMergeContigV2(void *ptr)
 		if (fMatch == OVERLAP_LARGER_MINLEN)
 		{
 			//
-			if (ccAct.GetPosEndSeq1() <  ContigsCompactor::vfs[i]->size())
+			if ( (ccAct.GetPosEndSeq1() + ccAct.GetOneEndClipLenth()) !=  ContigsCompactor::vfs[i]->size())
 			{
 				// second go first 
 				asmMode = MODE_2_1;
@@ -761,24 +759,23 @@ int ContigsCompactor::addEdges()
 		{
 			//pthread_mutex_lock (&ContigsCompactor::merge_mutex); //lock to make sure only one thread is writing at the same time 
 			pnodej->AddNgbrRef(pnodei, NULL, asmMode, pathLen);
-			//pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure
+			//pthread_mutex_unlock(&ContigsCompactor::merge_mutex);//unlock make sure only
 		}
 		else
 		{
 			THROW("Fatal error.");
 		}
-
 	}
 
 }
 
-//temp version for test the running time of each part
+
 void ContigsCompactor :: CompactVer3( MultiFastqSeqs &listContigs, const char* fileScaffoldInfo,  int miniSupportPairCutOff)
 {
     // each contig has a node in the graph; YW: to address the issue of reverse complement, create another node (name as <name>_R)
-    // create mapping from contig ptr to node 
+    // create mapping from contig ptr to node
     // create reverse-complement strings 
-	//clock_t tStart = clock();  
+	//clock_t tStart = clock();
 
     vector< FastaSequence *> listRevCompContigs;
     map<FastaSequence *, FastaSequence *> mapRevCompContigs;
@@ -842,7 +839,7 @@ void ContigsCompactor :: CompactVer3( MultiFastqSeqs &listContigs, const char* f
 	ContigsCompactor::vConnectInfo.clear();
 
 	// create a list of quickchecker
-	// construct all the quick checkers 
+	// construct all the quick checkers
 	MultiThreadQuickChecker multiChecker(contigSize);
 	for (int j = 0; j<(int)listContigsPtrInclRevComp.size(); ++j)
 	{
@@ -851,7 +848,7 @@ void ContigsCompactor :: CompactVer3( MultiFastqSeqs &listContigs, const char* f
 		ContigsCompactor::vfs.push_back(listContigsPtrInclRevComp[j]);
 	}
 
-	multiChecker.runMultiThreadChecker(numOfThreads);	
+	multiChecker.runMultiThreadChecker(numOfThreads);
 //cout << "Multiple-check finished" << endl;
 //cout << "No. of pairs need to further check is: " << ContigsCompactor::tempMergeInfo.size() << endl;
 	runMultiThreadMergeV2(1, numOfThreads);
@@ -903,24 +900,32 @@ graphContigs.OutputGML( fileGML );
 //cout << "GML file outputted....\n";
 //exit(1);
     
-
-    
     // now find paths
     set<vector<AbstractGraphNode *> > setPaths;
     //graphContigs.FindSimplePaths( setPaths, maxContigPathLen, maxCountPerContigInPaths);
     //graphContigs.FindSimplePathsBoundedLength( setPaths, maxContigPathLen );
-    graphContigs.FindSimplePathsTopSort( setPaths, maxCountPerContigInPaths );
-//cout << "Number of paths found: " << setPaths.size() << ", lengths are: ";
-//for( set<vector<AbstractGraphNode *> > :: iterator it = setPaths.begin(); it != setPaths.end(); ++it)
-//{
-//cout << it->size() << "  ";
-//}
-//cout << endl;
-//exit(1);
+	graphContigs.FindSimplePathsTopSort( setPaths, maxCountPerContigInPaths ); //need to check ////////////////////////////////////
+
+	if (fVerbose)
+	{
+		cout << "Number of paths found: " << setPaths.size() << endl;
+		for (set<vector<AbstractGraphNode *> > ::iterator it = setPaths.begin(); it != setPaths.end(); ++it)
+		{
+			for (int i = 0; i < it->size(); i++)
+			{
+				cout << it->at(i)->GetName() << " ";
+			}
+			cout << endl;
+			//cout << it->size() << "  ";
+		}
+		//cout << endl;
+	}
+//exit(1); 
     
     // remove duplicate path (by reverse complement)
     RemoveDupRevCompPaths(setPaths, mapListRevCompNodes);
     
+
     // create assembled path
     static int contigNumNext = 1;
     for( set<vector<AbstractGraphNode *> > :: iterator it = setPaths.begin(); it != setPaths.end(); ++it )
@@ -1623,7 +1628,6 @@ int ContigsCompactor::Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, Conti
 		tblTraceBack[i][0] = pp;    // stop tracing
 
 									//int posRep = i-1;
-
 		for (int j = 1; j<(int)tblScore[i].size(); ++j)
 		{
 			//cout << "### determine value for cell [" << i << "," << j << "]...\n";
@@ -1664,48 +1668,66 @@ int ContigsCompactor::Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, Conti
 		}
 	}
 
-	// just find the largest score over the last row/column
+	// just find the largest score over the last row/column 
 	int scoreMax = MAX_NEG_SCORE;
 	int posRowEnd = -1;
 	int posColEnd = -1;
-	for (int i = 0; i<(int)tblScore.size(); ++i)
+	int nclip = -1;
+
+	for (int c = 0; c <= maxOverlapClipLen; c++) //we allow some mismatch at one of the prefix or suffix
 	{
-		if (tblScore[i][szSeq2] > scoreMax)
+		for (int i = 0; i<(int)tblScore.size(); ++i)
 		{
-			scoreMax = tblScore[i][szSeq2];
-			posColEnd = szSeq2;
-			posRowEnd = i;
+			int icol = szSeq2 - c;
+			if (icol<0) break;
+
+			if (tblScore[i][icol] > scoreMax)
+			{
+				scoreMax = tblScore[i][icol];
+				posColEnd = icol;
+				posRowEnd = i;
+				nclip = c;
+			}
+		}
+
+
+		for (int j = 0; j <= szSeq2; ++j)
+		{
+			int irow = szSeq1 - c;
+			if (irow<0) break;
+
+			if (tblScore[irow][j] > scoreMax)
+			{
+				scoreMax = tblScore[irow][j];
+				posColEnd = j;
+				posRowEnd = irow;
+				nclip = c;
+			}
 		}
 	}
-	for (int j = 0; j <= szSeq2; ++j)
-	{
-		if (tblScore[szSeq1][j] > scoreMax)
-		{
-			scoreMax = tblScore[szSeq1][j];
-			posColEnd = j;
-			posRowEnd = szSeq1;
-		}
-	}
+	
 
 	int res = 2;
 	// if in the relax mode, don't check for scoring
 	if (fRelax == false)
-	{
-		
+	{	
 		//const int OVERLAP_SMALLER_MINLENSCAFFOLD=0;
 		//const int OVERLAP_IN_RANGE=1;
 		//const int OVERLAP_LARGER_MINLEN=2;
 
-		int score_significant = this->IsScoreSignificant(scoreMax, szSeq1, szSeq2, posRowEnd, posColEnd);
+		int score_significant = this->IsScoreSignificant(scoreMax, szSeq1, szSeq2, posRowEnd, posColEnd, nclip);
 		if (score_significant == OVERLAP_SMALLER_MINLENSCAFFOLD)
 			return OVERLAP_SMALLER_MINLENSCAFFOLD;
 		else if (score_significant == OVERLAP_IN_RANGE)
 			res = OVERLAP_IN_RANGE;
 		else
 			res = OVERLAP_LARGER_MINLEN;
-
 	}
-
+	
+	if (fVerbose == true)
+	{
+		cout << "IsScoreSignificant returns " << res << endl;
+	}
 
 	//#if 0
 	// now find trace back
@@ -1713,20 +1735,21 @@ int ContigsCompactor::Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, Conti
 	string mergedSeqTB;
 
 	// first get the clipped one (if any)
-	if (posRowEnd != szSeq1 && posColEnd != szSeq2)
+	if ((posRowEnd+nclip) != szSeq1 && (posColEnd+nclip) != szSeq2)
 	{
 		//
 		THROW("Fatal error1");
 	}
-	if (posRowEnd < szSeq1)
+
+	if ((posColEnd + nclip)==szSeq2 && posRowEnd < szSeq1)
 	{
-		//
+		
 		for (int i = szSeq1; i>posRowEnd; --i)
 		{
 			mergedSeqTB.push_back(pSeq1->at(i - 1));
 		}
 	}
-	if (posColEnd < szSeq2)
+	if ((posRowEnd + nclip) == szSeq1 && posColEnd < szSeq2)
 	{
 		//
 		for (int i = szSeq2; i>posColEnd; --i)
@@ -1744,7 +1767,6 @@ int ContigsCompactor::Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, Conti
 			// nothing more to trace
 			break;
 		}
-
 
 		// first put the two corresponding chars
 		// now trace back
@@ -1788,7 +1810,7 @@ int ContigsCompactor::Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, Conti
 	}
 
 	bool bcontained = false;
-	// get the clipped part on the left 
+	// get the clipped part on the left
 	if (tbCur.first > 0)
 	{
 		//
@@ -1807,9 +1829,9 @@ int ContigsCompactor::Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, Conti
 	}
 
 
-	if (posRowEnd == szSeq1 && tbCur.first == 0)
+	if ((posRowEnd+nclip) == szSeq1 && tbCur.first == 0)
 		bcontained = true;
-	if (posColEnd == szSeq2 && tbCur.second == 0)
+	if ((posColEnd+nclip) == szSeq2 && tbCur.second == 0)
 		bcontained = true;
 	
 
@@ -1826,9 +1848,9 @@ int ContigsCompactor::Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, Conti
 	resCompact.SetOrigSeqLen(szSeq1, szSeq2);
 	resCompact.SetAlnSeqs(pSeq1->c_str(), pSeq2->c_str());
 	resCompact.SetDPEnds(posRowEnd, posColEnd);
+	resCompact.SetOneEndClipLenth(nclip);
 	resCompact.SetContainedFlag(bcontained);
 	resCompact.SetMergedStringConcat();
-
 	//#endif
 
 #if 0
@@ -1849,7 +1871,7 @@ int ContigsCompactor::Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, Conti
 }
 
 
-int ContigsCompactor :: IsScoreSignificant( int scoreMax, int szSeq1, int szSeq2, int rowStart, int colStart  ) const
+int ContigsCompactor :: IsScoreSignificant( int scoreMax, int szSeq1, int szSeq2, int rowStart, int colStart, int nclip  ) const
 {
     if( fVerbose )
     {
@@ -1867,14 +1889,13 @@ int ContigsCompactor :: IsScoreSignificant( int scoreMax, int szSeq1, int szSeq2
     //}
 	
 
-    //
     int szOverlap0 = min(szSeq1, szSeq2);
     int szOverlap1 = szOverlap0 , szOverlap2=szOverlap0;
-    if( rowStart == szSeq1)
+    if( rowStart + nclip == szSeq1)
     {
         szOverlap1 = colStart;
     }
-    if( colStart == szSeq2 )
+    if( colStart + nclip == szSeq2 )
     {
         szOverlap2 = rowStart;
     }
@@ -1893,14 +1914,14 @@ int ContigsCompactor :: IsScoreSignificant( int scoreMax, int szSeq1, int szSeq2
     const int MIN_ASM_EXT_LEN = 5;
     
     // also forbid the situation where one contig contains the other
-    if( rowStart == szSeq1  )
+    if( rowStart + nclip == szSeq1  )
     {
         if( colStart+MIN_ASM_EXT_LEN-1 >= szSeq2 )
         {
             return OVERLAP_SMALLER_MINLENSCAFFOLD;
         }
     }
-    if( colStart == szSeq2)
+    if( colStart + nclip == szSeq2)
     {
         if( rowStart+MIN_ASM_EXT_LEN-1 >= szSeq1)
         {
@@ -1932,7 +1953,7 @@ int ContigsCompactor :: IsScoreSignificant( int scoreMax, int szSeq1, int szSeq2
     }
 #endif
     
-    double scoreMinThres = szOverlap*(1-fractionLossScore)  ;
+    double scoreMinThres = szOverlap*(1-fractionLossScore);
 //cout << "ScoreMinThres: " << scoreMinThres << ", scoreMax: " << scoreMax << endl;
     if(scoreMax < scoreMinThres)
 		return OVERLAP_SMALLER_MINLENSCAFFOLD;

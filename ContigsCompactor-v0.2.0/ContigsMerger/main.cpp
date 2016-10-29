@@ -22,9 +22,11 @@ const char *versionCrecoal = "**************************************************
 static int repeatfileArgIndex = 1;
 //static int asmfileArgIndex = 2;
 static bool fVerbose = false;
-static double minFracOverlap = 0.01;
+static double minFracOverlap = 0.005;
 static double minOverlapLen = 100000;
-static double minOverlapLenWithScaffold=7;
+static double minOverlapLenWithScaffold=6;
+//static double minOverlapLen01 = 12;
+static double maxOverlapClipLen = 0;
 static double maxFracScoreLoss = 0.01;
 static int numOfThread=6;
 static int minSupportKmer=5;
@@ -109,6 +111,15 @@ cout << "Turn on Verbose\n";
             minOverlapLen = fval;
             argpos++;
         }
+		else if (argv[argpos][1] == 'y')
+		{
+			//
+			argpos++;
+			float fval;
+			sscanf(argv[argpos], "%f", &fval);
+			maxOverlapClipLen = fval;
+			argpos++;
+		}
 		else if( argv[argpos][1] == 'm' )
         {
             //
@@ -240,6 +251,7 @@ void TestKmerUtils( const char *repeatFileName)
     compactor.SetVerbose( fVerbose );
     compactor.SetFractionLossScore(maxFracScoreLoss);
     compactor.SetMinOverlap( minFracOverlap );
+	compactor.SetMaxOverlapLenClip( maxOverlapClipLen );
 //cout<<minOverlapLen<<" "<<minOverlapLenWithScaffold<<endl;
     compactor.SetMinOverlapLen( minOverlapLen );
 	compactor.SetMinOverlapLenWithScaffold(minOverlapLenWithScaffold);

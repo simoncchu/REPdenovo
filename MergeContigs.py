@@ -11,7 +11,7 @@ from Utility import get_samtools_path
 from Utility import REFINER_PATH
 from Utility import get_refiner_path
 
-def remove_duplicate_contained(fcontig, foutput, cutoff, brm_contained):
+def remove_duplicate_contained(fcontig, foutput, cutoff, rm_contained):
     BWA_PATH=get_bwa_path()
     SAMTOOLS_PATH=get_samtools_path()
     REFINER_PATH=get_refiner_path()
@@ -37,10 +37,13 @@ def remove_duplicate_contained(fcontig, foutput, cutoff, brm_contained):
     cmd="{0} index {1}.itself.sort.bam".format(SAMTOOLS_PATH,fcontig)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
-    if brm_contained==True:
+
+    if rm_contained==0:
         cmd="{0} -P -b {1}.itself.sort.bam -r {2} -o {3} -c {4} -g".format(REFINER_PATH,fcontig,fcontig,foutput,cutoff)
-    else:
+    elif rm_contained==1:
         cmd="{0} -P -b {1}.itself.sort.bam -r {2} -o {3} -c {4}".format(REFINER_PATH,fcontig,fcontig,foutput,cutoff)
+    else:
+        cmd="{0} -K -b {1}.itself.sort.bam -r {2} -o {3} -c {4}".format(REFINER_PATH,fcontig,fcontig,foutput,cutoff)
     print_command(cmd)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
@@ -59,11 +62,11 @@ def remove_duplicate_contained(fcontig, foutput, cutoff, brm_contained):
     Popen(cmd, shell = True, stdout = PIPE).communicate()
     cmd="rm {0}.itself.bam".format(fcontig)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="rm {0}.itself.sort.bam".format(fcontig)
+    #cmd="rm {0}.itself.sort.bam".format(fcontig)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="rm {0}.itself.sort.bam.bai".format(fcontig)
+    #cmd="rm {0}.itself.sort.bam.bai".format(fcontig)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="rm {0}.fai".format(fcontig)
+    #cmd="rm {0}.fai".format(fcontig)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
 
@@ -72,7 +75,7 @@ def merge_contigs(contigs_merger_path, fout_folder, nthreads, cutoff_dup_bf_merg
     foutput=fcontig+"_no_dup.fa"
     remove_duplicate_contained(fcontig, foutput, cutoff_dup_bf_merge, False)
 
-    cmd="{0} -s 0.2 -i1 -6.0 -i2 -6.0 -x 15 -k 10 -t {1} -m 1 -o {2}.merge.info {3} > {4}.merged.fa".format(contigs_merger_path,nthreads,foutput,foutput,foutput)
+    cmd="{0} -s 0.2 -i1 -6.0 -i2 -6.0 -x 15 -y 50 -k 10 -t {1} -m 1 -o {2}.merge.info {3} > {4}.merged.fa".format(contigs_merger_path,nthreads,foutput,foutput,foutput)
     print_command(cmd)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
@@ -88,11 +91,16 @@ def merge_contigs(contigs_merger_path, fout_folder, nthreads, cutoff_dup_bf_merg
     os.rename(foutput,fout_folder+"contigs.fa")
 
 
-
 def rm_dup_contain(fout_folder, cutoff_dup_af_merge):
     fcontig=fout_folder+"contigs.fa"
     foutput="{0}.no_dup.fa".format(fcontig)
-    remove_duplicate_contained(fcontig,foutput, cutoff_dup_af_merge, False)
+    remove_duplicate_contained(fcontig,foutput, cutoff_dup_af_merge, 0)
     fcontig=foutput
     foutput=fcontig+".no_contained.fa"
-    remove_duplicate_contained(fcontig, foutput, cutoff_dup_af_merge, True)
+    remove_duplicate_contained(fcontig, foutput, cutoff_dup_af_merge, 1)
+
+def rm_contain(fout_folder, cutoff_ctn):
+    fcontig=fout_folder+"contigs.fa"
+    foutput="{0}.no_ctn.fa".format(fcontig)
+    print cutoff_ctn
+    remove_duplicate_contained(fcontig,foutput, cutoff_ctn, 2)

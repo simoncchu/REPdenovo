@@ -12,7 +12,8 @@
 
 //	Fix one bug on DP part (04/12/16, C.C.): when check whether one is contained in another,
 //                          some are wrongly considered as contained which are overlap
-
+//
+//  Edit: In this version, we are going to allow some mismatch at one end of the two sequences to be merged. (By Chong Chu on 04/29/16)
 
 #ifndef ____ContigsCompactor__
 #define ____ContigsCompactor__
@@ -47,10 +48,12 @@ public:
     void SetPosEndSeq1(int pos) { posEnd = pos; }
     int GetMergedLen() const { return strCompact.length(); }
     void SetOrigSeqLen(int s1, int s2) { szSeq1 = s1; szSeq2 = s2; }
-    int GetOverlapSize() const { return szSeq1+szSeq2-GetMergedLen(); }
+    int GetOverlapSize() const { return szSeq1+szSeq2-nclip-GetMergedLen(); }
     void SetAlnSeqs( const char * pstr1, const char *pstr2) { alnStr1 = pstr1; alnStr2 = pstr2; }
     void SetDPEnds(int v1, int v2) { posRowEnd = v1; posColEnd = v2; }
     void SetMergedStringConcat();
+	void SetOneEndClipLenth(int n) { nclip = n; }
+	int GetOneEndClipLenth() { return nclip; }
 	bool SetContainedFlag(bool b) { bcontained = b; }
     bool IsContainment() const;
     
@@ -64,6 +67,7 @@ private:
     int posRowEnd;
     int posColEnd;
 	bool bcontained;
+	int nclip;
 };
 
 // ******************************************************************
@@ -138,6 +142,7 @@ public:
     void SetMinOverlap(double f) { fracMinOverlap = f; }
     void SetLenContigOut(int f) { lenContigOut = f; }
     void SetMinOverlapLen(double len) { minOverlapLen = len; }
+	void SetMaxOverlapLenClip(double len) { maxOverlapClipLen = len; }
 	void SetMinOverlapLenWithScaffold(double len){minOverlapLenWithScaffold=len;}
     void SetQuickCheckKmerLen(int len) { kmerLenQuick = len; }
     void SetMismatchScore(double s) { scoreMismatch = s; }
@@ -153,7 +158,7 @@ public:
 private:    	
 	int Evaluate(FastaSequence *pSeq1, FastaSequence *pSeq2, ContigsCompactorAction &resCompact, bool fRelax = false);
 	
-	int IsScoreSignificant( int scoreMax, int szSeq1, int szSeq2, int rowStart, int colStart  ) const;
+	int IsScoreSignificant( int scoreMax, int szSeq1, int szSeq2, int rowStart, int colStart, int nclip=0  ) const;
 	int addEdges();
 	string FormMergedSeqFromPath( const vector<AbstractGraphNode *> &listPathNodes  );
     void RemoveDupRevCompPaths( set<vector<AbstractGraphNode *> > &setPaths, map<AbstractGraphNode *, AbstractGraphNode *> &mapListRevCompNodes );
@@ -161,6 +166,7 @@ private:
 
     static double fractionLossScore;
     static double fracMinOverlap;
+	static double maxOverlapClipLen;
     static double minOverlapLen;
 	static double minOverlapLenWithScaffold;
 

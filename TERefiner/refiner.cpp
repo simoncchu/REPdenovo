@@ -584,7 +584,79 @@ void Refiner::removeRepeatsOfOneContigSet(std::string fbam, std::string fref, st
 	rmCotigs(fref, vid_rm2, fnew);
 }
 
-//remove the duplicate ones with/withou contained ones 
+void Refiner::removeContainedContigs(std::string fbam, std::string fref, std::string fnew)
+{
+	//read in bam file
+	BamParse bp(fbam);
+	bp.loadIndex();
+
+	//read in fai file 
+	string fref_fai = fref + ".fai";
+	ifstream fin_fai;
+	fin_fai.open(fref_fai.c_str());
+
+	//count reads contig by contig 
+	string sctg;
+	int ctg_lenth, ctg_start, itemp;
+	int istart = 0, iend;
+	int ctg_id = 0;
+
+	vector<std::pair<string, int> > vfa;
+	vfa.clear();
+	map<string, pair<int, int> > mfa;
+	while (fin_fai >> sctg >> ctg_lenth >> ctg_start >> itemp >> itemp)
+	{//for each contig 
+		mfa[sctg] = std::make_pair(ctg_id, ctg_lenth);
+		vfa.push_back(std::make_pair(sctg, ctg_id));
+		ctg_id++;
+	}
+	fin_fai.close();
+
+
+	vector<int> vid_rm;
+	map<int, int> mrm;//<id,cnt> 
+	bp.clearAll();//clear all the records 	
+	bool bsignal = bp.parseAlignment(-1, -1, -1, -1);
+	if (bsignal == false)
+	{
+		std::cout << "Cannot parse bam file " << this->fbam << std::endl;
+		return;
+	}
+
+	//read in reads 
+	int vbamsize = bp.bam_aln_records.size();//number of reads 
+//cout<<"Number of alignments: "<<vbamsize<<endl;/////////////////////////////////////////////////////////////////////////////////////////////////////	
+	for (int i = 0; i < vbamsize; i++)
+	{
+		Alignment alnmt;
+		alnmt.setBar(bp.bam_aln_records[i]);
+		string qname = bp.bam_aln_records[i]->qName;//reads id
+
+		int rid = bp.bam_aln_records[i]->rID;//ref id
+		string rname = vfa[rid].first;//bp.bam_aln_records[i]->rName;//ref name 
+
+		if (qname == rname) continue;
+
+		bool is_fully_map=alnmt.isFullyMapped(mfa[qname].second);
+		if (is_fully_map == true)
+		{
+//cout << mfa[qname].first << endl;////////////////////////////////////////////////////////////////////////////
+			if (mrm.count(mfa[qname].first)>0)
+			{//already exist 
+				mrm[mfa[qname].first]++;
+			}
+			else
+			{
+				mrm[mfa[qname].first] = 0;
+				vid_rm.push_back(mfa[qname].first);
+			}
+		}
+
+	}
+	rmCotigs(fref, vid_rm, fnew);
+}
+
+//remove the duplicate ones with/withou contained ones
 void Refiner::removeDupRepeatsOfOneContigSet(std::string fbam, std::string fref, std::string fnew, double cutoff_ratio, bool brm_cntn)
 {
 	//read in bam file
@@ -683,8 +755,7 @@ void Refiner::removeDupRepeatsOfOneContigSet(std::string fbam, std::string fref,
 						{
 							mrm[mfa[qname].first]=0;
 							vid_rm.push_back(mfa[qname].first);
-						}
-							 
+						}							 
 					}
 				}
 			}

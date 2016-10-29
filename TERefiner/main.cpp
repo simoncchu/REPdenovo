@@ -39,6 +39,7 @@ int main(int argc, char* argv[])
 	bool bb=false;
 	bool bp=false;
 	bool be=false;
+	bool bk = false;
 	bool flag_l=false, flag_c=false, flag_t=false, flag_s=false, flag_b=false, flag_r=false, flag_q=false, flag_o=false, \
 		 flag_m=false, flag_d=false, flag_v=false, flag_g=false;
 	double cutoff_ratio=0.85;
@@ -52,7 +53,7 @@ int main(int argc, char* argv[])
 	string fbam, fref, fref2, ffastq, fout, fbam_cov;
 
 	int c;
-	while ((c = getopt(argc, argv, "AMCTOLSUGBPEl:c:t:s:b:r:q:o:m:d:v:g")) != -1)
+	while ((c = getopt(argc, argv, "AMCTOLSUGBPKEl:c:t:s:b:r:q:o:m:d:v:g")) != -1)
 	switch (c)
     {
 	case 'A'://
@@ -72,6 +73,9 @@ int main(int argc, char* argv[])
 		break;
 	case 'P':
 		bp=true;
+		break;
+	case 'K'://remove contained ones
+		bk = true;
 		break;
 	case 'L'://contigs linkages
 		bl=true;
@@ -135,7 +139,7 @@ int main(int argc, char* argv[])
 		fbam_cov=(string)optarg;
 		flag_v=true;
 		break;
-	case 'g'://remove contained
+	case 'g'://remove perfect contained
 		flag_g=true;
 		brm_contained=true;
 		break;
@@ -166,6 +170,12 @@ int main(int argc, char* argv[])
 		Refiner rfnr;
 		READ_FULL_MAPPED_CUTOFF=cutoff_ratio;
 		rfnr.removeDupRepeatsOfOneContigSet(fbam,fref,fout,cutoff_ratio,brm_contained);
+	}
+	else if (bk && flag_b && flag_r && flag_c && flag_o)
+	{
+		Refiner rfnr;
+		READ_FULL_MAPPED_CUTOFF = cutoff_ratio;
+		rfnr.removeContainedContigs(fbam, fref, fout);
 	}
 	else if(bl && flag_b && flag_r && flag_c && flag_t && flag_l && flag_o && flag_m && flag_d && flag_v)
 	{

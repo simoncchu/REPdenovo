@@ -167,7 +167,7 @@ private:
 
 
 // ******************************************************************
-// abstract class for graph
+// abstract class for graph 
 
 class GraphNodeSCC;
 

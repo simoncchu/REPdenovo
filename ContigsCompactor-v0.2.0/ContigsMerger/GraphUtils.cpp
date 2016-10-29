@@ -1044,7 +1044,7 @@ void AbstractGraph :: SCC( vector< set<AbstractGraphNode *> > &setSCCs )
         mapOrigNodeToSCCNode.insert( map< AbstractGraphNode *, GraphNodeSCC *> :: value_type( listGraphNodes[i], psrc ) );
     }
 
-    // start finding SCC
+    // start finding SCC 
     vector< set<AbstractGraphNode *> > setSCCsRev;
     for(int i=0; i<(int)listGraphNodesSCC.size(); ++i)
     {
@@ -1342,6 +1342,7 @@ void AbstractGraph :: FindSimplePathsTopSortStart(bool fStart, const vector< set
         listPathRoots.push_back( *it );
     }
 }
+
 
 
 #if 0

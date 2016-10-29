@@ -26,6 +26,7 @@ public:
 	void removeRepeatsOfTwoContigSets(std::string fbam, std::string fref, std::string bam_fasta, std::string fnew_contig_fa);
 	void removeRepeatsOfOneContigSet(std::string fbam, std::string fref, std::string fnew);
 	void removeDupRepeatsOfOneContigSet(std::string fbam, std::string fref, std::string fnew, double cutoff_ratio, bool brm_cntn);//only remove the duplicates 
+	void removeContainedContigs(std::string fbam, std::string fref, std::string fnew);
 	void cntContigLinkage(std::string fbam, std::string fref, std::string fcontig_info);//cnt number of paired-end reads that link each two contigs
 	void cntContigLinkage_test(std::string fbam, std::string fref);
 	void gnrtUniqueFa(std::string fa_old, std::string fa_new);
