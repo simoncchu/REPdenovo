@@ -203,8 +203,11 @@ def read_rawreads_list(sfreads_list):
     i=0
     while i<len(sflines):
         parts=sflines[i].split()
-        if parts[0]=="#":##ignore comments
+        if len(parts)>0 and len(parts[0])>0 and parts[0]=="#":##ignore comments
             i += 1
+            continue
+        elif len(parts)<=0:#ignore empty line
+            i=i+1
             continue
 
         if len(parts)!=4:
