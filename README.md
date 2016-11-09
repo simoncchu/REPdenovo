@@ -36,9 +36,9 @@ By default, users can directly run the tool and there is no need to install if y
 
 cd TERefiner  &&  make  &&  cd .. 
 
-cd ContigsMerger-v0.1.9  &&  make  &&  cd .. 
+cd ./ContigsCompactor-v0.2.0/ContigsMerger/  &&  make  &&  cd .. 
 
-cp ./TERefiner/TERefiner_1 ./  &&  cp ./ContigsMerger-v0.1.9/ContigsMerger ./ 
+cp ./TERefiner/TERefiner_1 ./  &&  cp ./ContigsCompactor-v0.2.0/ContigsMerger/ContigsMerger ./
 
 chmod +x ./TERefiner_1  &&  chmod +x ./ContigsMerger 
 
