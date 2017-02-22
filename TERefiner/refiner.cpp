@@ -703,11 +703,9 @@ void Refiner::removeDupRepeatsOfOneContigSet(std::string fbam, std::string fref,
 	{
 		Alignment alnmt;
 		alnmt.setBar(bp.bam_aln_records[i]);
-		string qname=bp.bam_aln_records[i]->qName;//reads id
-			
+		string qname=bp.bam_aln_records[i]->qName;//reads id	
 		int rid=bp.bam_aln_records[i]->rID;//ref id
 		string rname=vfa[rid].first;//bp.bam_aln_records[i]->rName;//ref name 
-
 		if(brm_cntn==false)
 		{//remove duplicate 
 			bool is_fully_map=alnmt.isFullyMapped(mfa[qname].second);
@@ -763,6 +761,7 @@ void Refiner::removeDupRepeatsOfOneContigSet(std::string fbam, std::string fref,
 		else 
 		{//remove contained
 			if(qname==rname) continue;
+
 			bool is_perfect_map=alnmt.isPerfectMapped(mfa[qname].second);
 			//bool is_perfect_map=alnmt.isFullyMapped(mfa[qname].second);
 			if(is_perfect_map==true)
@@ -1199,12 +1198,13 @@ void Refiner::cntContigLinkage(std::string fbam, std::string fref, std::string f
 		//fout_contig.open(sctg_path.c_str());///////////////////////////////////////////////////////////////////////////////////////////
 
 		bp.clearAll();//clear all the records
-		bool bsignal=bp.dumpAlignments(ctg_id,0,ctg_id,ctg_lenth);//read in region [start, end] of chromosome id (start from 0)
-		if(bsignal==false)
+		bp.dumpAlignments(ctg_id, 0, ctg_id, ctg_lenth);//read in region [start, end] of chromosome id (start from 0)
+		//bool bsignal=bp.dumpAlignments(ctg_id,0,ctg_id,ctg_lenth);//read in region [start, end] of chromosome id (start from 0)
+		/*if(bsignal==false)
 		{
 			std::cout<<"Cannot parse bam file "<<this->fbam<<std::endl;
 			return;
-		}
+		}*/
 		//cout<<"dumped..."<<endl;//////////////////////////////////////////////////////////////////////////
 
 		Coverage coverage;
@@ -1232,9 +1232,9 @@ void Refiner::cntContigLinkage(std::string fbam, std::string fref, std::string f
 			int rcontig_len=vchroms[mate_refid].second;
 			double outer_is=MEAN_INSERT_SIZE + 3*SD_INSERT_SIZE;//outer insert size
 			
-			//check whether both are aligned 
+			//check whether both are aligned
 			int pe_type=alnmt.getPEReadType();
-			if(pe_type != READ_PAIR_MAP_TYPE_11) continue; //make sure both reads are aligned. 
+			if(pe_type != READ_PAIR_MAP_TYPE_11) continue; //make sure both reads are aligned.
 			else
 			{
 				//need to filter out those,  first in pair (also mate in other contig B), but insert size in smaller than contig length.
@@ -1390,7 +1390,7 @@ void Refiner::calcCoveageWithCutoff(std::string fref, std::string fbam, double r
 	ifstream fin_fai;
 	fin_fai.open(fref_fai.c_str());
 
-	//count reads contig by contig
+	//count reads contig by contig 
 	string sctg;
 	int ctg_lenth, itemp1, itemp2;
 	long long  ctg_start;
@@ -1417,12 +1417,13 @@ void Refiner::calcCoveageWithCutoff(std::string fref, std::string fbam, double r
 		ctg_lenth=vchroms[k].second;
 
 		bp.clearAll();//clear all the records
-		bool bsignal=bp.dumpAlignments(ctg_id,0,ctg_id,ctg_lenth);//read in region [start, end] of chromosome id (start from 0)
-		if(bsignal==false)
+		bp.dumpAlignments(ctg_id, 0, ctg_id, ctg_lenth);//read in region [start, end] of chromosome id (start from 0)
+		//bool bsignal=bp.dumpAlignments(ctg_id,0,ctg_id,ctg_lenth);//read in region [start, end] of chromosome id (start from 0)
+		/*if(bsignal==false)
 		{
 			std::cout<<"Cannot parse bam file "<<this->fbam<<std::endl;
 			return;
-		}
+		}*/
 
 		Coverage coverage;
 		coverage.setRegionLenth(ctg_lenth);

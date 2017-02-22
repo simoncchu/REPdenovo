@@ -84,7 +84,7 @@ def align_read_to_contigs(file_list):
         #filter out those unqualified pairs
         sfsam_temp="{0}_{1}_temp.sam".format(sall,j)
         mapq=30
-        filter_sam(sfsam, mapq,sfsam_temp)
+        filter_sam(sfsam, mapq, sfsam_temp)
 
         cmd="{0} view -h -S -b {1}_{2}_temp.sam > {3}_{4}.bam".format(SAMTOOLS_PATH,sall,j,sall,j)
         #print "Running command: "+ cmd +"..."
@@ -125,7 +125,8 @@ def scaffold(file_list,READ_LENGTH,COV_DIFF_CUTOFF, MIN_SUPPORT_PAIRS):
         SD_INSERT_SIZE=file_list[j][2]
 
         fbam_cov="{0}contigs.fa_{1}.sam_for_coverage.sorted.bam".format(OUTPUT_FOLDER,j)
-        cmd="{0} -L -b {1}_{2}.sort.bam -r {3} -l {4} -c {5} -t {6} -o {7}{8}_contig_pairs_info.txt -m {9} -d {10} -v {11}".format(REFINER_PATH,sall,j,sall, READ_LENGTH, COV_DIFF_CUTOFF, MIN_SUPPORT_PAIRS,OUTPUT_FOLDER,j,INSERT_SIZE,SD_INSERT_SIZE,fbam_cov)
+        cmd="{0} -L -b {1}_{2}.sort.bam -r {3} -l {4} -c {5} -t {6} -o {7}{8}_contig_pairs_info.txt -m {9} -d {10} -v {11}".\
+            format(REFINER_PATH,sall,j,sall, READ_LENGTH, COV_DIFF_CUTOFF, MIN_SUPPORT_PAIRS,OUTPUT_FOLDER,j,INSERT_SIZE,SD_INSERT_SIZE,fbam_cov)
         #print "Running command: "+ cmd +"..."
         print_command(cmd)
         Popen(cmd, shell = True, stdout = PIPE).communicate()

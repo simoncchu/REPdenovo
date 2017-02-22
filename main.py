@@ -33,7 +33,7 @@ MIN_CONTIG_LENGTH=100
 COV_DIFF_CUTOFF=0.5
 MIN_SUPPORT_PAIRS=20
 MIN_FULLY_MAP_RATIO=0.2
-TR_SIMILARITY=0.8 ##tandem repeats similarity between each two contigs, used as threshold to classify TR
+TR_SIMILARITY=0.8 ##tandem repeats similarity between each two contigs, used as threshold to classify
 
 IS_DUPLICATE_REPEATS=0.95
 RANGE_ASM_FREQ_INC_TIMES=5 ##increase 5 times

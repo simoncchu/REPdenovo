@@ -57,7 +57,8 @@ def assembly(K_MIN, K_MAX, K_INC, MIN_REPEAT_FREQ, RANGE_ASM_FREQ_DEC_TIMES, \
         fdumped_kmer=open(kmer_path,'r')
         for akmer in fdumped_kmer:
             if akmer[0]=='>':
-                akmer_freq=int(akmer[1:])
+                akmer_fields=akmer.split("_")
+                akmer_freq=int(akmer_fields[0][1:])
                 if akmer_freq>max_freq:
                     max_freq=akmer_freq
             else:

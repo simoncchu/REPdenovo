@@ -13,6 +13,7 @@ Coverage::Coverage()
 
 double Coverage::calcRegionCoverage(BamParse& bp, int& covered_length)
 {
+	covered_length = 0;
 	double cov=0.0;
 	if(this->region_lenth<=0) return cov;
 
@@ -135,7 +136,7 @@ fout_base_cov<<region_lenth<<":"<<i<<" "<<cov_bases[i]<<endl;
 		cov_bases=NULL;
 	}
 
-	//std::cout<<"delete "<<endl;//////////////////////////////////////////////////////////////////////////////////////////////
+	//std::cout<<"delete "<<endl;/////////////////////////////////////////////////////////////////////////////////////////////
 	return cov;
 }
 

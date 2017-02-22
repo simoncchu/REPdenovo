@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
 	case 'A'://
 		ba=true;
 		break;
-	case 'M'://local aligment of two string 
+	case 'M'://local aligment of two string
 		bm=true;
 		break;
 	case 'C': //remove according to ratio of fully mapped reads

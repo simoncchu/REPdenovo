@@ -154,6 +154,7 @@ bool BamParse::openReader()
 
 bool BamParse::dumpAlignments(int chrom1, int chrom1_begin, int chrom2, int chrom2_end)
 {
+	bool rtn = true;
 	//check whether need to set a region. 
 	if(chrom1>-1 && chrom1_begin>-1 && chrom2>-1 && chrom2_end>-1)
 	{
@@ -184,6 +185,7 @@ bool BamParse::dumpAlignments(int chrom1, int chrom1_begin, int chrom2, int chro
 		setReadGroup(al,bar);//set read group information 
 		bam_aln_records.push_back(bar);
 	}
+	return rtn;
 }
 
 void BamParse::closeReader()
