@@ -1,5 +1,5 @@
-BAMTOOLS=../bamtools-master/include
-BAMTOOLS_LD=../bamtools-master/lib
+BAMTOOLS=/usr/local/include/bamtools/
+BAMTOOLS_LD=/usr/local/lib/
 
 CC = g++
 CFLAGS =  -O3 -Wall -static -I$(BAMTOOLS) -L$(BAMTOOLS_LD) -Wl,-rpath,$(BAMTOOLS_LD)
