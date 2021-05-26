@@ -1,0 +1,2 @@
+input/ERR234328_1.filt.fastq 1 489 50
+input/ERR234328_2.filt.fastq 1 489 50

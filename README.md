@@ -42,6 +42,25 @@ cp ./TERefiner/TERefiner_1 ./  &&  cp ./ContigsCompactor-v0.2.0/ContigsMerger/Co
 
 chmod +x ./TERefiner_1  &&  chmod +x ./ContigsMerger 
 
+## **Run with Docker**
+
+```
+
+BIN_VERSION="0.1.0"
+sudo docker pull warbler/repdenovo:"${BIN_VERSION}"
+INPUT_DIR="${PWD}/testdata"
+OUTPUT_DIR="${PWD}/test_output"
+
+sudo docker run \
+  -v "${INPUT_DIR}":"/input" \
+  -v "${OUTPUT_DIR}":"/output" \
+  warbler/repdenovo:"${BIN_VERSION}" \
+  python main.py -c Assembly \
+  -g input/config_docker.txt \
+  -r input/sample_fastq.txt
+
+```
+
 ## **Preparing inputs**
 REPdenovo takes sequence reads in the FASTQ format (uncompressed or compressed in .fastq.gz format). A raw reads file which list the path, mean and standard derivation of the insert size should be provided in the format:
 

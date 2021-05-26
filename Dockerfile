@@ -44,7 +44,7 @@ RUN wget https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9
 RUN wget https://www.ebi.ac.uk/~zerbino/velvet/velvet_1.2.10.tgz \
     && tar -xzf velvet_1.2.10.tgz \
     && cd velvet_1.2.10 \
-    && make \
+    && make ’MAXKMERLENGTH=60’ \
     && cd .. \
     && ln -s velvet_1.2.10 velvet 
 
